@@ -1,0 +1,59 @@
+package service.teste;
+
+import java.rmi.RemoteException;
+import java.util.Date;
+import java.util.Random;
+
+import common.entity.Chamado;
+import common.entity.Pessoa;
+import common.entity.Porte;
+import common.entity.TipoChamado;
+import common.exception.BusinessException;
+import common.remote.ServiceChamado;
+import common.util.Utils;
+
+public class ProdutoraChamados extends Thread {
+
+	private ServiceChamado serviceChamado;
+	
+	public ProdutoraChamados() {
+		try {
+			serviceChamado = Utils.obterServiceChamado();
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void run() {
+		abrirChamados();
+	}
+	
+	private void abrirChamados(){
+		while(!Thread.interrupted()){
+			try {
+				
+				Chamado chamado = new Chamado(new Date(), new TipoChamado(TipoChamado.URGENTE),
+						new Pessoa("André",new Porte(Porte.GRANDE)));
+				
+				serviceChamado.cadastrarChamado(chamado);
+				System.out.println("Cadastrando novo chamado.");
+				
+				// dorme um pouco
+				long time = new Random().nextInt(5000);
+				Thread.sleep(time);
+
+			} catch (InterruptedException e) {
+				break;
+			} catch (RemoteException e) {
+				// TODO criar exception de infra
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		new ProdutoraChamados().start();
+	}
+}
