@@ -41,7 +41,7 @@ public class ClientController {
 	}
 	
 	public void autenticar(){
-		Utils.obterServiceUsuario().;
+		//Utils.obterServiceUsuario().;
 	}
 	
 	public void atualizarCliente(){

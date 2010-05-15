@@ -16,13 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-<<<<<<< .mine
-
 import common.entity.Chamado;
-=======
-
-import common.entity.chamado.Chamado;
->>>>>>> .r5
 import common.exception.BusinessException;
 import common.remote.ObservadorFila;
 

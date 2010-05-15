@@ -110,7 +110,7 @@ public class Login extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			//TODO 01 - fazer controller para verificar login
 			
-			ClientController.getInstance().autenticar()
+			//ClientController.getInstance().autenticar()
 			
 			Login.this.setVisible(false);
 			Login.this.dispose();
