@@ -157,6 +157,14 @@ public class MainView extends JFrame {
 		btChamados.addActionListener(oc);
 		btChamados.setToolTipText("Ir para Administração de Chamados");
 		
+		// Botão de agenda
+		JButton btAgenda = new JButton();
+		btAgenda.setIcon(new ImageIcon(tk.getImage("resources/imgs/agenda.png")));
+		btAgenda.setBackground(Color.white);
+		btAgenda.setActionCommand(ClientConstraint.SIDE_MENU_AGENDA);
+		btAgenda.addActionListener(oc);
+		btAgenda.setToolTipText("Ir para Administração de Agenda");
+		
 		// Botão do financeiro
 		JButton btFinanceiro = new JButton();
 		btFinanceiro.setIcon(new ImageIcon(tk.getImage("resources/imgs/financeiro.png")));
@@ -176,6 +184,7 @@ public class MainView extends JFrame {
 		// Adiciona os botões
 		painel.add(btClientes);
 		painel.add(btChamados);
+		painel.add(btAgenda);
 		painel.add(btFinanceiro);
 		painel.add(btUtilidades);
 		
