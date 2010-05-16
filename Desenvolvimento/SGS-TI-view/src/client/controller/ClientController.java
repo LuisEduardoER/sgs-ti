@@ -6,7 +6,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
 import common.exception.BusinessException;
-import common.remote.ObserverUsuario;
 import common.remote.ServiceUsuario;
 import common.util.Utils;
 

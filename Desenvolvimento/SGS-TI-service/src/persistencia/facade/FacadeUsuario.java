@@ -2,7 +2,6 @@ package persistencia.facade;
 
 import persistencia.dao.DAOUsuario;
 import persistencia.sql.SQLUsuario;
-import common.util.MD5Encryption;
 
 public class FacadeUsuario {
 	

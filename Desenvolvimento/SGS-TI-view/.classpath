@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SGS-TI-common"/>
+	<classpathentry kind="lib" path="C:/Users/Vanessa Iwamoto/Documents/Downloads/jcalendar-1.3.3/lib/jcalendar-1.3.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
