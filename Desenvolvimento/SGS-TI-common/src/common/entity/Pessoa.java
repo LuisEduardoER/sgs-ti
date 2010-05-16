@@ -2,32 +2,27 @@ package common.entity;
 
 import java.io.Serializable;
 
-public class Pessoa implements Serializable  {
+public abstract class Pessoa implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
-	private String nome;
-	private Porte porte;
-
-	public Pessoa(String nome, Porte porte){
-		setNome(nome);
-		setPorte(porte);
-	}
+	protected String endereco;
 	
-	// TODO: criar o resto;
-	
-	/*
-	 * GETTERs AND SETTERs 
+	/**
+	 * Construtor
+	 * @param endereco
+	 * 		Endereço da Pessoa.
 	 */
-	public String getNome() {
-		return nome;
+	public Pessoa(String endereco) {
+		setEndereco(endereco);
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+
+	/*
+	 * GETTERs AND SETTERs
+	 */
+	public String getEndereco() {
+		return endereco;
 	}
-	public Porte getPorte() {
-		return porte;
-	}
-	public void setPorte(Porte porte) {
-		this.porte = porte;
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 }
