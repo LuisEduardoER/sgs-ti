@@ -1,17 +1,9 @@
 package persistencia.sql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import common.entity.Usuario;
-
 import persistencia.dao.DAOUsuario;
-import persistencia.util.Conexao;
 
 public class SQLUsuario implements DAOUsuario{
-	private static final boolean DEBUG = true;
+/*	private static final boolean DEBUG = true;
 	private static String AUTENTICAR_USER = ".jdbc.AUTENTICA_USUARIO";
 	private static String INSERIR_USER = ".jdbc.INSERE_USUARIO";
 	private static String VERIFICA_USERNAME = ".jdbc.VERIFICA_USERNAME";
@@ -220,5 +212,5 @@ public class SQLUsuario implements DAOUsuario{
 		} finally {
 			Conexao.fecharConexao(con);
 		}
-	}
+	}*/
 }

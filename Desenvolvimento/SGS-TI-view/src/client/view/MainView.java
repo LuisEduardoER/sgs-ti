@@ -212,6 +212,7 @@ public class MainView extends JFrame {
 			getContentPane().add(sideMenu, BorderLayout.WEST);
 		}
 	}
+	
 	public void openNewInternalContent(String newInternalFrame) {
 		System.out.println("openNewInternalContent - " + newInternalFrame);
 		

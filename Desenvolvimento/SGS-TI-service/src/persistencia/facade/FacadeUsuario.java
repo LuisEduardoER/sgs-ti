@@ -1,14 +1,11 @@
 package persistencia.facade;
 
-import common.entity.Usuario;
-import common.util.MD5Encryption;
-
 import persistencia.dao.DAOUsuario;
 import persistencia.sql.SQLUsuario;
 
 public class FacadeUsuario {
 	
-	public static boolean criarUser(Usuario user){
+	/*public static boolean criarUser(Usuario user){
 		
 		// Usa o utilitario para criptografar a senha
 		user.setPassword( MD5Encryption.encript(user.getPassword()) );
@@ -43,5 +40,5 @@ public class FacadeUsuario {
 	public static boolean verificarUsername(String username){
 		DAOUsuario dao = new SQLUsuario();
 		return dao.existeUser(username);
-	}
+	}*/
 }

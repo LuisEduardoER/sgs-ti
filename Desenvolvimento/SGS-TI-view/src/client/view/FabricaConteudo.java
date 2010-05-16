@@ -8,7 +8,7 @@ import java.util.Properties;
 
 /**
  * Fabrica de conteudos.
- * @author GO2HELL Sistemas
+ * @author 
  *
  */
 public class FabricaConteudo {
