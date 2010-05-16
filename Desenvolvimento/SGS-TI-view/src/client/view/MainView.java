@@ -256,9 +256,14 @@ public class MainView extends JFrame {
 		MainView.instance = instance;
 	}
 	
-	public void suicide(){
-		if(JOptionPane.showConfirmDialog(null,"Deseja Fechar?","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
+	public void tempoExcedido(){
+		if(JOptionPane.showConfirmDialog(null,"O tempo máximo de inatividade irá exceder em 2 minutos, /r/n" +
+				"Caso em NÃO para permanecer ou SIM para encerrar.","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
+			ClientController.getInstance().encerrarSessao();
 			System.exit(0);
+		}else
+		{
+			ClientController.getInstance().atualizarCliente();
 		}
 	}
 	
@@ -266,6 +271,8 @@ public class MainView extends JFrame {
 		if(JOptionPane.showConfirmDialog(null,"Deseja Fechar?","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
 			ClientController.getInstance().encerrarSessao();
 			System.exit(0);
-		}
+		}else
+			ClientController.getInstance().atualizarCliente();
 	}
+	
 }

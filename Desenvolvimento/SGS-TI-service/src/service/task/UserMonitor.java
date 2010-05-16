@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import service.remote.ServiceUsuarioImpl;
 import common.entity.UsuarioAutenticado;
+import common.util.SystemConstant;
 import common.util.Utils;
 
 public class UserMonitor extends Thread{
@@ -35,6 +36,11 @@ public class UserMonitor extends Thread{
 						UsuarioAutenticado user = ua.next();
 						long ultimaAtividade = user.getUltimaAtualizacao().getTime();
 						long difTime = (System.currentTimeMillis() - ultimaAtividade);
+						double tempo = Utils.milisegundosParaMin(difTime);
+						if(tempo > SystemConstant.MAX_SESSION_TIME_MIN){
+							// Se o tempo é maior que o máximo, enviar aviso ao usuário
+							// Manda uma thread cuidar disso
+						}
 						Utils.printMsg(this.getClass().getName(), "Diferença tempo:" + difTime);
 					}
 				}

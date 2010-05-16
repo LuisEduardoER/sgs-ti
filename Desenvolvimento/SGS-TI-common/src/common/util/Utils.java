@@ -34,9 +34,13 @@ public class Utils {
 		}catch(MalformedURLException e ){
 			
 		}catch(NotBoundException e){
-			
 		}
 		return null;
+	}
+	
+	public static double milisegundosParaMin(long tempo){
+		double min = ((tempo/1000)/60);
+		return min;
 	}
 	
 	public static void printMsg(String className, String msg){
