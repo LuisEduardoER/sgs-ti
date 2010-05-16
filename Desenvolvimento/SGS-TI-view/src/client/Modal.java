@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 
+import client.util.ViewUtils;
+
 public class Modal extends JDialog {
 
 	/**
@@ -18,6 +20,9 @@ public class Modal extends JDialog {
 	public Modal() {
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setSize(300, 300);
+		setLocation(ViewUtils.getScreenCenter(this));
+		
 		
 		JTextField texto =  new JTextField("Oi eu sou um modal!!");
 		JButton ok = new JButton("OK");	
