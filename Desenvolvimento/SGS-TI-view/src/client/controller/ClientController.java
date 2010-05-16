@@ -3,8 +3,6 @@ package client.controller;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
-import common.util.Utils;
-
 import client.model.internalContent.InternalContent;
 import client.model.sideMenu.SideMenu;
 
