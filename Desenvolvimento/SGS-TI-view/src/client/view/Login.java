@@ -19,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 
-import client.controller.ClientController;
 import client.util.SpringUtilities;
 
 public class Login extends JFrame {
