@@ -15,4 +15,5 @@ public class ClientConstraint {
 	public static final String LISTAR_CHAMADOS = "LISTAR_CHAMADOS";
 	public static final String EDITAR_CHAMADOS = "EDITAR_CHAMADOS";
 	public static final String LISTAR_AGENDA = "LISTAR_AGENDA";
+	
 }
