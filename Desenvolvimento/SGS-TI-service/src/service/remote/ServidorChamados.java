@@ -31,7 +31,7 @@ public class ServidorChamados {
 			registry.rebind("serviceChamado", stub);
 			
 			ServiceUsuarioImpl servicoUsuario = new ServiceUsuarioImpl();
-			ServiceUsuario stubUser = (ServiceUsuario) UnicastRemoteObject.exportObject(servicoUsuario);
+			ServiceUsuario stubUser = (ServiceUsuario) UnicastRemoteObject.exportObject(servicoUsuario,0);
 			registry.rebind("serviceUsuario", stubUser);
 			
 			System.out.println("Servidor de chamados ativo.");
