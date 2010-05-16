@@ -2,10 +2,9 @@ package service.task;
 
 import java.util.HashSet;
 import java.util.Iterator;
-
 import service.remote.ServiceUsuarioImpl;
 import common.entity.UsuarioAutenticado;
-import common.util.SystemConstant;
+import common.util.Utils;
 
 public class UserMonitor extends Thread{
 
@@ -20,11 +19,12 @@ public class UserMonitor extends Thread{
 	
 	@Override
 	public void run() {
-		printMsg("Inicializando task...");
+		Utils.printMsg(this.getClass().getName(),"Inicializando task...");
+
 		while(true)
 		{
 			try{
-				printMsg("Procurando users...");
+				Utils.printMsg(this.getClass().getName(), "Procurando users...");
 				// Atualiza a lista que esta no servico
 				atualizaUsuariosAutenticados();
 				// Se tiver algum usuario, verifica o tempo de atividade
@@ -35,7 +35,7 @@ public class UserMonitor extends Thread{
 						UsuarioAutenticado user = ua.next();
 						long ultimaAtividade = user.getUltimaAtualizacao().getTime();
 						long difTime = (System.currentTimeMillis() - ultimaAtividade);
-						printMsg("Diferença tempo:" + difTime);
+						Utils.printMsg(this.getClass().getName(), "Diferença tempo:" + difTime);
 					}
 				}
 				sleep(2000);
@@ -48,10 +48,5 @@ public class UserMonitor extends Thread{
 	public void atualizaUsuariosAutenticados(){
 		// Atualiza os usuarios que estao logados no momento
 		this.usuariosAutenticados = servicoUsuario.getUsuarioAutenticado();
-	}
-	
-	public void printMsg(String msg){
-		if(SystemConstant.DEBUG_MODE)
-			System.out.println("[USER MONITOR]: " + msg);
 	}
 }

@@ -38,7 +38,7 @@ public class ProdutoraChamados extends Thread {
 				Chamado chamado = new Chamado(new Date(), new TipoChamado(TipoChamado.URGENTE),cliente);
 				
 				serviceChamado.cadastrarChamado(chamado);
-				System.out.println("Cadastrando novo chamado.");
+				Utils.printMsg(this.getClass().getName(), "Cadastrando novo chamado.");
 				
 				// dorme um pouco
 				long time = new Random().nextInt(5000);

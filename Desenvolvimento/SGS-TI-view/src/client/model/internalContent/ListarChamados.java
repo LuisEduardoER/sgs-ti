@@ -26,6 +26,7 @@ import javax.swing.event.InternalFrameListener;
 import common.entity.Chamado;
 import common.exception.BusinessException;
 import common.remote.ObservadorFila;
+import common.util.Utils;
 import client.Modal;
 import client.controller.ObservadorFilaImpl;
 import client.util.SpringUtilities;
@@ -99,7 +100,7 @@ public class ListarChamados implements InternalContent, Observer{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				int sel = ListarChamados.this.tabelaChamados.getSelectedRow();
-				System.out.println("Linha selecionada: " + sel );
+				Utils.printMsg(this.getClass().getName(),"Linha selecionada: " + sel );
 			}
 		});
 		
@@ -125,7 +126,7 @@ public class ListarChamados implements InternalContent, Observer{
 		scrollPane.repaint();
 		jif.repaint();
 
-		System.out.println(new Date() + " - Fila atualizada. Size: " + listaChamados.size());
+		Utils.printMsg(this.getClass().getName(), new Date() + " - Fila atualizada. Size: " + listaChamados.size());
 	}
 
 	@Override
@@ -136,7 +137,7 @@ public class ListarChamados implements InternalContent, Observer{
 
 		}catch(Exception e){
 			// TODO: criar exception
-			System.out.println("Erro ao converter objeto, " + e);
+			Utils.printMsg(this.getClass().getName(),"Erro ao converter objeto, " + e);
 		}
 	}
 
