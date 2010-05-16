@@ -7,6 +7,6 @@ public interface ObserverUsuario extends Remote{
 	
 	public void update(String evento) throws RemoteException;
 	
-	public void suicide() throws RemoteException;
+	public void notificarTempoExcedido() throws RemoteException;
 
 }

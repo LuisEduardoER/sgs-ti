@@ -20,6 +20,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 	private static ClientController instance;
 	private ServiceUsuario serviceUsuario;
 	private ObserverUsuario stubUsuario;
+	private boolean desativando;
 	
 	private ClientController() {
 		
@@ -75,8 +76,12 @@ public class ClientController implements ObserverUsuario, Serializable{
 	}
 	
 	public void atualizarCliente(){
-		
-		
+		try {
+			serviceUsuario.atualizarClient(stubUsuario);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -91,8 +96,8 @@ public class ClientController implements ObserverUsuario, Serializable{
 	}
 
 	@Override
-	public void suicide() throws RemoteException {
-		MainView.getInstance().suicide();
+	public void notificarTempoExcedido() throws RemoteException {
+		MainView.getInstance().tempoExcedido();
 	}
 	
 	public void encerrarSessao(){
@@ -102,5 +107,13 @@ public class ClientController implements ObserverUsuario, Serializable{
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean isDesativando() {
+		return desativando;
+	}
+
+	public void setDesativando(boolean desativando) {
+		this.desativando = desativando;
 	}
 }

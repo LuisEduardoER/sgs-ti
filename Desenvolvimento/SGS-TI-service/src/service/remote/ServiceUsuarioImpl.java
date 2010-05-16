@@ -23,7 +23,6 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 		new UserMonitor(this).start();
 	}
 	
-	
 	@Override
 	public boolean autenticar(ObserverUsuario observador) throws RemoteException {
 		printMsg("Logando um usuário...");
@@ -40,27 +39,6 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 		printMsg("Cliente adicionado como logado...");
 	}
 	
-
-	@Override
-	public void notificarClient() throws RemoteException {
-		Iterator<UsuarioAutenticado> it = usuarioAutenticado.iterator();
-		while(it.hasNext()){
-			printMsg("Matando cliente...");
-			UsuarioAutenticado ua = (UsuarioAutenticado) it.next();
-			ua.getObservador().suicide();
-		}
-	}
-	
-	public HashSet<UsuarioAutenticado> getUsuarioAutenticado() {
-		return usuarioAutenticado;
-	}
-
-
-	public void setUsuarioAutenticado(HashSet<UsuarioAutenticado> usuarioAutenticado) {
-		this.usuarioAutenticado = usuarioAutenticado;
-	}
-
-
 	@Override
 	public void removerObservador(ObserverUsuario observador)
 			throws RemoteException {
@@ -80,6 +58,28 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 		
 		printMsg("Usuarios:"+usuarioAutenticado.size()+", removeu?");
 	}
+
+	@Override
+	public void atualizarClient(ObserverUsuario observador) throws RemoteException {
+		printMsg("Atualizando horário atividade do cliente...");
+		Iterator<UsuarioAutenticado> it = usuarioAutenticado.iterator();
+		while(it.hasNext()){
+			UsuarioAutenticado ua = it.next();
+			if(ua.getObservador().equals(observador)){
+				printMsg("User encontrado, atualizando horario atual:"+ua.getUltimaAtualizacao().getTime());
+				ua.setUltimaAtualizacao(new Date());
+				printMsg("Novo horário do usuario                   :"+ua.getUltimaAtualizacao().getTime());
+				break;
+			}
+		}
+	}
+	
+	@Override
+	public void notificarTempoExcedido(UsuarioAutenticado usuarioAutenticado)
+			throws RemoteException {
+		printMsg("Notificando tempo excedido");
+		usuarioAutenticado.getObservador().notificarTempoExcedido();		
+	}
 	
 	public void printMsg(String msg){
 		if(SystemConstant.DEBUG_MODE)
@@ -87,10 +87,12 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 	}
 
 
-	@Override
-	public void autenticar() throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public HashSet<UsuarioAutenticado> getUsuarioAutenticado() {
+		return usuarioAutenticado;
 	}
-	
+
+
+	public void setUsuarioAutenticado(HashSet<UsuarioAutenticado> usuarioAutenticado) {
+		this.usuarioAutenticado = usuarioAutenticado;
+	}
 }
