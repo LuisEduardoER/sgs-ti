@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import client.util.ClientConstraint;
-
 public class SideMenuCliente implements SideMenu {
 	// Debug
 	private final boolean DEBUG = false;
@@ -36,9 +34,9 @@ public class SideMenuCliente implements SideMenu {
 		
 		JButton btListarClientes = new JButton("Listar Clientes");
 		btListarClientes.setPreferredSize(new Dimension(160,25));
-		btListarClientes.setEnabled(true);
-		btListarClientes.setActionCommand(ClientConstraint.LISTAR_CHAMADOS);
-		btListarClientes.addActionListener(new OuvinteSideMenu());
+		btListarClientes.setEnabled(false);
+//		btListarClientes.setActionCommand(ClientConstraint.LISTAR_CHAMADOS);
+//		btListarClientes.addActionListener(new OuvinteSideMenu());
 		
 		JButton btCadastrarCliente = new JButton("Cadastrar Cliente");
 		btCadastrarCliente.setPreferredSize(new Dimension(160,25));

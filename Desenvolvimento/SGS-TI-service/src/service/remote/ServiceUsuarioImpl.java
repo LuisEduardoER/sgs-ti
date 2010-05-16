@@ -85,5 +85,12 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 		if(SystemConstant.DEBUG_MODE)
 			System.out.println("[SERVICE USUARIO]: " + msg);
 	}
+
+
+	@Override
+	public void autenticar() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
