@@ -38,4 +38,10 @@ public class Utils {
 		}
 		return null;
 	}
+	
+	public static void printMsg(String className, String msg){
+		if(SystemConstant.DEBUG_MODE)
+			System.out.println("["+ className + "]: " + msg);
+	}
+	
 }

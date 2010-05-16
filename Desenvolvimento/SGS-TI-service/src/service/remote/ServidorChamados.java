@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import common.remote.ServiceChamado;
 import common.remote.ServiceUsuario;
+import common.util.Utils;
 
 public class ServidorChamados {
 	/**
@@ -34,7 +35,9 @@ public class ServidorChamados {
 			ServiceUsuario stubUser = (ServiceUsuario) UnicastRemoteObject.exportObject(servicoUsuario,0);
 			registry.rebind("serviceUsuario", stubUser);
 			
-			System.out.println("Servidor de chamados ativo.");
+			//System.out.println("Servidor de chamados ativo.");
+			Utils.printMsg(ServidorChamados.class.getName(), "Servidor de chamados ativo.");
+			
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null,
 						"Servidor não iniciado: " +
