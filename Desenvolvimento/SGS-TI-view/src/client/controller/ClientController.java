@@ -1,15 +1,34 @@
 package client.controller;
 
+import java.rmi.RemoteException;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+
+import common.exception.BusinessException;
+import common.remote.ObserverUsuario;
+import common.remote.ServiceUsuario;
+import common.util.Utils;
 
 import client.model.internalContent.InternalContent;
 import client.model.sideMenu.SideMenu;
 
-public class ClientController {
+public class ClientController implements ObserverUsuario{
+	
 	private static ClientController instance;
+	private ServiceUsuario serviceUsuario;
 	
 	private ClientController() {
+		
+		try {
+			serviceUsuario = Utils.obterServiceUsuario();
+			
+			// TODO: Possivel tratamento caso n tenha conseguido conexao
+			
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public static ClientController getInstance() {
@@ -44,6 +63,12 @@ public class ClientController {
 	
 	public void atualizarCliente(){
 		
+		
+	}
+
+	@Override
+	public void update(String evento) throws RemoteException {
+		// TODO Auto-generated method stub
 		
 	}
 }
