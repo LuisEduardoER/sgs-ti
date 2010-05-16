@@ -1,4 +1,4 @@
-package client.util;
+package client.model.internalContent;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -7,7 +7,7 @@ import common.entity.chamado.Chamado;
 public class FilaChamadoModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	private String [] colunas = new String[]{"Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"};
+	private String [] colunas;
 	private List<Chamado> linhas;
 	
 	/**
@@ -15,8 +15,9 @@ public class FilaChamadoModel extends AbstractTableModel {
 	 * @param colunas
 	 * @param linhas
 	 */
-	public FilaChamadoModel(List<Chamado> linhas){
-		setLinhas(linhas);		
+	public FilaChamadoModel(List<Chamado> linhas, String [] colunas){
+		setLinhas(linhas);
+		setColunas(colunas);
 	}
 	
 	@Override
