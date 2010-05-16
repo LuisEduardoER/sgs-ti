@@ -1,5 +1,7 @@
 package persistencia.dao;
 
+import common.entity.Usuario;
+
 /**
  * Interface do DAO
  */

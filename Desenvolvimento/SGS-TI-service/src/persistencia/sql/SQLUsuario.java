@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import common.entity.Usuario;
+
 import persistencia.dao.DAOUsuario;
 import persistencia.util.Conexao;
 
@@ -23,7 +25,7 @@ public class SQLUsuario implements DAOUsuario{
 		
 		if(DEBUG){
 			System.out.println("USER:" + user.getUsername());
-			System.out.println("SENHA:" + user.getSenha());
+			System.out.println("SENHA:" + user.getPassword());
 		}
 		
 		try {
@@ -39,7 +41,7 @@ public class SQLUsuario implements DAOUsuario{
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, user.getUsername());
-			stmt.setString(2, user.getSenha());
+			stmt.setString(2, user.getPassword());
 			
 			ResultSet rs = stmt.executeQuery();
 		
@@ -84,7 +86,7 @@ public class SQLUsuario implements DAOUsuario{
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, user.getUsername());
-			stmt.setString(2, user.getSenha());
+			stmt.setString(2, user.getPassword());
 			
 			int qtd = stmt.executeUpdate();
 			
@@ -115,7 +117,7 @@ public class SQLUsuario implements DAOUsuario{
 			con = Conexao.obterConexao();
 			PreparedStatement stmt = con.prepareStatement(sql);
 			
-			stmt.setString(1, user.getSenha());
+			stmt.setString(1, user.getPassword());
 			stmt.setString(2, user.getUsername());		
 			
 			int qtd = stmt.executeUpdate();
@@ -186,7 +188,7 @@ public class SQLUsuario implements DAOUsuario{
 		
 		if(DEBUG){
 			System.out.println("USER:" + user.getUsername());
-			System.out.println("SENHA:" + user.getSenha());
+			System.out.println("SENHA:" + user.getPassword());
 		}
 		
 		try {

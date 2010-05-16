@@ -3,9 +3,9 @@ package service.teste;
 import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.Random;
-
 import common.entity.Chamado;
-import common.entity.Pessoa;
+import common.entity.Cliente;
+import common.entity.PessoaFisica;
 import common.entity.Porte;
 import common.entity.TipoChamado;
 import common.exception.BusinessException;
@@ -34,8 +34,8 @@ public class ProdutoraChamados extends Thread {
 		while(!Thread.interrupted()){
 			try {
 				
-				Chamado chamado = new Chamado(new Date(), new TipoChamado(TipoChamado.URGENTE),
-						new Pessoa("André",new Porte(Porte.GRANDE)));
+				Cliente cliente = new PessoaFisica("Rua x", new Porte(Porte.PF),null,"André","Macho",new Date(),new Long("0123456789"));
+				Chamado chamado = new Chamado(new Date(), new TipoChamado(TipoChamado.URGENTE),cliente);
 				
 				serviceChamado.cadastrarChamado(chamado);
 				System.out.println("Cadastrando novo chamado.");

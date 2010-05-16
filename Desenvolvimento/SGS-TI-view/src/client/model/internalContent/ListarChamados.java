@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-import common.entity.chamado.Chamado;
+import common.entity.Chamado;
 import common.exception.BusinessException;
 import common.remote.ObservadorFila;
 import client.Modal;
