@@ -18,7 +18,7 @@ public class Chamado implements Serializable {
 	private StatusChamado status;
 	private Prioridade prioridade;
 	private TipoChamado tipoChamado;
-	private Pessoa reclamante;
+	private Cliente reclamante;
 	
 	/**
 	 * Construtor.
@@ -30,7 +30,7 @@ public class Chamado implements Serializable {
 	 * @param reclamante
 	 * 		Pessoa ou empresa que abriu a reclamação.
 	 */
-	public Chamado(Date dataHoraAbertura,TipoChamado tipoChamado, Pessoa reclamante) {
+	public Chamado(Date dataHoraAbertura,TipoChamado tipoChamado, Cliente reclamante) {
 		setNumeroChamado(new Random().nextInt(999999999));
 		this.dataHoraAbertura = dataHoraAbertura;
 		this.dataHoraFechamento = null;
@@ -86,10 +86,10 @@ public class Chamado implements Serializable {
 	public void setTipoChamado(TipoChamado tipoChamado) {
 		this.tipoChamado = tipoChamado;
 	}
-	public Pessoa getReclamante() {
+	public Cliente getReclamante() {
 		return reclamante;
 	}
-	public void setReclamante(Pessoa reclamante) {
+	public void setReclamante(Cliente reclamante) {
 		this.reclamante = reclamante;
 	}
 }
