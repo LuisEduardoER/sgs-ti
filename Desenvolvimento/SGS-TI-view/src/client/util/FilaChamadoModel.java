@@ -2,7 +2,7 @@ package client.util;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import common.entity.chamado.Chamado;
+import common.entity.Chamado;
 
 public class FilaChamadoModel extends AbstractTableModel {
 
