@@ -5,6 +5,12 @@ import java.rmi.RemoteException;
 
 public interface ServiceUsuario extends Remote{
 	
-	public void autenticar() throws RemoteException;
+	public boolean autenticar(ObserverUsuario observador) throws RemoteException;
+	
+	public void adicionarObservador(ObserverUsuario observador) throws RemoteException;
+	
+	public void removerObservador(ObserverUsuario observador) throws RemoteException;
+	
+	public void notificarClient() throws RemoteException;
 
 }
