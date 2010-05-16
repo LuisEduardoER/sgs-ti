@@ -7,8 +7,9 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -19,7 +20,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import client.controller.ClientController;
 import client.util.ClientConstraint;
 
@@ -55,7 +55,13 @@ public class MainView extends JFrame {
 		setSize(new Dimension(1024,768));
 		setLayout(new BorderLayout(5,5));
 		setBackground(Color.white);
-		
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				fecharJanela();
+			}
+		});
 		setJMenuBar(carregaMenuTopo());
 		mainMenu = carregarMenuConteudos();
 		conteudo = new JDesktopPane();
@@ -64,7 +70,6 @@ public class MainView extends JFrame {
 		sideMenu = new JPanel();
 		
 		changeSideMenu(ClientConstraint.SIDE_MENU_CLIENTE);
-		//openNewInternalContent(ClientConstraint.LISTAR_CHAMADOS);
 		
 		add(mainMenu, BorderLayout.NORTH);
 		add(conteudo, BorderLayout.CENTER);
@@ -91,9 +96,7 @@ public class MainView extends JFrame {
 		sair.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(JOptionPane.showConfirmDialog(null,"Deseja Fechar?","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
-					System.exit(0);
-				}
+				fecharJanela();
 			}
 			
 		});
@@ -250,5 +253,18 @@ public class MainView extends JFrame {
 
 	public static void setInstance(MainView instance) {
 		MainView.instance = instance;
+	}
+	
+	public void suicide(){
+		if(JOptionPane.showConfirmDialog(null,"Deseja Fechar?","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
+			System.exit(0);
+		}
+	}
+	
+	public void fecharJanela(){
+		if(JOptionPane.showConfirmDialog(null,"Deseja Fechar?","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
+			ClientController.getInstance().encerrarSessao();
+			System.exit(0);
+		}
 	}
 }

@@ -13,12 +13,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 
+import client.controller.ClientController;
 import client.util.SpringUtilities;
 
 public class Login extends JFrame {
@@ -109,16 +111,19 @@ public class Login extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			//TODO 01 - fazer controller para verificar login
 			
-			//ClientController.getInstance().autenticar()
-			
-			Login.this.setVisible(false);
-			Login.this.dispose();
-			
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					MainView.getInstance().setVisible(true);
-				}
-			});
+			boolean acesso = ClientController.getInstance().autenticar();
+			if(!acesso){
+				JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
+			}else{
+				Login.this.setVisible(false);
+				Login.this.dispose();
+				
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						MainView.getInstance().setVisible(true);
+					}
+				});
+			}
 		}
 	}
 }
