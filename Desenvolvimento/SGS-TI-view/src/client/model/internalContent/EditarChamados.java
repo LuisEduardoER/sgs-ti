@@ -55,7 +55,7 @@ public class EditarChamados  implements InternalContent, Observer
 			listFalha = new ArrayList<TipoFalha>();
 			listStatus = new ArrayList<StatusChamado>();
 
-			servico = Utils.obterServiceChamadoI();
+			servico = Utils.obterServiceChamadoItens();
 		} catch (BusinessException e) {
 			// TODO Colocar Exceção
 			e.printStackTrace();
