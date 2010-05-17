@@ -19,7 +19,7 @@ public class ShowUsers  implements InternalContent
 	private JInternalFrame jif;
 	private JPanel form;
 
-	public JInternalFrame getInternalContent() {
+	public JInternalFrame getInternalContent(Object param) {
 		jif = new JInternalFrame();
 		jif.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		jif.setBackground(Color.WHITE);

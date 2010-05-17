@@ -215,10 +215,10 @@ public class MainView extends JFrame {
 		}
 	}
 	
-	public void openNewInternalContent(String newInternalFrame) {
+	public void openNewInternalContent(String newInternalFrame, Object param) {
 		Utils.printMsg(this.getClass().getName(), "openNewInternalContent - " + newInternalFrame);
 
-		JInternalFrame jif = ClientController.getInstance().getInternalContent(newInternalFrame);
+		JInternalFrame jif = ClientController.getInstance().getInternalContent(newInternalFrame,param);
 
 		try {
 			jif.setSelected(true);
@@ -227,8 +227,7 @@ public class MainView extends JFrame {
 		} catch (PropertyVetoException e) {
 			e.printStackTrace();
 		}
-		
-		conteudo.highestLayer();
+
 		for(JInternalFrame j : conteudo.getAllFrames()){
 			j.setLayer(0);
 		}

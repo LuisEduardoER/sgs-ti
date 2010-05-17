@@ -50,7 +50,7 @@ public class ListarChamados implements InternalContent, Observer{
 	private List<Chamado> listaChamados;
 
 	@Override
-	public JInternalFrame getInternalContent() {
+	public JInternalFrame getInternalContent(Object param) {
 
 		jif = new JInternalFrame();
 		jif.addInternalFrameListener(new ouvinteInternalContent());
@@ -123,6 +123,7 @@ public class ListarChamados implements InternalContent, Observer{
 	}
 
 	public void atualizarFila(List<Chamado> listaChamados){
+		this.listaChamados = listaChamados;
 		modeloFila.setLinhas(converterListEmMatriz(listaChamados));
 		tabelaChamados.updateUI();
 		scrollPane.updateUI();
@@ -248,7 +249,7 @@ public class ListarChamados implements InternalContent, Observer{
 				Utils.printMsg(this.getClass().getName(), "O chamado não foi encontrado na lista.");
 			// TODO tratar erro
 			
-			MainView.getInstance().openNewInternalContent(evt.getActionCommand());
+			MainView.getInstance().openNewInternalContent(evt.getActionCommand(),chamadoSelecionado);
 			// TODO carregar dados do chamado na tela de edição
 		}
 
