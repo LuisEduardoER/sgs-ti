@@ -51,6 +51,16 @@ public class ServiceChamadoImpl implements ServiceChamado {
 		notificarObservadorFila();
 	}
 
+	@Override
+	public void atualizarChamado(Chamado chamado) throws RemoteException {
+		// TODO: atualizar no banco.
+		
+		// atualiza o chamado na fila e notificar.
+		FilaChamado.getInstance().atualizarChamado(chamado);
+		notificarObservadorFila();
+		
+	}
+	
 	/*
 	 * GETTERs AND SETTERs
 	 */
@@ -59,11 +69,5 @@ public class ServiceChamadoImpl implements ServiceChamado {
 	}
 	public void setFilaChamados(FilaChamado filaChamados) {
 		this.filaChamados = filaChamados;
-	}
-
-	@Override
-	public void atualizarChamado(Chamado chamado) throws RemoteException {
-		// TODO fazer algo
-		
 	}
 }
