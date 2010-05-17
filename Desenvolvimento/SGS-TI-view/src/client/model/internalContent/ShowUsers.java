@@ -23,6 +23,7 @@ public class ShowUsers  implements InternalContent
 		jif = new JInternalFrame();
 		jif.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		jif.setBackground(Color.WHITE);
+		jif.setLocation(10, 10);
 		jif.setPreferredSize(new Dimension(600, 600));
 		jif.setClosable(true);
 		jif.setResizable(true);	
@@ -56,7 +57,6 @@ public class ShowUsers  implements InternalContent
 	            6, 6);      //xPad, yPad
 				
 		jif.add(form);
-		
 	}
 	
 

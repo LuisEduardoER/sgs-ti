@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyVetoException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -219,21 +218,18 @@ public class MainView extends JFrame {
 		Utils.printMsg(this.getClass().getName(), "openNewInternalContent - " + newInternalFrame);
 
 		JInternalFrame jif = ClientController.getInstance().getInternalContent(newInternalFrame,param);
-
-		try {
-			jif.setSelected(true);
-			jif.setVisible(true);
-
-		} catch (PropertyVetoException e) {
-			e.printStackTrace();
-		}
-
+		
+		
 		for(JInternalFrame j : conteudo.getAllFrames()){
 			j.setLayer(0);
 		}
-
+		
 		jif.setLayer(new Integer(200));
+		jif.setEnabled(true);
+		jif.setVisible(true);
+
 		conteudo.add(jif);
+		conteudo.setVisible(true);
 	}
 	
 	/**

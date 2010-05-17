@@ -2,10 +2,8 @@ package client.model.sideMenu;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import client.util.ClientConstraint;
 
 public class SideMenuUtilidade implements SideMenu {

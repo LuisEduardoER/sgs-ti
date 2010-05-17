@@ -138,6 +138,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 			throw new IllegalArgumentException("Action inválido.");
 
 		InternalContent ic = InternalContentFactory.getInternalContent(action);
+		Utils.printMsg(this.getClass().getName(), "Fabricado nova InternalContent - " + ic.getClass().getName());
 		return ic.getInternalContent(param);
 	}
 
