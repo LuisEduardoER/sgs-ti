@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import common.remote.ObserverUsuario;
 
-public class UsuarioAutenticado implements Serializable{
+public class UsuarioAutenticado implements Serializable, Cloneable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -47,5 +47,10 @@ public class UsuarioAutenticado implements Serializable{
 		this.observador = observador;
 	}
 	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return super.clone();
+	}
 	
 }

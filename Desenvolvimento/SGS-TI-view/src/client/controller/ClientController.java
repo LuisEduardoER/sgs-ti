@@ -133,12 +133,12 @@ public class ClientController implements ObserverUsuario, Serializable{
 		return sideMenu;
 	}
 
-	public JInternalFrame getInternalContent(String action){
+	public JInternalFrame getInternalContent(String action, Object param){
 		if(action == null || action.equals(""))
 			throw new IllegalArgumentException("Action inválido.");
 
 		InternalContent ic = InternalContentFactory.getInternalContent(action);
-		return ic.getInternalContent();
+		return ic.getInternalContent(param);
 	}
 
 

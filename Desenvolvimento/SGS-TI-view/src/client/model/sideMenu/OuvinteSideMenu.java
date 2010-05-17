@@ -9,7 +9,7 @@ public class OuvinteSideMenu implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-		MainView.getInstance().openNewInternalContent(evt.getActionCommand());
+		MainView.getInstance().openNewInternalContent(evt.getActionCommand(),null);
 	}
 
 }

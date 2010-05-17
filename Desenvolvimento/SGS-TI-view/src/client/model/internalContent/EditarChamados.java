@@ -28,6 +28,7 @@ import javax.swing.event.InternalFrameListener;
 
 import com.toedter.calendar.JDateChooser;
 
+import common.entity.Chamado;
 import common.entity.StatusChamado;
 import common.entity.TipoFalha;
 import common.exception.BusinessException;
@@ -62,7 +63,11 @@ public class EditarChamados  implements InternalContent, Observer
 		}
 	}
 
-	public JInternalFrame getInternalContent() {
+	public JInternalFrame getInternalContent(Object param) {
+		Chamado chamado = (Chamado) param;
+
+		Utils.printMsg(this.getClass().getName(), "Editando chamado número: " + chamado.getNumeroChamado());
+		
 		jif = new JInternalFrame();
 		jif.addInternalFrameListener(new ouvinteInternalContent());
 

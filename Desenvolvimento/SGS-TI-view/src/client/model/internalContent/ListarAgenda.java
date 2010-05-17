@@ -28,7 +28,7 @@ public class ListarAgenda implements InternalContent, Observer
 	private ObservadorFila observadorFila;
 
 	@Override
-	public JInternalFrame getInternalContent() {
+	public JInternalFrame getInternalContent(Object param) {
 
 		jif = new JInternalFrame();
 		jif.addInternalFrameListener(new InternalFrameListener() {			

@@ -3,5 +3,5 @@ package client.model.internalContent;
 import javax.swing.JInternalFrame;
 
 public interface InternalContent {
-	JInternalFrame getInternalContent();
+	JInternalFrame getInternalContent(Object param);
 }
