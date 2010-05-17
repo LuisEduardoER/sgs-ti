@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
@@ -35,14 +34,16 @@ public class ListarChamados implements InternalContent, Observer{
 
 	private static final long serialVersionUID = 1L;
 	private JInternalFrame jif;
+	private String [] colunas;
 	private JPanel form;
 	private JPanel tabela;
 	private JPanel buttons;
+	
 	private JTable tabelaChamados;
 	private JScrollPane scrollPane;
 	private ObservadorFila observadorFila;
 	private FilaChamadoModel modeloFila;
-	private List<Chamado> listaChamados;
+	private String[][] listaChamados;
 
 	@Override
 	public JInternalFrame getInternalContent() {
@@ -62,12 +63,12 @@ public class ListarChamados implements InternalContent, Observer{
 	}
 
 	private void inicializar(){
-		String [] colunas = new String[]{"Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"};
+		colunas = new String[]{"Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"};
 		
-		listaChamados = new ArrayList<Chamado>();
+		listaChamados = new String[0][0];
 		modeloFila = new FilaChamadoModel(listaChamados, colunas);
-		tabelaChamados = new JTable(modeloFila);
-
+		tabelaChamados = new JTable(modeloFila);	
+		
 		/* 
 		 * form 
 		 */ 
@@ -86,9 +87,11 @@ public class ListarChamados implements InternalContent, Observer{
 		/* 
 		 * tabela de chamados
 		 */
-		tabela = new JPanel();
-		tabela.add(tabelaChamados);
-		scrollPane = new JScrollPane(tabela);
+		tabela = new JPanel(new BorderLayout());
+		scrollPane = new JScrollPane(tabelaChamados);
+		
+		tabela.add(tabelaChamados.getTableHeader(),BorderLayout.NORTH);
+		tabela.add(scrollPane,BorderLayout.CENTER);
 		
 		
 		/* 
@@ -120,15 +123,15 @@ public class ListarChamados implements InternalContent, Observer{
 	}
 
 	public void atualizarFila(List<Chamado> listaChamados){
-		modeloFila.setLinhas(listaChamados);
-		tabelaChamados = new JTable(modeloFila);
-		tabela.repaint();
-		scrollPane.repaint();
-		jif.repaint();
-
+		modeloFila.setLinhas(converterListEmMatriz(listaChamados));
+		//tabelaChamados = new JTable(modeloFila);
+		//tabelaChamados.updateUI();
+		scrollPane.updateUI();
+		
 		Utils.printMsg(this.getClass().getName(), new Date() + " - Fila atualizada. Size: " + listaChamados.size());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable o, Object listaChamados) {
 		try{
@@ -141,6 +144,22 @@ public class ListarChamados implements InternalContent, Observer{
 		}
 	}
 
+	public String[][] converterListEmMatriz(List<Chamado> chamados){
+		String [][]matriz = new String [chamados.size()][5];
+		
+		// "Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"
+		for(int linha=0; linha<chamados.size(); linha++){
+			Chamado chamado = chamados.get(linha);
+			matriz[linha][0] = String.valueOf(chamado.getNumeroChamado());
+			matriz[linha][1] = chamado.getReclamante().getNome();
+			matriz[linha][2] = String.valueOf(chamado.getPrioridade().getValorPrioridade());
+			matriz[linha][3] = String.valueOf(chamado.getDataHoraAbertura());
+			matriz[linha][4] = chamado.getStatus().getNome();
+		}
+		
+		return matriz;
+	}
+	
 	/*
 	 * GETTERs AND SETTERs
 	 */
