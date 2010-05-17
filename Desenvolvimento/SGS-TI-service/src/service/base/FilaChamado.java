@@ -40,6 +40,12 @@ public class FilaChamado extends Observable{
 		setChanged();
 		notifyAll();
 	}
+	public synchronized void atualizarChamado(Chamado chamado){
+		for(Chamado c : fila){
+			if(c.equals(chamado))
+				c = chamado;
+		}
+	}
 	
 	/**
 	 * Obter a fila de chamados.
