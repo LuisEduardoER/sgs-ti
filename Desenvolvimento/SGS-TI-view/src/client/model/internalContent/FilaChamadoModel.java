@@ -1,22 +1,20 @@
 package client.model.internalContent;
 
-import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import common.entity.Chamado;
 
 
 public class FilaChamadoModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 	private String [] colunas;
-	private List<Chamado> linhas;
+	private String[][] linhas;
 	
 	/**
 	 * Construtor
 	 * @param colunas
 	 * @param linhas
 	 */
-	public FilaChamadoModel(List<Chamado> linhas, String [] colunas){
+	public FilaChamadoModel(String[][] linhas, String [] colunas){
 		setLinhas(linhas);
 		setColunas(colunas);
 	}
@@ -28,29 +26,12 @@ public class FilaChamadoModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return getLinhas().size();
+		return getLinhas().length;
 	}
 
 	@Override
 	public Object getValueAt(int indexLinha, int indexColuna) {
-		Chamado chamado = getLinhas().get(indexLinha);
-		
-		//"Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"
-		switch(indexColuna){
-			case 0:
-				return chamado.getNumeroChamado();
-			case 1:
-				return chamado.getReclamante().getNome();
-			case 2:
-				return chamado.getPrioridade().getValorPrioridade();
-			case 3:
-				return chamado.getDataHoraAbertura();
-			case 4:
-				return chamado.getStatus().getNome();
-			
-			default:
-				return null;
-		}
+		return getLinhas()[indexLinha][indexColuna];
 	}
 
 	/*
@@ -62,10 +43,10 @@ public class FilaChamadoModel extends AbstractTableModel {
 	public void setColunas(String[] colunas) {
 		this.colunas = colunas;
 	}
-	public List<Chamado> getLinhas() {
+	public String[][] getLinhas() {
 		return linhas;
 	}
-	public void setLinhas(List<Chamado> linhas) {
+	public void setLinhas(String[][] linhas) {
 		this.linhas = linhas;
 	}
 }
