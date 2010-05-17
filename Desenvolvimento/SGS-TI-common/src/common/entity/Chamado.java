@@ -18,6 +18,7 @@ public class Chamado implements Serializable {
 	private StatusChamado status;
 	private Prioridade prioridade;
 	private TipoChamado tipoChamado;
+	private TipoFalha tipoFalha;
 	private Cliente reclamante;
 	
 	/**
@@ -38,9 +39,25 @@ public class Chamado implements Serializable {
 		this.status = new StatusChamado(StatusChamado.ABERTO);
 		this.tipoChamado = tipoChamado;
 		this.reclamante = reclamante;
+		this.tipoFalha = null;
 		this.prioridade = new Prioridade(getTipoChamado().getValor(), getReclamante().getPorte().getValor(), new Date());
 	}
 
+	public Chamado(long numeroChamado, Date dataHoraAbertura, Date dataHoraFechamento,
+					String detalhes, StatusChamado status, Prioridade prioridade,
+					TipoChamado tipoChamado, Cliente reclamante, TipoFalha tipoFalha)
+	{
+		this.numeroChamado = numeroChamado;
+		this.dataHoraAbertura = dataHoraAbertura;
+		this.dataHoraFechamento = dataHoraFechamento;
+		this.detalhes = detalhes;
+		this.status = status;
+		this.tipoChamado = tipoChamado;
+		this.reclamante = reclamante;
+		this.tipoFalha = tipoFalha;
+		this.prioridade = new Prioridade(getTipoChamado().getValor(), getReclamante().getPorte().getValor(), new Date());
+	}
+	
 	/*
 	 * GETTERs AND SETTERs
 	 */
