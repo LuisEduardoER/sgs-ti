@@ -3,10 +3,13 @@ package client.controller;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashSet;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
 import common.entity.Usuario;
+import common.entity.UsuarioAutenticado;
 import common.exception.BusinessException;
 import common.remote.ObserverUsuario;
 import common.remote.ServiceUsuario;
@@ -23,6 +26,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 	private ServiceUsuario serviceUsuario;
 	private ObserverUsuario stubUsuario;
 	private Usuario usuario;
+
 	private boolean desativando;
 	
 	private ClientController() {
@@ -102,6 +106,16 @@ public class ClientController implements ObserverUsuario, Serializable{
 		}
 	}
 	
+	public HashSet<UsuarioAutenticado> getStatusSistema(){
+		try {
+			return serviceUsuario.getUsuarioAutenticado();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	// Metodos de controle
 	public JPanel getSideMenu(String action){
 		
@@ -129,5 +143,13 @@ public class ClientController implements ObserverUsuario, Serializable{
 
 	public void setDesativando(boolean desativando) {
 		this.desativando = desativando;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

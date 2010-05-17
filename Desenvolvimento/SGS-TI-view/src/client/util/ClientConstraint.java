@@ -16,4 +16,7 @@ public class ClientConstraint {
 	public static final String EDITAR_CHAMADOS = "EDITAR_CHAMADOS";
 	public static final String LISTAR_AGENDA = "LISTAR_AGENDA";
 	
+	public static final String STATUS_SISTEMA = "STATUS_SISTEMA";
+	public static final String SHOW_USERS	 = "SHOW_USERS";
+	
 }

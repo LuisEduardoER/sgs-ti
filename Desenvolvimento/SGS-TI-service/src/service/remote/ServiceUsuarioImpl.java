@@ -73,12 +73,13 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 		usuarioAutenticado.getObservador().notificarTempoExcedido();		
 	}
 	
+	@Override
 	public HashSet<UsuarioAutenticado> getUsuarioAutenticado() {
 		return usuarioAutenticado;
 	}
 
-
 	public void setUsuarioAutenticado(HashSet<UsuarioAutenticado> usuarioAutenticado) {
 		this.usuarioAutenticado = usuarioAutenticado;
 	}
+
 }
