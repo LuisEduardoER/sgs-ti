@@ -50,9 +50,9 @@ public class MainView extends JFrame {
 	 */
 	public void inicializaComponentes(){
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources/imgs/window_icon.png"));
-		setSize(new Dimension(1024,768));
+		setSize(new Dimension(640,480));
 		setLayout(new BorderLayout(5,5));
 		setBackground(Color.white);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -263,6 +263,8 @@ public class MainView extends JFrame {
 			System.exit(0);
 		}else
 		{
+			// Atualiza o horario de ultimaAtualizacao e notifica que não será desativado.
+			ClientController.getInstance().setDesativando(false);
 			ClientController.getInstance().atualizarCliente();
 		}
 	}

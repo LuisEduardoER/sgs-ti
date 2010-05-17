@@ -5,6 +5,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+
+import common.entity.Usuario;
 import common.exception.BusinessException;
 import common.remote.ObserverUsuario;
 import common.remote.ServiceUsuario;
@@ -20,13 +22,16 @@ public class ClientController implements ObserverUsuario, Serializable{
 	private static ClientController instance;
 	private ServiceUsuario serviceUsuario;
 	private ObserverUsuario stubUsuario;
+	private Usuario usuario;
 	private boolean desativando;
 	
 	private ClientController() {
 		
 		try {
 			serviceUsuario = Utils.obterServiceUsuario();
-			gerarStub();
+			// Criar um stub
+			stubUsuario = (ObserverUsuario) UnicastRemoteObject
+					.exportObject(this, 0);
 			
 			// TODO: Possivel tratamento caso n tenha conseguido conexao
 			
@@ -45,7 +50,59 @@ public class ClientController implements ObserverUsuario, Serializable{
 		return instance;
 	}
 	
+	// Metodos remotos
+	@Override
+	public void encerrarClient() throws RemoteException {
+		encerrarSessao();
+		System.exit(0);		
+	}
 	
+	@Override
+	public void notificarTempoExcedido() throws RemoteException {
+		if(!desativando)
+		{
+			// Controle para evitar multiplos avisos simultaneos
+			desativando = true;
+			// A view decide se irá fechar ou não, caso não ele volta a ser false;
+			MainView.getInstance().tempoExcedido();
+		}
+	}
+	
+	@Override
+	public boolean autenticar(Usuario usuario){
+		try {
+			boolean acesso = serviceUsuario.autenticar(stubUsuario, usuario);
+			if(acesso)
+				this.usuario = usuario;
+			return acesso;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	@Override
+	public void atualizarCliente(){
+		try {
+			serviceUsuario.atualizarClient(this.usuario);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void encerrarSessao(){
+		try {
+			Utils.printMsg(this.getClass().getName(), "Encerrando cliente...");
+			serviceUsuario.removerObservador(this.usuario);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// Metodos de controle
 	public JPanel getSideMenu(String action){
 		
 		if(action == null || action.equals(""))
@@ -65,49 +122,6 @@ public class ClientController implements ObserverUsuario, Serializable{
 		return ic.getInternalContent();
 	}
 	
-	public boolean autenticar(){
-		try {
-			return serviceUsuario.autenticar(stubUsuario);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
-	public void atualizarCliente(){
-		try {
-			serviceUsuario.atualizarClient(stubUsuario);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void update(String evento) throws RemoteException {
-		System.out.println("Lancado pelo Client:" + evento);
-	}
-	
-	public void gerarStub() throws RemoteException{
-		// Criar um stub
-		stubUsuario = (ObserverUsuario) UnicastRemoteObject
-				.exportObject(this, 0);
-	}
-
-	@Override
-	public void notificarTempoExcedido() throws RemoteException {
-		MainView.getInstance().tempoExcedido();
-	}
-	
-	public void encerrarSessao(){
-		try {
-			System.out.println("Chamando o remover:");
-			serviceUsuario.removerObservador(stubUsuario);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public boolean isDesativando() {
 		return desativando;
