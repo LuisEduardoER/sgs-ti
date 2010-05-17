@@ -258,11 +258,16 @@ public class EditarChamados  implements InternalContent, Observer
 	
 	class OuvinteEditarChamado implements ActionListener 
 	{
-		/**
-		  @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		public void actionPerformed(ActionEvent e) {
-			//jif.dispose();
+		@Override
+		public void actionPerformed(ActionEvent evt) {
+			if (evt.getActionCommand().equals("SALVAR")) {
+				//ClientController.getInstance().atualizarChamado(chamado);
+			}
+
+			if(evt.getActionCommand().equals("CANCELAR"))
+			{
+
+			}			
 		}
 	}
 }
