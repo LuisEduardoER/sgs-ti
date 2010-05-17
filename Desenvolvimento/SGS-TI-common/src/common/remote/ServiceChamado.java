@@ -42,4 +42,9 @@ public interface ServiceChamado extends Remote{
 	 * Método para cadastrar um novo chamado.
 	 */
 	public void cadastrarChamado(Chamado chamado) throws RemoteException;
+	
+	/**
+	 * Método para atualizar um chamado.
+	 */
+	public void atualizarChamado(Chamado chamado) throws RemoteException;
 }
