@@ -14,6 +14,7 @@ import common.util.Utils;
 
 public class ObservadorFilaImpl extends Observable implements ObservadorFila{
 	private ServiceChamado serviceChamado;
+	private ObservadorFila myStub;
 	
 	public ObservadorFilaImpl(Observer obs) throws BusinessException{
 		try {
@@ -21,10 +22,10 @@ public class ObservadorFilaImpl extends Observable implements ObservadorFila{
 			serviceChamado = Utils.obterServiceChamado();
 
 			// Criar um stub
-			ObservadorFila stub = (ObservadorFila) UnicastRemoteObject
+			myStub = (ObservadorFila) UnicastRemoteObject
 					.exportObject(this, 0);
 
-			serviceChamado.adicionarObservadorFila(stub);
+			serviceChamado.adicionarObservadorFila(myStub);
 
 		} catch (RemoteException e) {
 			// TODO: criar exception de infra.
@@ -39,12 +40,8 @@ public class ObservadorFilaImpl extends Observable implements ObservadorFila{
 	}
 
 	@Override
-	public void removerObservador() throws RemoteException {
-		// Criar um stub
-		ObservadorFila stub = (ObservadorFila) UnicastRemoteObject
-				.exportObject(this, 0);
-		
-		serviceChamado.removerObservadorFila(stub);
+	public void removerObservador() throws RemoteException {	
+		serviceChamado.removerObservadorFila(myStub);
 	}
 
 }
