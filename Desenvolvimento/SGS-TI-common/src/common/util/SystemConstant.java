@@ -4,7 +4,7 @@ public class SystemConstant {
 
 	// Constantes do Sistema
 	public static final boolean DEBUG_MODE 				= true;
-	public static final double 	MAX_SESSION_TIME_MIN	= 0.3d; 
+	public static final double 	MAX_SESSION_TIME_MIN	= 3d; 
 	public static final double 	SESSION_TIME_ALERT_MIN	= 0.2d; 
 	public static final int		USER_MONITOR_SLEEP_TIME = 2000;
 	

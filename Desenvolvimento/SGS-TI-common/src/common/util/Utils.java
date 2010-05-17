@@ -8,6 +8,7 @@ import java.util.Collection;
 
 import common.exception.BusinessException;
 import common.remote.ServiceChamado;
+import common.remote.ServiceChamadoItens;
 import common.remote.ServiceUsuario;
 
 public class Utils {
@@ -29,6 +30,19 @@ public class Utils {
 	public static ServiceUsuario obterServiceUsuario() throws BusinessException{
 		try{	
 			return (ServiceUsuario) Naming.lookup("rmi://localhost/serviceUsuario");
+			
+		}catch(RemoteException e){
+			throw new BusinessException("Não consegui conectar ao serviço remoto.");
+		}catch(MalformedURLException e ){
+			
+		}catch(NotBoundException e){
+		}
+		return null;
+	}
+	
+	public static ServiceChamadoItens obterServiceChamadoItens() throws BusinessException{
+		try{	
+			return (ServiceChamadoItens) Naming.lookup("rmi://localhost/serviceChamadoItens");
 			
 		}catch(RemoteException e){
 			throw new BusinessException("Não consegui conectar ao serviço remoto.");
