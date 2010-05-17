@@ -4,71 +4,63 @@ import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-
-import service.task.UserMonitor;
+import service.task.ThreadUserMonitor;
+import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
 import common.remote.ObserverUsuario;
 import common.remote.ServiceUsuario;
-import common.util.SystemConstant;
+import common.util.Utils;
 
 public class ServiceUsuarioImpl implements ServiceUsuario{
 	
 	private HashSet<UsuarioAutenticado> usuarioAutenticado;
 
 	public ServiceUsuarioImpl() {
-		printMsg("Criando Servico");
+		Utils.printMsg(this.getClass().getSimpleName(),"Criando Servico.");
 		// Inicializa a HashSet
 		usuarioAutenticado = new HashSet<UsuarioAutenticado>();
 		// Lanca o UserMonitor
-		new UserMonitor(this).start();
+		new ThreadUserMonitor(this).start();
 	}
 	
 	@Override
-	public boolean autenticar(ObserverUsuario observador) throws RemoteException {
-		printMsg("Logando um usuário...");
-		adicionarObservador(observador);
+	public boolean autenticar(ObserverUsuario observador, Usuario usuario) throws RemoteException {
+		adicionarObservador(observador, usuario);
 		return true;
 	}
 
 	@Override
-	public void adicionarObservador(ObserverUsuario observador) throws RemoteException {
+	public void adicionarObservador(ObserverUsuario observador, Usuario usuario) throws RemoteException {
 		UsuarioAutenticado novoUA = new UsuarioAutenticado();
 		novoUA.setObservador(observador);
 		novoUA.setUltimaAtualizacao(new Date());
+		novoUA.setUsuario(usuario);
 		usuarioAutenticado.add(novoUA);
-		printMsg("Cliente adicionado como logado...");
 	}
 	
 	@Override
-	public void removerObservador(ObserverUsuario observador)
+	public void removerObservador(Usuario usuario)
 			throws RemoteException {
-		printMsg("Removendo observador");
-		printMsg("Usuarios:"+usuarioAutenticado.size()+", removendo...");
-		
 		Iterator<UsuarioAutenticado> it = usuarioAutenticado.iterator();
 		while(it.hasNext()){
 			UsuarioAutenticado ua = it.next();
-			if(ua.getObservador().equals(observador)){
-				printMsg("é igual, KILL HIM!!!");
+			if(ua.getUsuario().equals(usuario)){
 				usuarioAutenticado.remove(ua);
 				break;
-			}else
-				printMsg("nao é igual");
+			}
 		}
-		
-		printMsg("Usuarios:"+usuarioAutenticado.size()+", removeu?");
 	}
 
 	@Override
-	public void atualizarClient(ObserverUsuario observador) throws RemoteException {
-		printMsg("Atualizando horário atividade do cliente...");
+	public void atualizarClient(Usuario usuario) throws RemoteException {
+		Utils.printMsg(this.getClass().getName(),"Atualizando horário atividade do cliente...");
 		Iterator<UsuarioAutenticado> it = usuarioAutenticado.iterator();
 		while(it.hasNext()){
 			UsuarioAutenticado ua = it.next();
-			if(ua.getObservador().equals(observador)){
-				printMsg("User encontrado, atualizando horario atual:"+ua.getUltimaAtualizacao().getTime());
+			if(ua.getUsuario().equals(usuario)){
+				Utils.printMsg(this.getClass().getName(),"User encontrado, atualizando horario atual:"+ua.getUltimaAtualizacao().getTime());
 				ua.setUltimaAtualizacao(new Date());
-				printMsg("Novo horário do usuario                   :"+ua.getUltimaAtualizacao().getTime());
+				Utils.printMsg(this.getClass().getName(),"Novo horário do usuario                   :"+ua.getUltimaAtualizacao().getTime());
 				break;
 			}
 		}
@@ -77,16 +69,10 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 	@Override
 	public void notificarTempoExcedido(UsuarioAutenticado usuarioAutenticado)
 			throws RemoteException {
-		printMsg("Notificando tempo excedido");
+		Utils.printMsg(this.getClass().getName(),"Notificando tempo excedido");
 		usuarioAutenticado.getObservador().notificarTempoExcedido();		
 	}
 	
-	public void printMsg(String msg){
-		if(SystemConstant.DEBUG_MODE)
-			System.out.println("[SERVICE USUARIO]: " + msg);
-	}
-
-
 	public HashSet<UsuarioAutenticado> getUsuarioAutenticado() {
 		return usuarioAutenticado;
 	}

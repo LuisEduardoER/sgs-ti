@@ -20,6 +20,9 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 
+import common.entity.Usuario;
+import common.util.Utils;
+
 import client.controller.ClientController;
 import client.util.SpringUtilities;
 
@@ -28,7 +31,8 @@ public class Login extends JFrame {
 	
 	private JLabel lblPassword;
 	private JLabel lblUser;
-	
+	private JPasswordField password;
+	private JTextField user;
 	public Login() {
 		super("Login");
 		JFrame.setDefaultLookAndFeelDecorated(true);
@@ -75,14 +79,14 @@ public class Login extends JFrame {
 		
 		// campo user
 		lblUser = new JLabel("Usuário:",JLabel.TRAILING);
-		JTextField user = new JTextField(15);
+		user = new JTextField(15);
 		
 		lblUser.setLabelFor(user);
 		
 
 		// campo senha
 		lblPassword = new JLabel("Senha:",JLabel.TRAILING);
-		JPasswordField password = new JPasswordField(15);
+		password = new JPasswordField(15);
 
 		lblPassword.setLabelFor(password);
 
@@ -107,22 +111,33 @@ public class Login extends JFrame {
 	
 	class LoginAction implements ActionListener{
 	
+		@SuppressWarnings("deprecation")
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			//TODO 01 - fazer controller para verificar login
-			
-			boolean acesso = ClientController.getInstance().autenticar();
-			if(!acesso){
-				JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
-			}else{
-				Login.this.setVisible(false);
-				Login.this.dispose();
+			String loginUser = user.getText();
+			String loginPass = password.getText();
+			if(Utils.isNullOrEmpty(loginUser))
+				JOptionPane.showMessageDialog(null, "Digite um usuário.");
+			else if(Utils.isNullOrEmpty(loginPass))
+				JOptionPane.showMessageDialog(null, "Digite uma senha.");
+			else
+			{
+				Usuario login = new Usuario(loginUser,loginPass);
 				
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						MainView.getInstance().setVisible(true);
-					}
-				});
+				boolean acesso = ClientController.getInstance().autenticar(login);
+				if(!acesso){
+					JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
+				}else{
+					Login.this.setVisible(false);
+					Login.this.dispose();
+					
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							MainView.getInstance().setVisible(true);
+						}
+					});
+				}
 			}
 		}
 	}

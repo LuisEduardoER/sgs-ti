@@ -8,54 +8,44 @@ public class UsuarioAutenticado implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	private Usuario usuario;
 	private Date ultimaAtualizacao;
 	private ObserverUsuario observador;
+	public static final int ENCERRAR_CLIENTE 		= -1;
+	public static final int TEMPO_MAX_EXPIRANDO 	=  0;
 
 	public UsuarioAutenticado() {
 	}
 
-	public UsuarioAutenticado(Date ultimaAtualizacao, ObserverUsuario observador) {
+	public UsuarioAutenticado(Date ultimaAtualizacao, ObserverUsuario observador, Usuario usuario) {
 		this.ultimaAtualizacao = ultimaAtualizacao;
 		this.observador = observador;
+		this.usuario = usuario;
 	}
 	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	public Date getUltimaAtualizacao() {
 		return ultimaAtualizacao;
 	}
+
 	public void setUltimaAtualizacao(Date ultimaAtualizacao) {
 		this.ultimaAtualizacao = ultimaAtualizacao;
 	}
+
 	public ObserverUsuario getObservador() {
 		return observador;
 	}
+
 	public void setObservador(ObserverUsuario observador) {
 		this.observador = observador;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((observador == null) ? 0 : observador.hashCode());
-		result = prime
-				* result
-				+ ((ultimaAtualizacao == null) ? 0 : ultimaAtualizacao
-						.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		UsuarioAutenticado other = (UsuarioAutenticado) obj;
-		if (observador == null) {
-			if (other.observador != null)
-				return false;
-		} else if (!observador.equals(other.observador))
-			return false;
-		return true;
-	}
-	
 	
 	
 }
