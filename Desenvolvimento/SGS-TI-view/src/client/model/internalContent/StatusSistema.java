@@ -35,6 +35,7 @@ public class StatusSistema  implements InternalContent
 		jif.setClosable(true);
 		jif.setResizable(true);	
 		jif.setLayout(new BorderLayout());
+
 		inicializar();
 		return jif;
 	}
