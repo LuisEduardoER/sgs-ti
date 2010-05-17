@@ -7,6 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
 import javax.swing.JOptionPane;
 
 import common.remote.ServiceChamado;
+import common.remote.ServiceChamadoItens;
 import common.remote.ServiceUsuario;
 import common.util.Utils;
 
@@ -34,6 +35,17 @@ public class ServidorChamados {
 			ServiceUsuarioImpl servicoUsuario = new ServiceUsuarioImpl();
 			ServiceUsuario stubUser = (ServiceUsuario) UnicastRemoteObject.exportObject(servicoUsuario,0);
 			registry.rebind("serviceUsuario", stubUser);
+			
+			// Criar o objeto
+			ServiceChamadoProperts servicoChamadoI = new ServiceChamadoProperts();
+			// Criar Stub
+			ServiceChamadoItens stubChamado = (ServiceChamadoItens) UnicastRemoteObject.exportObject(servicoChamadoI, 0);
+			// Registra o objeto
+			registry.rebind("serviceChamadoItens", stubChamado);
+	
+			System.out.println("Servidor de chamados ativo.");
+			//System.out.println("Servidor de chamados ativo.");
+			Utils.printMsg(ServidorChamados.class.getName(), "Servidor de chamados ativo.");
 			
 			//System.out.println("Servidor de chamados ativo.");
 			Utils.printMsg(ServidorChamados.class.getName(), "Servidor de chamados ativo.");
