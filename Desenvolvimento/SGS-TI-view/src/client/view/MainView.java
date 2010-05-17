@@ -20,6 +20,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import common.util.SystemConstant;
+import common.util.Utils;
+
 import client.controller.ClientController;
 import client.util.ClientConstraint;
 
@@ -257,7 +261,7 @@ public class MainView extends JFrame {
 	}
 	
 	public void tempoExcedido(){
-		if(JOptionPane.showConfirmDialog(null,"O tempo máximo de inatividade irá exceder em 2 minutos, /r/n" +
+		if(JOptionPane.showConfirmDialog(null,"O tempo máximo de inatividade irá exceder em "+SystemConstant.TEMPO_PARA_DESLIGAR+" , \r\n" +
 				"Caso em NÃO para permanecer ou SIM para encerrar.","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
 			ClientController.getInstance().encerrarSessao();
 			System.exit(0);

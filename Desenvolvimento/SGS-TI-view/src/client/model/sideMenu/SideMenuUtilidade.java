@@ -1,15 +1,16 @@
 package client.model.sideMenu;
 
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import client.util.ClientConstraint;
 
 public class SideMenuUtilidade implements SideMenu {
 
-	@Override
-	public JPanel inicializaComponentes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	/*// Debug
+	// Debug
 	private final boolean DEBUG = false;
 	
 	@Override
@@ -20,39 +21,34 @@ public class SideMenuUtilidade implements SideMenu {
 		// Carrega o submenu 
 		JPanel sideMenu = carregarSubMenuConteudos();
 		sideMenu.setPreferredSize(new Dimension(180,400));
-		
 
 		return sideMenu;
 	}
 	
 	
 
-	*//**
+	/**
 	 * Carrega a barra com o menu de conteudos.
 	 * @return JPanel com o menu de conteudos.
-	 *//*
+	 */
 	private JPanel carregarSubMenuConteudos(){
 		JPanel painel = new JPanel();
 		painel.setBackground(Color.white);
 		
-		JButton btListarClientes = new JButton("Listar Clientes");
-		btListarClientes.setPreferredSize(new Dimension(160,25));
-		btListarClientes.setEnabled(true);
-		btListarClientes.setActionCommand(ClientConstraint.LISTAR_CHAMADOS);
-		btListarClientes.addActionListener(new OuvinteSideMenu());
+		JButton btStatusSistema= new JButton("Status Sistema");
+		btStatusSistema.setPreferredSize(new Dimension(160,25));
+		btStatusSistema.setEnabled(true);
+		btStatusSistema.setActionCommand(ClientConstraint.STATUS_SISTEMA);
+		btStatusSistema.addActionListener(new OuvinteSideMenu());
 		
-		JButton btCadastrarCliente = new JButton("Cadastrar Cliente");
-		btCadastrarCliente.setPreferredSize(new Dimension(160,25));
-		btCadastrarCliente.setEnabled(false);
+		JButton btShowUsers = new JButton("Mostrar Usuários");
+		btShowUsers.setPreferredSize(new Dimension(160,25));
+		btShowUsers.setEnabled(true);
+		btShowUsers.setActionCommand(ClientConstraint.SHOW_USERS);
+		btShowUsers.addActionListener(new OuvinteSideMenu());
 		
-		JButton btAlterarCliente = new JButton("Alterar Cliente");
-		btAlterarCliente.setPreferredSize(new Dimension(160,25));
-		btAlterarCliente.setEnabled(false);
-		
-		painel.add(btListarClientes);
-		painel.add(btCadastrarCliente);
-		painel.add(btAlterarCliente);
-		
+		painel.add(btStatusSistema);
+		painel.add(btShowUsers);
 		return painel;
-	}*/
+	}
 }

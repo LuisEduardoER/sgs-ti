@@ -2,6 +2,7 @@ package common.remote;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.HashSet;
 
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
@@ -17,5 +18,7 @@ public interface ServiceUsuario extends Remote{
 	public void removerObservador(Usuario usuario) throws RemoteException;
 	
 	public void notificarTempoExcedido(UsuarioAutenticado usuarioAutenticado) throws RemoteException;
+	
+	public HashSet<UsuarioAutenticado> getUsuarioAutenticado() throws RemoteException;
 
 }
