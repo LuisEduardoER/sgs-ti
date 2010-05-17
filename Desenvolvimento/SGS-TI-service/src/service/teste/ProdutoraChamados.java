@@ -36,7 +36,7 @@ public class ProdutoraChamados extends Thread {
 				
 				Cliente cliente = new PessoaFisica("Rua x", new Porte(Porte.PF),null,"André","Macho",new Date(),new Long("0123456789"));
 				Chamado chamado = new Chamado(new Date(), new TipoChamado(TipoChamado.URGENTE),cliente);
-				
+								
 				serviceChamado.cadastrarChamado(chamado);
 				Utils.printMsg(this.getClass().getName(), "Cadastrando novo chamado.");
 				
@@ -48,7 +48,7 @@ public class ProdutoraChamados extends Thread {
 				break;
 			} catch (RemoteException e) {
 				// TODO criar exception de infra
-				e.printStackTrace();
+				Utils.printMsg(this.getClass().getName(), "Erro no objeto remoto, " + e);
 			}
 		}
 	}

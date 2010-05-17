@@ -61,5 +61,9 @@ public class ServiceChamadoImpl implements ServiceChamado {
 		this.filaChamados = filaChamados;
 	}
 
-
+	@Override
+	public void atualizarChamado(Chamado chamado) throws RemoteException {
+		// TODO fazer algo
+		
+	}
 }
