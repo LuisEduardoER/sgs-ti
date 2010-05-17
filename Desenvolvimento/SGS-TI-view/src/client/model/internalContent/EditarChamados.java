@@ -69,7 +69,7 @@ public class EditarChamados  implements InternalContent, Observer
 		jif.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		jif.setBackground(Color.WHITE);
 		jif.setSize(600, 600);
-		jif.setLocation(10, 10);
+		jif.setLocation(30, 30);
 		jif.setClosable(true);
 		jif.setResizable(true);	
 		jif.setLayout(new BorderLayout());

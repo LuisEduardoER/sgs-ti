@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
@@ -28,7 +30,9 @@ import common.remote.ObservadorFila;
 import common.util.Utils;
 import client.Modal;
 import client.controller.ObservadorFilaImpl;
+import client.util.ClientConstraint;
 import client.util.SpringUtilities;
+import client.view.MainView;
 
 public class ListarChamados implements InternalContent, Observer{
 
@@ -43,7 +47,7 @@ public class ListarChamados implements InternalContent, Observer{
 	private JScrollPane scrollPane;
 	private ObservadorFila observadorFila;
 	private FilaChamadoModel modeloFila;
-	private String[][] listaChamados;
+	private List<Chamado> listaChamados;
 
 	@Override
 	public JInternalFrame getInternalContent() {
@@ -53,6 +57,7 @@ public class ListarChamados implements InternalContent, Observer{
 
 		jif.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		jif.setBackground(Color.WHITE);
+		jif.setLocation(10, 10);
 		jif.setSize(new Dimension(600, 600));
 		jif.setClosable(true);
 		jif.setResizable(true);	
@@ -65,8 +70,8 @@ public class ListarChamados implements InternalContent, Observer{
 	private void inicializar(){
 		colunas = new String[]{"Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"};
 		
-		listaChamados = new String[0][0];
-		modeloFila = new FilaChamadoModel(listaChamados, colunas);
+		listaChamados = new ArrayList<Chamado>();
+		modeloFila = new FilaChamadoModel(converterListEmMatriz(listaChamados), colunas);
 		tabelaChamados = new JTable(modeloFila);	
 		
 		/* 
@@ -99,13 +104,8 @@ public class ListarChamados implements InternalContent, Observer{
 		 */
 		buttons = new JPanel();
 		JButton editarChamado = new JButton("Editar");
-		editarChamado.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				int sel = ListarChamados.this.tabelaChamados.getSelectedRow();
-				Utils.printMsg(this.getClass().getName(),"Linha selecionada: " + sel );
-			}
-		});
+		editarChamado.setActionCommand(ClientConstraint.EDITAR_CHAMADOS);
+		editarChamado.addActionListener(new OuvinteEditar());
 		
 		buttons.add(editarChamado);
 		buttons.setAlignmentX(JPanel.RIGHT_ALIGNMENT);
@@ -124,8 +124,7 @@ public class ListarChamados implements InternalContent, Observer{
 
 	public void atualizarFila(List<Chamado> listaChamados){
 		modeloFila.setLinhas(converterListEmMatriz(listaChamados));
-		//tabelaChamados = new JTable(modeloFila);
-		//tabelaChamados.updateUI();
+		tabelaChamados.updateUI();
 		scrollPane.updateUI();
 		
 		Utils.printMsg(this.getClass().getName(), new Date() + " - Fila atualizada. Size: " + listaChamados.size());
@@ -146,6 +145,7 @@ public class ListarChamados implements InternalContent, Observer{
 
 	public String[][] converterListEmMatriz(List<Chamado> chamados){
 		String [][]matriz = new String [chamados.size()][5];
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 		
 		// "Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"
 		for(int linha=0; linha<chamados.size(); linha++){
@@ -153,12 +153,21 @@ public class ListarChamados implements InternalContent, Observer{
 			matriz[linha][0] = String.valueOf(chamado.getNumeroChamado());
 			matriz[linha][1] = chamado.getReclamante().getNome();
 			matriz[linha][2] = String.valueOf(chamado.getPrioridade().getValorPrioridade());
-			matriz[linha][3] = String.valueOf(chamado.getDataHoraAbertura());
+			matriz[linha][3] = formatador.format(chamado.getDataHoraAbertura()).toString();
 			matriz[linha][4] = chamado.getStatus().getNome();
 		}
 		
 		return matriz;
 	}
+	
+	public Chamado buscarChamadobyCodigo(int codigo){
+		for(Chamado c: listaChamados){
+			if(c.getNumeroChamado() == codigo)
+				return c;
+		}
+		return null;
+	}
+	
 	
 	/*
 	 * GETTERs AND SETTERs
@@ -224,5 +233,24 @@ public class ListarChamados implements InternalContent, Observer{
 		public void internalFrameDeactivated(InternalFrameEvent e) {
 
 		}
+	}
+
+	public class OuvinteEditar implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent evt) {
+			int linha = tabelaChamados.getSelectedRow();
+			String numChamado = tabelaChamados.getValueAt(linha, 0).toString();
+			
+			Chamado chamadoSelecionado = buscarChamadobyCodigo(Integer.parseInt(numChamado));
+
+			if(chamadoSelecionado == null)
+				Utils.printMsg(this.getClass().getName(), "O chamado não foi encontrado na lista.");
+			// TODO tratar erro
+			
+			MainView.getInstance().openNewInternalContent(evt.getActionCommand());
+			// TODO carregar dados do chamado na tela de edição
+		}
+
 	}
 }

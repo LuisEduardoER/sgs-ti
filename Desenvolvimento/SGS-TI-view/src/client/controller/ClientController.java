@@ -7,7 +7,6 @@ import java.util.HashSet;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
-
 import common.entity.Chamado;
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
