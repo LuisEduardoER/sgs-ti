@@ -15,6 +15,7 @@ import common.entity.Prioridade;
 import common.entity.StatusChamado;
 import common.entity.TipoChamado;
 import common.entity.TipoFalha;
+import common.entity.Usuario;
 
 import common.exception.BusinessException;
 
@@ -44,7 +45,10 @@ public class ProdutoraChamados extends Thread {
 		while(!Thread.interrupted()){
 			try {
 				
-				Cliente cliente = new PessoaFisica("Rua x", new Porte(Porte.PF),null,"André","Macho",new Date(),new Long("0123456789"));
+				Cliente cliente = new PessoaFisica("Rua x", new Porte(Porte.PF), null, "André", "Macho",
+						new Date(), new Long("0123456789"));
+				Usuario usuario = new Usuario("Vane Iwa", "senha");
+				
 				//Chamado chamado = new Chamado(new Date(), new TipoChamado(TipoChamado.URGENTE),cliente);
 				//Numero do Chamado
 				int indiceChamado = (int) ((int) 1 + (Math.random() * 100));
@@ -92,7 +96,8 @@ public class ProdutoraChamados extends Thread {
 				}
 				
 				Chamado chamado = new Chamado(indiceChamado, new Date(), null, descricao, tempStatusChamado, 
-						new Prioridade(2, 1, new Date()), tempTipoChamado, cliente, tempTipoFalha, "Vanessa");
+						new Prioridade(2, 1, new Date()), tempTipoChamado, cliente, tempTipoFalha,
+						"Nome do Responsavel", usuario);
 								
 				serviceChamado.cadastrarChamado(chamado);
 				Utils.printMsg(this.getClass().getName(), "Cadastrando novo chamado.");
