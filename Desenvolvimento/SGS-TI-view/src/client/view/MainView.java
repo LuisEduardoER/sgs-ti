@@ -1,9 +1,15 @@
 package client.view;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,6 +28,7 @@ import javax.swing.JPanel;
 import common.util.SystemConstant;
 import common.util.Utils;
 import client.controller.ClientController;
+import client.trayIcon.SGSTrayIcon;
 import client.util.ClientConstraint;
 
 public class MainView extends JFrame {
@@ -29,12 +36,13 @@ public class MainView extends JFrame {
 	
 	// Debug
 	private final boolean DEBUG = false;
-	
+	private final String ICON_PATH = "resources/imgs/window_icon.png";
 	private static MainView instance;
 	private JPanel mainMenu;
 	private JDesktopPane conteudo;
 	private JPanel sideMenu;
-
+	private TrayIcon icon;
+	
 	/**
 	 * Construtor.
 	 * @param nome
@@ -51,17 +59,24 @@ public class MainView extends JFrame {
 	 */
 	public void inicializaComponentes(){
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setIconImage(Toolkit.getDefaultToolkit().getImage("resources/imgs/window_icon.png"));
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ICON_PATH));
 		setSize(new Dimension(640,480));
 		setLayout(new BorderLayout(5,5));
 		setBackground(Color.white);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		criarTrayIcon();
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				fecharJanela();
 			}
+			@Override
+			public void windowIconified(WindowEvent e) {
+				showTrayIcon();
+			}
+			
 		});
 		setJMenuBar(carregaMenuTopo());
 		mainMenu = carregarMenuConteudos();
@@ -131,7 +146,6 @@ public class MainView extends JFrame {
 		return menuBar;
 	}
 
-	
 	/**
 	 * Carrega a barra com o menu de conteudos.
 	 * @return JPanel com o menu de conteudos.
@@ -194,8 +208,7 @@ public class MainView extends JFrame {
 		
 		return painel;
 	}
-	
-	
+		
 	public void changeSideMenu(String newSideMenu){
 		if(sideMenu != null){
 			sideMenu.setVisible(false);
@@ -213,7 +226,7 @@ public class MainView extends JFrame {
 			getContentPane().add(sideMenu, BorderLayout.WEST);
 		}
 	}
-	
+
 	public void openNewInternalContent(String newInternalFrame, Object param) {
 		Utils.printMsg(this.getClass().getName(), "openNewInternalContent - " + newInternalFrame);
 
@@ -231,7 +244,7 @@ public class MainView extends JFrame {
 		conteudo.add(jif);
 		conteudo.setVisible(true);
 	}
-	
+
 	/**
 	 * Classe OuvinteConteudo que interpreta os cliques dos botoes do menu de conteudos.
 	 */
@@ -255,7 +268,7 @@ public class MainView extends JFrame {
 	public static void setInstance(MainView instance) {
 		MainView.instance = instance;
 	}
-	
+
 	public void tempoExcedido(){
 		if(JOptionPane.showConfirmDialog(null,"O tempo máximo de inatividade irá exceder em "+SystemConstant.TEMPO_PARA_DESLIGAR+" , \r\n" + 
 				"Caso em NÃO para permanecer ou SIM para encerrar.","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
@@ -268,7 +281,7 @@ public class MainView extends JFrame {
 			ClientController.getInstance().atualizarCliente();
 		}
 	}
-	
+
 	public void fecharJanela(){
 		if(JOptionPane.showConfirmDialog(null,"Deseja Fechar?","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
 			ClientController.getInstance().encerrarSessao();
@@ -276,5 +289,55 @@ public class MainView extends JFrame {
 		}else
 			ClientController.getInstance().atualizarCliente();
 	}
-	
+
+	/*Funções do TrayIcon*/
+	public void showTrayIcon(){
+		if(SystemTray.isSupported() && icon != null){
+			this.setVisible(false);
+			
+			try {
+				SystemTray.getSystemTray().add(icon);
+				
+			} catch (AWTException e1) {
+				// TODO tratar exception
+				e1.printStackTrace();
+			}
+
+			icon.displayMessage("SGS-TI", "Aplicativo continua rodando...",TrayIcon.MessageType.INFO);
+		}
+	}
+	public void removeIcon(){
+		if(SystemTray.isSupported() && icon != null){
+			SystemTray.getSystemTray().remove(icon);
+			this.setVisible(true);
+			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		}
+	}
+	public void criarTrayIcon(){
+		if(SystemTray.isSupported()){			
+			
+			icon = new TrayIcon(getImage(),"SGS-TI", createPopupMenu());
+			icon.setImageAutoSize(true);
+			icon.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					removeIcon();				
+				}
+			});
+		}
+	}	
+	private Image getImage(){
+		return Toolkit.getDefaultToolkit().getImage(ICON_PATH);
+	}
+	private PopupMenu createPopupMenu(){
+
+		PopupMenu menu = new PopupMenu();
+		MenuItem exit = new MenuItem("Exit");
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fecharJanela();
+			}
+		});
+		menu.add(exit);
+		return menu;
+	}
 }
