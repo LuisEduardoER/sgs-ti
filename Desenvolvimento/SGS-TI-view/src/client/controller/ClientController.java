@@ -12,6 +12,7 @@ import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
 import common.exception.BusinessException;
 import common.remote.ObserverUsuario;
+import common.remote.ServiceChamado;
 import common.remote.ServiceUsuario;
 import common.util.Utils;
 import client.model.internalContent.InternalContent;
@@ -24,6 +25,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 
 	private static ClientController instance;
 	private ServiceUsuario serviceUsuario;
+	private ServiceChamado serviceChamado;
 	private ObserverUsuario stubUsuario;
 	private Usuario usuario;
 
@@ -34,9 +36,10 @@ public class ClientController implements ObserverUsuario, Serializable{
 		try {
 			serviceUsuario = Utils.obterServiceUsuario();
 			// Criar um stub
-			stubUsuario = (ObserverUsuario) UnicastRemoteObject
-			.exportObject(this, 0);
+			stubUsuario = (ObserverUsuario) UnicastRemoteObject.exportObject(this, 0);
 
+			serviceChamado = Utils.obterServiceChamado();
+			
 			// TODO: Possivel tratamento caso n tenha conseguido conexao
 
 		} catch (BusinessException e) {
@@ -91,7 +94,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 		try {
 			serviceUsuario.atualizarClient(this.usuario);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			// TODO =  Arrumar exeção
 			e.printStackTrace();
 		}
 	}
@@ -102,20 +105,27 @@ public class ClientController implements ObserverUsuario, Serializable{
 			Utils.printMsg(this.getClass().getName(), "Encerrando cliente...");
 			serviceUsuario.removerObservador(this.usuario);
 		} catch (RemoteException e) {
+			// TODO =  Arrumar exeção
 			e.printStackTrace();
 		}
 	}
 
 	public void atualizarChamado(Chamado chamado)
 	{
-		Utils.printMsg(this.getClass().getName(), "Atualizando chamado");
+		try {
+			Utils.printMsg(this.getClass().getName(), "Atualizando chamado");
+			serviceChamado.atualizarChamado(chamado);
+		} catch (RemoteException e) {
+			// TODO =  Arrumar exeção
+			e.printStackTrace();
+		}
 	}
 	
 	public HashSet<UsuarioAutenticado> getStatusSistema(){
 		try {
 			return serviceUsuario.getUsuarioAutenticado();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			// TODO =  Arrumar exeção
 			e.printStackTrace();
 		}
 		return null;
