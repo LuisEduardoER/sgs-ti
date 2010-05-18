@@ -112,4 +112,43 @@ public class Chamado implements Serializable {
 	public void setReclamante(Cliente reclamante) {
 		this.reclamante = reclamante;
 	}
+
+	public TipoFalha getTipoFalha() {
+		return tipoFalha;
+	}
+
+	public void setTipoFalha(TipoFalha tipoFalha) {
+		this.tipoFalha = tipoFalha;
+	}
+
+	public String getAbertoPor() {
+		return abertoPor;
+	}
+
+	public void setAbertoPor(String abertoPor) {
+		this.abertoPor = abertoPor;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ (int) (numeroChamado ^ (numeroChamado >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Chamado other = (Chamado) obj;
+		if (numeroChamado != other.numeroChamado)
+			return false;
+		return true;
+	}
 }
