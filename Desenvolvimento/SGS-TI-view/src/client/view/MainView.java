@@ -28,7 +28,6 @@ import javax.swing.JPanel;
 import common.util.SystemConstant;
 import common.util.Utils;
 import client.controller.ClientController;
-import client.trayIcon.SGSTrayIcon;
 import client.util.ClientConstraint;
 
 public class MainView extends JFrame {
