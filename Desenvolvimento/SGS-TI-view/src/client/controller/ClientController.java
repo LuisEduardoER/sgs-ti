@@ -116,7 +116,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 			Utils.printMsg(this.getClass().getName(), "Atualizando chamado");
 			serviceChamado.atualizarChamado(chamado);
 		} catch (RemoteException e) {
-			// TODO =  Arrumar exeção
+			// TODO Vanessa -  Arrumar exceção
 			e.printStackTrace();
 		}
 	}
@@ -125,7 +125,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 		try {
 			return serviceUsuario.getUsuarioAutenticado();
 		} catch (RemoteException e) {
-			// TODO =  Arrumar exeção
+			// TODO =  Arrumar exceção
 			e.printStackTrace();
 		}
 		return null;
