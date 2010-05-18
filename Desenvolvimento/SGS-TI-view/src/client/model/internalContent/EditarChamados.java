@@ -37,6 +37,7 @@ import common.remote.ServiceChamadoItens;
 import common.util.Utils;
 
 import client.Modal;
+import client.controller.ClientController;
 import client.controller.ObservadorFilaImpl;
 import client.util.SpringUtilities;
 
@@ -49,6 +50,23 @@ public class EditarChamados  implements InternalContent, Observer
 	private ServiceChamadoItens servico;
 	private List<TipoFalha> listFalha;
 	private List<StatusChamado> listStatus;
+	private Chamado chamado;
+	private OuvinteEditarChamado oec;
+	
+	/**
+	 * Componetes 
+	 */
+	private JTextField dataAberturaT;
+	private JTextField aberturaT;
+	private	JTextField clienteT;
+	private JTextField responsavelT;
+	private JComboBox tipoFalhaC;
+	private	JComboBox statusC;
+	private JDateChooser dataAgentamentoD;
+	private JTextField horaAgendamentoD;
+	private JTextArea descricaoD;
+	private JButton btSalvar;
+	private JButton btCancelar;
 
 	public EditarChamados()
 	{
@@ -64,7 +82,7 @@ public class EditarChamados  implements InternalContent, Observer
 	}
 
 	public JInternalFrame getInternalContent(Object param) {
-		Chamado chamado = (Chamado) param;
+		chamado = (Chamado) param;
 
 		Utils.printMsg(this.getClass().getName(), "Editando chamado número: " + chamado.getNumeroChamado());
 		
@@ -91,63 +109,43 @@ public class EditarChamados  implements InternalContent, Observer
 			form = new JPanel(new SpringLayout());
 			
 			// Cria o ouvinte
-			OuvinteEditarChamado oec = new OuvinteEditarChamado();
+			oec = new OuvinteEditarChamado();
 
 			JLabel dataAberturaL = new JLabel("Data Abertura: ");		
-			JTextField dataAberturaT = new JTextField();
+			dataAberturaT = new JTextField();
 
 			JLabel aberturaL = new JLabel("Aberto por: ");
-			JTextField aberturaT = new JTextField();
-			aberturaT.setEditable(false);
+			aberturaT = new JTextField();
 
 			JLabel clienteL = new JLabel("Cliente: ");
-			JTextField clienteT = new JTextField();
-			clienteT.setEditable(false);
+			clienteT = new JTextField();
 
 			JLabel responsavelL = new JLabel("Responsavel: ");
-			JTextField responsavelT = new JTextField();
-
+			responsavelT = new JTextField();
+			
 			JLabel tipoFalhaL = new JLabel("Tipo de falha: ");
-			JComboBox tipoFalhaC = new JComboBox();
+			tipoFalhaC = new JComboBox();
 
 			JLabel statusL = new JLabel("Status: ");
-			JComboBox statusC = new JComboBox();
+			statusC = new JComboBox();
 
 			JLabel dataAgendamentoL = new JLabel("Data: ");		
-			JDateChooser dataAgentamentoD = new JDateChooser();
+			dataAgentamentoD = new JDateChooser();
 
 			JLabel horaAgendamentoL = new JLabel("Hora: ");		
-			JTextField horaAgendamentoD = new JTextField();
+			horaAgendamentoD = new JTextField();
 			
 			JLabel descricaoL = new JLabel("Descrição: ");		
-			JTextArea descricaoD = new JTextArea();
-			descricaoD.setAutoscrolls(true);
-			descricaoD.setRows(10);
+			descricaoD = new JTextArea();
 			
 			JScrollPane scroll = new JScrollPane(descricaoD);
 			
-			JButton btSalvar = new JButton();
-			btSalvar.setText("Salvar");
-			btSalvar.addActionListener(oec);
-			btSalvar.setToolTipText("Salvar alterações");
+			btSalvar = new JButton();
 			
-			JButton btCancelar = new JButton(); 
-			btCancelar.setText("Cancelar");
-			btCancelar.addActionListener(oec);
-			btCancelar.setToolTipText("Cancelar alterações");
+			btCancelar = new JButton(); 
 			
+			inicializacaoComponentes();
 			
-			listFalha = servico.procurarFalha();
-			listStatus = servico.procurarStatus();
-
-			for (int cont = 0; cont < listFalha.size(); cont++) {
-				tipoFalhaC.addItem(listFalha.get(cont).getNome());
-			}
-
-			for (int cont = 0; cont < listStatus.size(); cont++) {
-				statusC.addItem(listStatus.get(cont).getNome());
-			}
-
 			form.add(dataAberturaL);
 			form.add(dataAberturaT);
 			form.add(aberturaL);
@@ -181,11 +179,58 @@ public class EditarChamados  implements InternalContent, Observer
 
 		}catch(BusinessException e){
 			JOptionPane.showMessageDialog(null, e.getMessage());
-		} catch (RemoteException e) {
-			// TODO Colocar Excecao
-			e.printStackTrace();
 		}
 
+	}
+	
+	public void inicializacaoComponentes()
+	{
+		try {
+			dataAberturaT.setText(chamado.getDataHoraAbertura().toString());
+	
+			//TODO EditarChamado - Colocar o atributo "aberto por" no chamado
+			aberturaT.setEditable(false);
+	
+			clienteT.setText(chamado.getReclamante().getNome().toString());
+			clienteT.setEditable(false);
+			
+			//TODO EditarChamado - Colocar o atributo "responsavel" no chamado
+			responsavelT = new JTextField();
+			
+			//TODO EditarChamado - Colocar o atributo "tipo falha no chamado" no chamado
+			//tipoFalhaC.setSelectedItem(chamado.)
+	
+			statusC.setSelectedItem(chamado.getStatus().toString());
+	
+			descricaoD.setAutoscrolls(true);
+			descricaoD.setRows(10);
+			descricaoD.setText(chamado.getDetalhes());
+			
+			btSalvar.setText("Salvar");
+			btSalvar.addActionListener(oec);
+			btSalvar.setToolTipText("Salvar alterações");
+			
+			btCancelar.setText("Cancelar");
+			btCancelar.addActionListener(oec);
+			btCancelar.setToolTipText("Cancelar alterações");
+			
+			listFalha = servico.procurarFalha();		
+			listStatus = servico.procurarStatus();
+	
+			for (int cont = 0; cont < listFalha.size(); cont++) {
+				tipoFalhaC.addItem(listFalha.get(cont).getNome());
+			}
+			
+	
+			for (int cont = 0; cont < listStatus.size(); cont++) {
+				statusC.addItem(listStatus.get(cont).getNome());
+			}
+			statusC.setSelectedItem(chamado.getStatus().toString());
+			
+		} catch (RemoteException e) {
+			// TODO EditarChamado - Colocar Exception
+			e.printStackTrace();
+		}
 	}
 
 	public void update(Observable o, Object arg) {
@@ -266,12 +311,12 @@ public class EditarChamados  implements InternalContent, Observer
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			if (evt.getActionCommand().equals("SALVAR")) {
-				//ClientController.getInstance().atualizarChamado(chamado);
+				ClientController.getInstance().atualizarChamado(chamado);
 			}
 
 			if(evt.getActionCommand().equals("CANCELAR"))
 			{
-
+				jif.dispose();
 			}			
 		}
 	}
