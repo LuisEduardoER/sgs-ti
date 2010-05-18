@@ -21,9 +21,9 @@ public class ServiceChamadoProperts implements ServiceChamadoItens
 	
 	@Override
 	public List<TipoFalha> procurarFalha() throws RemoteException {
-		TipoFalha t1 = new TipoFalha("Hardware");
-		TipoFalha t2 = new TipoFalha("Software");
-		TipoFalha t3 = new TipoFalha("Duvida");
+		TipoFalha t1 = new TipoFalha(TipoFalha.DUVIDA);
+		TipoFalha t2 = new TipoFalha(TipoFalha.HARDWARE);
+		TipoFalha t3 = new TipoFalha(TipoFalha.SOFTWARE);
 		
 		listFalha.add(t1);
 		listFalha.add(t2);
@@ -34,11 +34,11 @@ public class ServiceChamadoProperts implements ServiceChamadoItens
 
 	@Override
 	public List<StatusChamado> procurarStatus() throws RemoteException {
-		StatusChamado s1 = new StatusChamado("Aberto");
-		StatusChamado s2 = new StatusChamado("Pendente");
-		StatusChamado s3 = new StatusChamado("Aguardando Cliente");
-		StatusChamado s4 = new StatusChamado("Agendado");
-		StatusChamado s5 = new StatusChamado("Fechado");
+		StatusChamado s1 = new StatusChamado(StatusChamado.ABERTO);
+		StatusChamado s2 = new StatusChamado(StatusChamado.AGENDADO);
+		StatusChamado s3 = new StatusChamado(StatusChamado.AGUARDANDO_CLIENTE);
+		StatusChamado s4 = new StatusChamado(StatusChamado.FECHADO);
+		StatusChamado s5 = new StatusChamado(StatusChamado.PENDENTE);
 		
 		listStatus.add(s1);
 		listStatus.add(s2);
