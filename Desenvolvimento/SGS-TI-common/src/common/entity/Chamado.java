@@ -19,6 +19,7 @@ public class Chamado implements Serializable {
 	private Prioridade prioridade;
 	private TipoChamado tipoChamado;
 	private TipoFalha tipoFalha;
+	private String abertoPor;
 	private Cliente reclamante;
 	
 	/**
@@ -45,7 +46,8 @@ public class Chamado implements Serializable {
 
 	public Chamado(long numeroChamado, Date dataHoraAbertura, Date dataHoraFechamento,
 					String detalhes, StatusChamado status, Prioridade prioridade,
-					TipoChamado tipoChamado, Cliente reclamante, TipoFalha tipoFalha)
+					TipoChamado tipoChamado, Cliente reclamante, TipoFalha tipoFalha,
+					String abertoPor)
 	{
 		this.numeroChamado = numeroChamado;
 		this.dataHoraAbertura = dataHoraAbertura;
@@ -55,6 +57,7 @@ public class Chamado implements Serializable {
 		this.tipoChamado = tipoChamado;
 		this.reclamante = reclamante;
 		this.tipoFalha = tipoFalha;
+		this.abertoPor = abertoPor;
 		this.prioridade = new Prioridade(getTipoChamado().getValor(), getReclamante().getPorte().getValor(), new Date());
 	}
 	
