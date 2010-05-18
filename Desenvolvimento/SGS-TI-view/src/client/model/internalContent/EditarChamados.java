@@ -187,8 +187,9 @@ public class EditarChamados  implements InternalContent, Observer
 	{
 		try {
 			dataAberturaT.setText(chamado.getDataHoraAbertura().toString());
+			dataAberturaT.setEditable(false);
 	
-			//TODO EditarChamado - Colocar o atributo "aberto por" no chamado
+			aberturaT.setText(chamado.getAbertoPor().toString());
 			aberturaT.setEditable(false);
 	
 			clienteT.setText(chamado.getReclamante().getNome().toString());
@@ -209,10 +210,12 @@ public class EditarChamados  implements InternalContent, Observer
 			btSalvar.setText("Salvar");
 			btSalvar.addActionListener(oec);
 			btSalvar.setToolTipText("Salvar alterações");
+			btSalvar.setActionCommand("SALVAR");
 			
 			btCancelar.setText("Cancelar");
 			btCancelar.addActionListener(oec);
 			btCancelar.setToolTipText("Cancelar alterações");
+			btCancelar.setActionCommand("CANCELAR");
 			
 			listFalha = servico.procurarFalha();		
 			listStatus = servico.procurarStatus();
@@ -220,12 +223,21 @@ public class EditarChamados  implements InternalContent, Observer
 			for (int cont = 0; cont < listFalha.size(); cont++) {
 				tipoFalhaC.addItem(listFalha.get(cont).getNome());
 			}
+			for (int i = 0; i < listFalha.size(); i++) {
+				if(chamado.getTipoFalha().toString().equals(listFalha.get(i)))
+					tipoFalhaC.setSelectedIndex(i);
+			}
 			
 	
 			for (int cont = 0; cont < listStatus.size(); cont++) {
 				statusC.addItem(listStatus.get(cont).getNome());
 			}
-			statusC.setSelectedItem(chamado.getStatus().toString());
+			//statusC.setSelectedItem(chamado.getStatus().toString());
+			
+			for (int i = 0; i < listStatus.size(); i++) {
+				if(chamado.getStatus().toString().equals(listStatus.get(i)))
+					statusC.setSelectedIndex(i);
+			}
 			
 		} catch (RemoteException e) {
 			// TODO EditarChamado - Colocar Exception
