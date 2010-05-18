@@ -1,13 +1,11 @@
 package service.teste;
 
 import java.rmi.RemoteException;
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 import common.entity.Chamado;
 import common.entity.Cliente;
@@ -17,8 +15,11 @@ import common.entity.Prioridade;
 import common.entity.StatusChamado;
 import common.entity.TipoChamado;
 import common.entity.TipoFalha;
+
 import common.exception.BusinessException;
+
 import common.remote.ServiceChamado;
+
 import common.util.Utils;
 
 public class ProdutoraChamados extends Thread {
