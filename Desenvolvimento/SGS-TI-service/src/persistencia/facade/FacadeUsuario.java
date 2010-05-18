@@ -1,10 +1,5 @@
 package persistencia.facade;
 
-import common.util.MD5Encryption;
-import common.entity.Usuario;
-import persistencia.dao.DAOUsuario;
-import persistencia.sql.SQLUsuario;
-
 public class FacadeUsuario {
 	
 	/*public static boolean criarUser(Usuario user){
