@@ -19,8 +19,9 @@ public class Chamado implements Serializable {
 	private Prioridade prioridade;
 	private TipoChamado tipoChamado;
 	private TipoFalha tipoFalha;
-	private String abertoPor;
+	private String responsavel;
 	private Cliente reclamante;
+	private Usuario usuarioResgistro;
 	
 	/**
 	 * Construtor.
@@ -47,7 +48,7 @@ public class Chamado implements Serializable {
 	public Chamado(long numeroChamado, Date dataHoraAbertura, Date dataHoraFechamento,
 					String detalhes, StatusChamado status, Prioridade prioridade,
 					TipoChamado tipoChamado, Cliente reclamante, TipoFalha tipoFalha,
-					String abertoPor)
+					String responsavel, Usuario usuarioRegistro)
 	{
 		this.numeroChamado = numeroChamado;
 		this.dataHoraAbertura = dataHoraAbertura;
@@ -57,7 +58,8 @@ public class Chamado implements Serializable {
 		this.tipoChamado = tipoChamado;
 		this.reclamante = reclamante;
 		this.tipoFalha = tipoFalha;
-		this.abertoPor = abertoPor;
+		this.responsavel = responsavel;
+		this.usuarioResgistro = usuarioRegistro;
 		this.prioridade = new Prioridade(getTipoChamado().getValor(), getReclamante().getPorte().getValor(), new Date());
 	}
 	
@@ -121,12 +123,20 @@ public class Chamado implements Serializable {
 		this.tipoFalha = tipoFalha;
 	}
 
-	public String getAbertoPor() {
-		return abertoPor;
+	public String getResponsavel() {
+		return responsavel;
 	}
 
-	public void setAbertoPor(String abertoPor) {
-		this.abertoPor = abertoPor;
+	public void setResponsavel(String responsavel) {
+		this.responsavel = responsavel;
+	}
+
+	public Usuario getUsuarioResgistro() {
+		return usuarioResgistro;
+	}
+
+	public void setUsuarioResgistro(Usuario usuarioResgistro) {
+		this.usuarioResgistro = usuarioResgistro;
 	}
 
 	@Override

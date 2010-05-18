@@ -76,8 +76,8 @@ public class EditarChamados  implements InternalContent, Observer
 
 			servico = Utils.obterServiceChamadoItens();
 		} catch (BusinessException e) {
-			// TODO Colocar Exceção
-			e.printStackTrace();
+			// TODO Vanessa -  Arrumar Exceção
+			new BusinessException("As listas estão vazias, favor preenche-las");
 		}
 	}
 
@@ -103,9 +103,7 @@ public class EditarChamados  implements InternalContent, Observer
 	private void inicializar(){
 
 		try {
-			/* 
-			 * form 
-			 */ 
+			//Form
 			form = new JPanel(new SpringLayout());
 			
 			// Cria o ouvinte
@@ -189,20 +187,15 @@ public class EditarChamados  implements InternalContent, Observer
 			dataAberturaT.setText(chamado.getDataHoraAbertura().toString());
 			dataAberturaT.setEditable(false);
 	
-			aberturaT.setText(chamado.getAbertoPor().toString());
+			aberturaT.setText(chamado.getUsuarioResgistro().getUsername().toString());
 			aberturaT.setEditable(false);
 	
 			clienteT.setText(chamado.getReclamante().getNome().toString());
 			clienteT.setEditable(false);
 			
-			//TODO EditarChamado - Colocar o atributo "responsavel" no chamado
-			responsavelT = new JTextField();
-			
-			//TODO EditarChamado - Colocar o atributo "tipo falha no chamado" no chamado
-			//tipoFalhaC.setSelectedItem(chamado.)
-	
-			statusC.setSelectedItem(chamado.getStatus().toString());
-	
+			responsavelT.setText(chamado.getResponsavel().toString());
+			responsavelT.setEditable(false);
+
 			descricaoD.setAutoscrolls(true);
 			descricaoD.setRows(10);
 			descricaoD.setText(chamado.getDetalhes());
@@ -220,33 +213,26 @@ public class EditarChamados  implements InternalContent, Observer
 			listFalha = servico.procurarFalha();		
 			listStatus = servico.procurarStatus();
 	
+			//TODO Vanessa - Arrumar para pegar valor do chamado e colocar por primeiro
 			for (int cont = 0; cont < listFalha.size(); cont++) {
 				tipoFalhaC.addItem(listFalha.get(cont).getNome());
 			}
-			for (int i = 0; i < listFalha.size(); i++) {
-				if(chamado.getTipoFalha().toString().equals(listFalha.get(i)))
-					tipoFalhaC.setSelectedIndex(i);
-			}
-			
-	
+				
+			//TODO Vanessa - Arrumar para pegar valor do chamado e colocar por primeiro
 			for (int cont = 0; cont < listStatus.size(); cont++) {
 				statusC.addItem(listStatus.get(cont).getNome());
-			}
-			//statusC.setSelectedItem(chamado.getStatus().toString());
+			}  
+			statusC.setSelectedItem(chamado.getStatus().toString());
 			
-			for (int i = 0; i < listStatus.size(); i++) {
-				if(chamado.getStatus().toString().equals(listStatus.get(i)))
-					statusC.setSelectedIndex(i);
-			}
 			
 		} catch (RemoteException e) {
-			// TODO EditarChamado - Colocar Exception
+			// TODO Vanessa - Colocar Exception
 			e.printStackTrace();
 		}
 	}
 
 	public void update(Observable o, Object arg) {
-
+		// TODO Vanessa - Ver o que colocar aqui
 	}
 
 	/*
@@ -277,7 +263,7 @@ public class EditarChamados  implements InternalContent, Observer
 					getObservadorFila().removerObservador();
 
 			} catch (RemoteException ex) {
-				// TODO criar exception
+				// TODO Vanessa - Criar exception
 				ex.printStackTrace();
 			}	
 
@@ -289,7 +275,7 @@ public class EditarChamados  implements InternalContent, Observer
 				public void windowClosing(WindowEvent e) {
 					List<String> form = ((Modal)e.getSource()).pegarDados();
 					for(String s : form)
-						System.out.println(s);
+						Utils.printMsg(this.getClass().getName(), s);
 				}	
 			});
 
@@ -298,23 +284,18 @@ public class EditarChamados  implements InternalContent, Observer
 
 		@Override
 		public void internalFrameActivated(InternalFrameEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void internalFrameIconified(InternalFrameEvent e) {
-
 		}
 
 		@Override
 		public void internalFrameDeiconified(InternalFrameEvent e) {
-
 		}
 
 		@Override
 		public void internalFrameDeactivated(InternalFrameEvent e) {
-
 		}
 	}
 	
