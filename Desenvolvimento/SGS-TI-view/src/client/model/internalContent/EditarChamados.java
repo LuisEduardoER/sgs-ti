@@ -56,15 +56,15 @@ public class EditarChamados  implements InternalContent, Observer
 	/**
 	 * Componetes 
 	 */
-	private JTextField dataAberturaT;
-	private JTextField aberturaT;
-	private	JTextField clienteT;
-	private JTextField responsavelT;
-	private JComboBox tipoFalhaC;
-	private	JComboBox statusC;
-	private JDateChooser dataAgentamentoD;
-	private JTextField horaAgendamentoD;
-	private JTextArea descricaoD;
+	private JTextField dataAberturaTextField;
+	private JTextField aberturaTextField;
+	private	JTextField clienteTextField;
+	private JTextField responsavelTextField;
+	private JComboBox tipoFalhaComboBox;
+	private	JComboBox statusComboBox;
+	private JDateChooser dataAgentamentoDateChooser;
+	private JTextField horaAgendamentoTextField;
+	private JTextArea descricaoTextArea;
 	private JButton btSalvar;
 	private JButton btCancelar;
 
@@ -110,33 +110,33 @@ public class EditarChamados  implements InternalContent, Observer
 			oec = new OuvinteEditarChamado();
 
 			JLabel dataAberturaL = new JLabel("Data Abertura: ");		
-			dataAberturaT = new JTextField();
+			dataAberturaTextField = new JTextField();
 
 			JLabel aberturaL = new JLabel("Aberto por: ");
-			aberturaT = new JTextField();
+			aberturaTextField = new JTextField();
 
 			JLabel clienteL = new JLabel("Cliente: ");
-			clienteT = new JTextField();
+			clienteTextField = new JTextField();
 
 			JLabel responsavelL = new JLabel("Responsavel: ");
-			responsavelT = new JTextField();
+			responsavelTextField = new JTextField();
 			
 			JLabel tipoFalhaL = new JLabel("Tipo de falha: ");
-			tipoFalhaC = new JComboBox();
+			tipoFalhaComboBox = new JComboBox();
 
 			JLabel statusL = new JLabel("Status: ");
-			statusC = new JComboBox();
+			statusComboBox = new JComboBox();
 
 			JLabel dataAgendamentoL = new JLabel("Data: ");		
-			dataAgentamentoD = new JDateChooser();
+			dataAgentamentoDateChooser = new JDateChooser();
 
 			JLabel horaAgendamentoL = new JLabel("Hora: ");		
-			horaAgendamentoD = new JTextField();
+			horaAgendamentoTextField = new JTextField();
 			
 			JLabel descricaoL = new JLabel("Descrição: ");		
-			descricaoD = new JTextArea();
+			descricaoTextArea = new JTextArea();
 			
-			JScrollPane scroll = new JScrollPane(descricaoD);
+			JScrollPane scroll = new JScrollPane(descricaoTextArea);
 			
 			btSalvar = new JButton();
 			
@@ -145,21 +145,21 @@ public class EditarChamados  implements InternalContent, Observer
 			inicializacaoComponentes();
 			
 			form.add(dataAberturaL);
-			form.add(dataAberturaT);
+			form.add(dataAberturaTextField);
 			form.add(aberturaL);
-			form.add(aberturaT);
+			form.add(aberturaTextField);
 			form.add(clienteL);
-			form.add(clienteT);
+			form.add(clienteTextField);
 			form.add(responsavelL);
-			form.add(responsavelT);
+			form.add(responsavelTextField);
 			form.add(tipoFalhaL);
-			form.add(tipoFalhaC);
+			form.add(tipoFalhaComboBox);
 			form.add(statusL);
-			form.add(statusC);
+			form.add(statusComboBox);
 			form.add(dataAgendamentoL);
-			form.add(dataAgentamentoD);
+			form.add(dataAgentamentoDateChooser);
 			form.add(horaAgendamentoL);
-			form.add(horaAgendamentoD);
+			form.add(horaAgendamentoTextField);
 			form.add(descricaoL);
 			form.add(scroll);
 			form.add(btSalvar);
@@ -184,21 +184,24 @@ public class EditarChamados  implements InternalContent, Observer
 	public void inicializacaoComponentes()
 	{
 		try {
-			dataAberturaT.setText(chamado.getDataHoraAbertura().toString());
-			dataAberturaT.setEditable(false);
+			dataAberturaTextField.setText(chamado.getDataHoraAbertura().toString());
+			dataAberturaTextField.setEditable(false);
 	
-			aberturaT.setText(chamado.getUsuarioResgistro().getUsername().toString());
-			aberturaT.setEditable(false);
+			aberturaTextField.setText(chamado.getUsuarioResgistro().getUsername().toString());
+			aberturaTextField.setEditable(false);
 	
-			clienteT.setText(chamado.getReclamante().getNome().toString());
-			clienteT.setEditable(false);
+			clienteTextField.setText(chamado.getReclamante().getNome().toString());
+			clienteTextField.setEditable(false);
 			
-			responsavelT.setText(chamado.getResponsavel().toString());
-			responsavelT.setEditable(false);
+			statusComboBox.setActionCommand("AGENDAR");
+			statusComboBox.addActionListener(oec);
+			
+			responsavelTextField.setText(chamado.getResponsavel().toString());
+			responsavelTextField.setEditable(false);
 
-			descricaoD.setAutoscrolls(true);
-			descricaoD.setRows(10);
-			descricaoD.setText(chamado.getDetalhes());
+			descricaoTextArea.setAutoscrolls(true);
+			descricaoTextArea.setRows(10);
+			descricaoTextArea.setText(chamado.getDetalhes());
 			
 			btSalvar.setText("Salvar");
 			btSalvar.addActionListener(oec);
@@ -213,17 +216,21 @@ public class EditarChamados  implements InternalContent, Observer
 			listFalha = servico.procurarFalha();		
 			listStatus = servico.procurarStatus();
 	
-			//TODO Vanessa - Arrumar para pegar valor do chamado e colocar por primeiro
 			for (int cont = 0; cont < listFalha.size(); cont++) {
-				tipoFalhaC.addItem(listFalha.get(cont).getNome());
+				tipoFalhaComboBox.addItem(listFalha.get(cont).getNome());
+			}			
+			for (int i = 0; i < listFalha.size(); i++) {
+				if(chamado.getTipoFalha().getNome().toString().equals(listFalha.get(i).getNome().toString()))
+					tipoFalhaComboBox.setSelectedIndex(i);
 			}
-				
-			//TODO Vanessa - Arrumar para pegar valor do chamado e colocar por primeiro
-			for (int cont = 0; cont < listStatus.size(); cont++) {
-				statusC.addItem(listStatus.get(cont).getNome());
-			}  
-			statusC.setSelectedItem(chamado.getStatus().toString());
 			
+			for (int cont = 0; cont < listStatus.size(); cont++) {
+				statusComboBox.addItem(listStatus.get(cont).getNome());
+			}  
+			for (int i = 0; i < listStatus.size(); i++) {
+				if(chamado.getStatus().getNome().toString().equals(listStatus.get(i).getNome().toString()))
+					statusComboBox.setSelectedIndex(i);
+			}
 			
 		} catch (RemoteException e) {
 			// TODO Vanessa - Colocar Exception
@@ -310,7 +317,21 @@ public class EditarChamados  implements InternalContent, Observer
 			if(evt.getActionCommand().equals("CANCELAR"))
 			{
 				jif.dispose();
-			}			
+			}	
+			
+			if(evt.getActionCommand().equals("AGENDAR"))
+			{
+				if(statusComboBox.getSelectedItem().toString().equals(StatusChamado.AGENDADO))
+				{
+					dataAgentamentoDateChooser.setEnabled(true);
+					horaAgendamentoTextField.setEnabled(true);
+				}
+				else
+				{
+					dataAgentamentoDateChooser.setEnabled(false);
+					horaAgendamentoTextField.setEnabled(false);
+				}
+			}
 		}
 	}
 }
