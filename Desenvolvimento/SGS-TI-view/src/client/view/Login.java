@@ -41,7 +41,6 @@ public class Login extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("resources/imgs/window_icon.png"));
 		setSize(new Dimension(380,450));
 		setLocation(getScreenCenter(this));
-		
 		inicializaComponentes();
 	}
 	
@@ -89,7 +88,9 @@ public class Login extends JFrame {
 		password = new JPasswordField(15);
 
 		lblPassword.setLabelFor(password);
-
+		// TODO: Temporario, login pronto(preguica detected)
+		this.user.setText("admin");
+		this.password.setText("mimimi");
 		JButton btEnter = new JButton("Entrar");
 		btEnter.addActionListener(new LoginAction());
 		

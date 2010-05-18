@@ -2,7 +2,6 @@ package client.model.internalContent;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
@@ -31,7 +30,8 @@ public class StatusSistema  implements InternalContent
 		jif = new JInternalFrame();
 		jif.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		jif.setBackground(Color.WHITE);
-		jif.setPreferredSize(new Dimension(600, 600));
+		jif.setSize(200,200);
+		jif.setLocation(100, 100);
 		jif.setClosable(true);
 		jif.setResizable(true);	
 		jif.setLayout(new BorderLayout());
