@@ -19,4 +19,6 @@ public class ClientConstraint {
 	public static final String STATUS_SISTEMA = "STATUS_SISTEMA";
 	public static final String SHOW_USERS	 = "SHOW_USERS";
 	
+	
+	
 }

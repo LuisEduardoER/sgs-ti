@@ -30,6 +30,11 @@ public class FilaChamadoModel extends AbstractTableModel {
 	}
 
 	@Override
+	public String getColumnName(int column) {
+		return getColunas()[column];
+	}
+	
+	@Override
 	public Object getValueAt(int indexLinha, int indexColuna) {
 		return getLinhas()[indexLinha][indexColuna];
 	}
