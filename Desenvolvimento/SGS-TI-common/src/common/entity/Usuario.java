@@ -2,28 +2,34 @@ package common.entity;
 
 import java.io.Serializable;
 
-public class Usuario implements Serializable{
-	/**
-	 * 
-	 */
+public class Usuario implements Serializable
+{
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 	
 	/**
-	 * Construtor.
-	 * @param usernameq
-	 * @param password
-	 */
-	
+	* TODO - Documentar
+	*/
 	public Usuario() {
 	}
 	
+	/**
+	* TODO - Descrever melhor os campos
+	*/
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 */
 	public Usuario(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
 	
+	/*
+	 * GETTERs AND SETTERs
+	 */
 	public String getUsername() {
 		return username;
 	}
@@ -37,8 +43,12 @@ public class Usuario implements Serializable{
 		this.password = password;
 	}
 
+	/**
+	* TODO - Documentar
+	*/
 	@Override
-	public int hashCode() {
+	public int hashCode() 
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
@@ -48,8 +58,12 @@ public class Usuario implements Serializable{
 		return result;
 	}
 
+	/**
+	* TODO - Documentar
+	*/
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -69,6 +83,4 @@ public class Usuario implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
 }

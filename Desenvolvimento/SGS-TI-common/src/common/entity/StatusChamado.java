@@ -2,9 +2,8 @@ package common.entity;
 
 import java.io.Serializable;
 
-public class StatusChamado implements Serializable{
-	
-	//constantes
+public class StatusChamado implements Serializable
+{
 	private static final long serialVersionUID = 1L;
 	public static final String ABERTO = "ABERTO";
 	public static final String PENDENTE = "PENDENTE";
@@ -23,10 +22,12 @@ public class StatusChamado implements Serializable{
 		setNome(nome);
 	}
 
+	/*
+	 * GETTERs AND SETTERs
+	 */
 	public String getNome() {
 		return nome;
 	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}

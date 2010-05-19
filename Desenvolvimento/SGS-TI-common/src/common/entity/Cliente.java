@@ -2,8 +2,8 @@ package common.entity;
 
 import java.util.List;
 
-public abstract class Cliente extends Pessoa {
-
+public abstract class Cliente extends Pessoa 
+{
 	private static final long serialVersionUID = 1L;
 	protected Porte porte;
 	private List<Usuario> usuarios;
@@ -22,6 +22,9 @@ public abstract class Cliente extends Pessoa {
 		setUsuarios(usuarios);
 	}
 	
+	/*
+	 * GETTERs AND SETTERs
+	 */
 	public Porte getPorte() {
 		return porte;
 	}

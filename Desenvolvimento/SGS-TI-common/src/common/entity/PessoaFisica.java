@@ -3,14 +3,17 @@ package common.entity;
 import java.util.Date;
 import java.util.List;
 
-public class PessoaFisica extends Cliente {
-
+public class PessoaFisica extends Cliente 
+{
 	private static final long serialVersionUID = 1L;
 	private String nome;
 	private String sexo;
 	private Date dataNascimento;
 	private long CPF;
 	
+	/**
+	* TODO - Descrever melhor os campos
+	*/
 	/**
 	 * Construtor.
 	 * 

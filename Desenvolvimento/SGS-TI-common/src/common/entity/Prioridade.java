@@ -3,10 +3,8 @@ package common.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Prioridade implements Serializable {
-	/**
-	 * 
-	 */
+public class Prioridade implements Serializable 
+{
 	private static final long serialVersionUID = 1L;
 	private int valorTipoChamado;
 	private int valorPorte;
@@ -14,6 +12,9 @@ public class Prioridade implements Serializable {
 	private Date horaAtualizacao;
 	private int valorPrioridade;
 	
+	/**
+	* TODO - Descrever melhor os campos
+	*/
 	/**
 	 * Construtor.
 	 * @param valorTipoChamado
@@ -49,41 +50,31 @@ public class Prioridade implements Serializable {
 	public int getValorTipoChamado() {
 		return valorTipoChamado;
 	}
-
 	public void setValorTipoChamado(int valorTipoChamado) {
 		this.valorTipoChamado = valorTipoChamado;
 	}
-
 	public int getValorPorte() {
 		return valorPorte;
 	}
-
 	public void setValorPorte(int valorPorte) {
 		this.valorPorte = valorPorte;
 	}
-
 	public Date getHoraAtualizacao() {
 		return horaAtualizacao;
 	}
-
 	public void setHoraAtualizacao(Date horaAtualizacao) {
 		this.horaAtualizacao = horaAtualizacao;
 	}
-
 	public int getValorPrioridade() {
 		return valorPrioridade;
 	}
-
 	public void setValorPrioridade(int valorPrioridade) {
 		this.valorPrioridade = valorPrioridade;
 	}
-
 	public int getValorEspera() {
 		return valorEspera;
 	}
-
 	public void setValorEspera(int valorEspera) {
 		this.valorEspera = valorEspera;
 	}	
-
 }
