@@ -9,6 +9,7 @@ import common.entity.Chamado;
 import common.remote.ObservadorAgendamento;
 import common.remote.ObservadorFila;
 import common.remote.ServiceChamado;
+import common.util.Utils;
 
 public class ServiceChamadoImpl implements ServiceChamado {
 
@@ -101,10 +102,12 @@ public class ServiceChamadoImpl implements ServiceChamado {
 		{
 			boolean salvou = FacadeChamado.atualizarChamado(chamado);
 			if(salvou)
-			{*/
-		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+			{*/	
+				//TODO - Tentar colocar constraint
 				if(chamado.getStatus().getNome().equals("AGENDADO"))
 				{
+					Utils.printMsg(this.getClass().getName(), "chamado.getStatus().getNome().equals('AGENDADO')");
+			
 					// TODO - Notificar ListarAgenda
 					FilaChamado.getInstance().adicionaAgendamento(chamado);
 					notificarObservadorAgendamento();

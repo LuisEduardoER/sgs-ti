@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 
@@ -295,7 +296,18 @@ public class EditarChamados extends Observable implements InternalContent
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			if (evt.getActionCommand().equals("SALVAR")) {
-				ClientController.getInstance().atualizarChamado(chamado);
+				Chamado newChamado = new Chamado(chamado.getNumeroChamado(), 
+						(Date) chamado.getDataHoraAbertura(),
+						(Date) chamado.getDataHoraFechamento(),
+						descricaoTextArea.getText().toString(),
+						new StatusChamado(statusComboBox.getSelectedItem().toString()),
+						chamado.getPrioridade(),
+						chamado.getTipoChamado(),
+						chamado.getReclamante(),
+						new TipoFalha(tipoFalhaComboBox.getSelectedItem().toString()), 
+						chamado.getResponsavel(),
+						chamado.getUsuarioResgistro());
+				ClientController.getInstance().atualizarChamado(newChamado);
 			}
 
 			if(evt.getActionCommand().equals("CANCELAR"))
