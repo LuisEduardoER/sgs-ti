@@ -151,7 +151,7 @@ public class MainView extends JFrame {
 	 */
 	private JPanel carregarMenuConteudos(){
 		JPanel painel = new JPanel();
-		painel.setBackground(Color.white);
+		painel.setBackground(new Color(48,120,187));
 		
 		// Cria o ouvinte
 		OuvinteMainMenu oc = new OuvinteMainMenu();
