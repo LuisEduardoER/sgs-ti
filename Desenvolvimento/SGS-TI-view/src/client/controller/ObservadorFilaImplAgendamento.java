@@ -43,4 +43,16 @@ public class ObservadorFilaImplAgendamento extends Observable implements Observa
 	public void removerObservador() throws RemoteException {	
 		serviceChamado.removerObservadorAgendamento(myStub);
 	}
+
+	@Override
+	public void addObserverNotificacoesAgendamento(Observer obs)
+			throws RemoteException {
+		this.addObserver(obs);
+	}
+
+	@Override
+	public void removeObserverNotificacoesAgendamento(Observer obs)
+			throws RemoteException {
+		this.deleteObserver(obs);
+	}
 }

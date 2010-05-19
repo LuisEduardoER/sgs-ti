@@ -9,10 +9,9 @@ import common.entity.Chamado;
 import common.remote.ObservadorAgendamento;
 import common.remote.ObservadorFila;
 import common.remote.ServiceChamado;
-import common.util.Utils;
 
-public class ServiceChamadoImpl implements ServiceChamado {
-
+public class ServiceChamadoImpl implements ServiceChamado 
+{
 	List<ObservadorFila> observadoresFila;
 	List<ObservadorAgendamento> observadoresAgendamento;
 	FilaChamado filaChamados;
@@ -62,7 +61,8 @@ public class ServiceChamadoImpl implements ServiceChamado {
 	
 	@Override
 	public void notificarObservadorAgendamento() throws RemoteException {
-		for(int i=0; i<observadoresAgendamento.size();i++){
+		for(int i = 0;  i <observadoresAgendamento.size(); i++)
+		{
 			ObservadorAgendamento obs = observadoresAgendamento.get(i);
 			try{
 				obs.atualizarFila(FilaChamado.getInstance().getFilaAgendamento());
@@ -72,8 +72,7 @@ public class ServiceChamadoImpl implements ServiceChamado {
 				observadoresAgendamento.remove(i);
 				i--;
 			}	
-		}
-		
+		}	
 	}
 
 	@Override
@@ -106,8 +105,6 @@ public class ServiceChamadoImpl implements ServiceChamado {
 				//TODO - Tentar colocar constraint
 				if(chamado.getStatus().getNome().equals("AGENDADO"))
 				{
-					Utils.printMsg(this.getClass().getName(), "chamado.getStatus().getNome().equals('AGENDADO')");
-			
 					// TODO - Notificar ListarAgenda
 					FilaChamado.getInstance().adicionaAgendamento(chamado);
 					notificarObservadorAgendamento();

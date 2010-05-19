@@ -3,6 +3,7 @@ package common.remote;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Observer;
 
 import common.entity.Chamado;
 
@@ -26,4 +27,15 @@ public interface ObservadorAgendamento extends Remote
 	 * @throws RemoteException
 	 */
 	public void removerObservador() throws RemoteException;
+	
+	/**
+	 * Adicionar um observer ao Observador Agendamento
+	 * @param obs
+	 */
+	public void addObserverNotificacoesAgendamento(Observer obs) throws RemoteException;
+	/**
+	 * Remove um observer ao Observador Agendamento
+	 * @param obs
+	 */
+	public void removeObserverNotificacoesAgendamento(Observer obs) throws RemoteException;
 }
