@@ -9,6 +9,7 @@ import common.entity.Chamado;
 
 public class FilaChamado extends Observable{
 	private List<Chamado> fila;
+	private List<Chamado> filaAgendamento;
 	public static FilaChamado instance;
 	
 	/**
@@ -16,6 +17,7 @@ public class FilaChamado extends Observable{
 	 */
 	private FilaChamado(){
 		fila = new LinkedList<Chamado>();
+		filaAgendamento = new LinkedList<Chamado>();
 	}
 	
 	/**
@@ -47,6 +49,23 @@ public class FilaChamado extends Observable{
 		}
 	}
 	
+	public synchronized void removeAgendamento(Chamado chamado){
+		filaAgendamento.remove(chamado);
+		setChanged();
+		notifyAll();
+	}
+	public synchronized void adicionaAgendamento(Chamado chamado){
+		filaAgendamento.add(chamado);
+		setChanged();
+		notifyAll();
+	}
+	public synchronized void atualizarAgendamento(Chamado chamado){
+		for(Chamado c : fila){
+			if(c.equals(chamado))
+				c = chamado;
+		}
+	}
+	
 	/**
 	 * Obter a fila de chamados.
 	 * @return
@@ -54,6 +73,11 @@ public class FilaChamado extends Observable{
 	 */
 	public List<Chamado> getFila(){
 		List<Chamado> lista = Collections.unmodifiableList(fila);
+		return lista;
+	}
+	
+	public List<Chamado> getFilaAgendamento(){
+		List<Chamado> lista = Collections.unmodifiableList(filaAgendamento);
 		return lista;
 	}
 }

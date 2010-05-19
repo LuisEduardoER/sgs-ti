@@ -39,7 +39,7 @@ import client.controller.ClientController;
 import client.util.SpringUtilities;
 
 
-public class EditarChamados implements InternalContent
+public class EditarChamados extends Observable implements InternalContent
 {
 	private JInternalFrame jif;
 	private JPanel form;
@@ -167,9 +167,6 @@ public class EditarChamados implements InternalContent
 				6, 6);      //xPad, yPad
 
 		jif.add(form);
-
-
-
 	}
 
 	public void inicializacaoComponentes()
@@ -227,10 +224,6 @@ public class EditarChamados implements InternalContent
 			// TODO Vanessa - Colocar Exception
 			e.printStackTrace();
 		}
-	}
-
-	public void update(Observable o, Object arg) {
-		// TODO Vanessa - Ver o que colocar aqui
 	}
 
 	/*

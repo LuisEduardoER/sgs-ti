@@ -46,10 +46,12 @@ public class ListarAgenda implements InternalContent, Observer{
 	private ObservadorFila observadorFila;
 	private FilaChamadoModel modeloFila;
 	private List<Chamado> listaChamados;
+	private EditarChamados observable;
 
 	@Override
 	public JInternalFrame getInternalContent(Object param) {
-
+		observable.addObserver(this);
+		
 		jif = new JInternalFrame();
 		jif.addInternalFrameListener(new ouvinteInternalContent());
 
