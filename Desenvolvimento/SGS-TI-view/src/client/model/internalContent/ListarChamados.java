@@ -49,7 +49,7 @@ public class ListarChamados implements InternalContent, Observer{
 	private JXTable tabelaChamados;
 	private JScrollPane scrollPane;
 	private ObservadorFila observadorFila;
-	private FilaChamadoModel modeloFila;
+	private JXTableModel modeloFila;
 	private List<Chamado> listaChamados;
 	private JTextField filtro;
 	private JComboBox itensFiltro;
@@ -75,7 +75,7 @@ public class ListarChamados implements InternalContent, Observer{
 	private void inicializar(){
 		colunas = new String[]{"Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"};
 		listaChamados = new ArrayList<Chamado>();
-		modeloFila = new FilaChamadoModel(converterListEmMatriz(listaChamados), colunas);
+		modeloFila = new JXTableModel(converterListEmMatriz(listaChamados), colunas);
 		tabelaChamados = new JXTable(modeloFila);	
 		tabelaChamados.setDragEnabled(false);
 		tabelaChamados.setDoubleBuffered(false);
@@ -163,6 +163,8 @@ public class ListarChamados implements InternalContent, Observer{
 			modeloFila.setLinhas(converterListEmMatriz(listaChamados));
 		}
 		try{
+			
+			modeloFila.fireTableDataChanged();
 			
 			tabelaChamados.updateUI();
 			scrollPane.updateUI();
