@@ -2,12 +2,13 @@ package persistencia.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import common.entity.Chamado;
 
 import persistencia.dao.DAOChamado;
+import persistencia.facade.FacadeTipoChamado;
+import persistencia.facade.FacadeTipoFalha;
 import persistencia.util.Conexao;
 
 public class SQLChamado implements DAOChamado{
@@ -52,18 +53,31 @@ public class SQLChamado implements DAOChamado{
 		}
 		return true;
 	}
-
+	
 	@Override
 	public boolean atualizarChamado(Chamado chamado) {
 		Connection con = null;
-		String sql= "UPDATE chamado SET status=?,detalhes=?,prioridade=?,tipoChamado=?,cliente=? WHERE codigo=?";
+		String sql= null;
+		
+		String origem = Conexao.obterOrigem();
+		sql = FabricaSql.getSql(origem + ATUALIZAR_CHAMADO);
+		
+		/*String sql= "UPDATE chamado SET dataFechamento=?,detalhes=?,dataHoraAgendamento=?," +
+				"cod_tipoChamado=?,cod_tipoFalha=? WHERE codigo_chamado=?";*/
 
+		int codigoTipoChamado = FacadeTipoChamado.procurarTipoChamado(chamado.getTipoChamado());
+		int codigoTipoFalha = FacadeTipoFalha.procurarTipoFalha(chamado.getTipoFalha());
+		
 		try {
 			con = Conexao.obterConexao();
 			PreparedStatement stmt = con.prepareStatement(sql);
 			
-			//stmt.setString(1, chamado.getSenha());
-			//stmt.setString(2, chamado.getUsername());		
+			stmt.setDate(1, (java.sql.Date) chamado.getDataHoraFechamento());
+			stmt.setString(2, chamado.getDetalhes());
+			stmt.setDate(3, (java.sql.Date) chamado.getDataHoraAbertura());
+			stmt.setInt(4, codigoTipoChamado);
+			stmt.setInt(5, codigoTipoFalha);
+			stmt.setLong(6, chamado.getNumeroChamado());
 			
 			int qtd = stmt.executeUpdate();
 
