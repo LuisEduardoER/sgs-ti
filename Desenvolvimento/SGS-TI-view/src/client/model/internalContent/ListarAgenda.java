@@ -7,13 +7,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import java.rmi.RemoteException;
+
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -36,9 +40,8 @@ import common.remote.ObservadorAgendamento;
 import common.util.Utils;
 import client.Modal;
 import client.controller.ObservadorFilaImplAgendamento;
-import client.util.ClientConstraint;
 import client.util.SpringUtilities;
-import client.view.MainView;
+
 
 public class ListarAgenda implements InternalContent, Observer{
 
@@ -50,7 +53,6 @@ public class ListarAgenda implements InternalContent, Observer{
 	private String [] colunas;
 	private JPanel form;
 	private JPanel tabela;
-	private JPanel buttons;
 	private JXTable tabelaChamados;
 	private JScrollPane scrollPane;
 	private ObservadorAgendamento observadorAgendamento;
@@ -83,7 +85,7 @@ public class ListarAgenda implements InternalContent, Observer{
 		modeloFila = new FilaChamadoModel(converterListEmMatriz(listaChamados), colunas);
 		tabelaChamados = new JXTable(modeloFila);	
 		tabelaChamados.setDragEnabled(false);
-
+		tabelaChamados.setDoubleBuffered(false);
 
 		/* 
 		 * form 
@@ -123,20 +125,8 @@ public class ListarAgenda implements InternalContent, Observer{
 		tabela.add(scrollPane,BorderLayout.CENTER);
 
 
-		/* 
-		 * botões
-		 */
-		buttons = new JPanel();
-		JButton editarChamado = new JButton("Editar");
-		editarChamado.setActionCommand(ClientConstraint.EDITAR_CHAMADOS);
-		editarChamado.addActionListener(new OuvinteBotoes());
-
-		buttons.add(editarChamado);
-		buttons.setAlignmentX(JPanel.RIGHT_ALIGNMENT);
-
 		jif.add(form, BorderLayout.NORTH);
 		jif.add(scrollPane,BorderLayout.CENTER);
-		jif.add(buttons, BorderLayout.SOUTH);
 
 		try{
 			setObservadorAgendamento(new ObservadorFilaImplAgendamento(this));
@@ -276,19 +266,7 @@ public class ListarAgenda implements InternalContent, Observer{
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			String acao = evt.getActionCommand();
-			if(acao.equals(ClientConstraint.EDITAR_CHAMADOS)){
-				int linha = tabelaChamados.getSelectedRow();
-				String numChamado = tabelaChamados.getValueAt(linha, 0).toString();
-
-				Chamado chamadoSelecionado = buscarChamadobyCodigo(Integer.parseInt(numChamado));
-
-				if(chamadoSelecionado == null)
-					Utils.printMsg(this.getClass().getName(), "O chamado não foi encontrado na lista.");
-				// TODO tratar erro
-
-				MainView.getInstance().openNewInternalContent(evt.getActionCommand(),chamadoSelecionado);
-				// TODO carregar dados do chamado na tela de edição
-			}else if(acao.equals(FILTRAR_CHAMADOS)){
+			if(acao.equals(FILTRAR_CHAMADOS)){
 				aplicarFiltro(filtro.getText(), itensFiltro.getSelectedIndex());	
 				
 			}else if(acao.equals(RESET_FILTRO)){
