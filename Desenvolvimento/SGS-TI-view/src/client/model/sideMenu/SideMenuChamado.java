@@ -36,7 +36,9 @@ public class SideMenuChamado implements SideMenu {
 		
 		JButton btCadastrarChamado = new JButton("Cadastrar Chamado");
 		btCadastrarChamado.setPreferredSize(new Dimension(160,25));
-		btCadastrarChamado.setEnabled(false);
+		btCadastrarChamado.setEnabled(true);
+		btCadastrarChamado.setActionCommand(ClientConstraint.CRIAR_CHAMADOS);
+		btCadastrarChamado.addActionListener(new OuvinteSideMenu());
 		
 		JButton btListarChamado = new JButton("Listar Chamado");
 		btListarChamado.setPreferredSize(new Dimension(160,25));

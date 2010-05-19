@@ -84,7 +84,8 @@ public class StatusSistema  implements InternalContent
 							try {
 								usuario.getObservador().encerrarClient();
 							} catch (RemoteException e1) {
-								e1.printStackTrace();
+								// possivel ocorrer uma RE caso o usuário ja tenha sido removido da sessao
+								// ignorar
 							}
 						}
 					}
