@@ -25,6 +25,7 @@ public class SystemConstant {
 	
 	// Constantes de erro amigaveis - view
 	public static final String MSG_AM_USUARIO_INVALIDO = "Usuário ou senha inválido.";
+	public static final String MSG_AM_ATUALIZAR_STATUS = "Erro ao atualizar o status do usuario.";
 		
 	// Constantes de erro amigaveis - CRITICOS
 	public static final String MSG_AM_SEM_CONEXAO_REMOTA = "Ocorreu um erro ao conectar com o servidor!\r\nAlgumas funcionalidades podem estar indisponíveis.";
