@@ -55,6 +55,8 @@ public class ServiceChamadoImpl implements ServiceChamado {
 	public void atualizarChamado(Chamado chamado) throws RemoteException {
 		// TODO: atualizar no banco.
 		
+		
+		
 		// atualiza o chamado na fila e notificar.
 		FilaChamado.getInstance().atualizarChamado(chamado);
 		notificarObservadorFila();
