@@ -57,6 +57,7 @@ public class ServiceChamadoImpl implements ServiceChamado
 	public void adicionarObservadorAgendamento(ObservadorAgendamento obs)
 			throws RemoteException {
 		observadoresAgendamento.add(obs);	
+		obs.atualizarFila(FilaChamado.getInstance().getFilaAgendamento());
 	}
 	
 	@Override
