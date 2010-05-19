@@ -10,7 +10,8 @@ public class PessoaFisica extends Cliente
 	private String sexo;
 	private Date dataNascimento;
 	private long CPF;
-	
+	private String contato;
+
 	/**
 	* TODO - Descrever melhor os campos
 	*/
@@ -26,13 +27,14 @@ public class PessoaFisica extends Cliente
 	 * @param CPF
 	 */
 	public PessoaFisica(String endereco, Porte porte, List<Usuario> usuarios,
-			String nome, String sexo, Date dataNascimento, long CPF) {
+			String nome, String sexo, Date dataNascimento, long CPF, String contato) {
 		
-		super(endereco, porte, null, nome);
+		super(endereco, porte, null, nome, contato);
 		this.nome = nome;
 		this.sexo = sexo;
 		this.dataNascimento = dataNascimento;
 		this.CPF = CPF;
+		this.contato = contato;
 	}
 	
 	/*
@@ -61,5 +63,11 @@ public class PessoaFisica extends Cliente
 	}
 	public void setCPF(long cPF) {
 		CPF = cPF;
+	}
+	public String getContato() {
+		return contato;
+	}
+	public void setContato(String contato) {
+		this.contato = contato;
 	}
 }
