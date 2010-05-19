@@ -4,7 +4,9 @@ import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.Font;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -15,11 +17,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.RemoteException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -29,10 +33,14 @@ import common.util.SystemConstant;
 import common.util.Utils;
 import client.controller.ClientController;
 import client.util.ClientConstraint;
+import cliente.task.ThreadCheckServer;
 
 public class MainView extends JFrame {
+	
+
 	private static final long serialVersionUID = 1L;
 	
+
 	// Debug
 	private final boolean DEBUG = false;
 	private final String ICON_PATH = "resources/imgs/window_icon.png";
@@ -41,7 +49,9 @@ public class MainView extends JFrame {
 	private JDesktopPane conteudo;
 	private JPanel sideMenu;
 	private TrayIcon icon;
-	
+	private JLabel systemStatus;
+	private JLabel welcomeMsg;
+
 	/**
 	 * Construtor.
 	 * @param nome
@@ -51,6 +61,8 @@ public class MainView extends JFrame {
 		super(nome);
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		inicializaComponentes();
+		ThreadCheckServer serverCheck = new ThreadCheckServer();
+		serverCheck.start();
 	}
 	
 	/**
@@ -85,9 +97,19 @@ public class MainView extends JFrame {
 		sideMenu = new JPanel();
 		
 		changeSideMenu(ClientConstraint.SIDE_MENU_CLIENTE);
+		JPanel rodape = new JPanel();
+		rodape.setBackground(Color.white);
+		rodape.setLayout(new BorderLayout(1,1));
+		systemStatus = new JLabel(SystemConstant.SYSTEM_TITLE);
+		systemStatus.setFont(new Font("Arial",Font.BOLD,12));
+		welcomeMsg = new JLabel("WELCOME");
+		welcomeMsg.setFont(new Font("Arial",Font.BOLD,12));
+		rodape.add(welcomeMsg,BorderLayout.LINE_START);
+		rodape.add(systemStatus,BorderLayout.LINE_END);
 		
 		add(mainMenu, BorderLayout.NORTH);
 		add(conteudo, BorderLayout.CENTER);
+		add(rodape,BorderLayout.SOUTH);
 	}
 	
 	/**
@@ -151,7 +173,7 @@ public class MainView extends JFrame {
 	 */
 	private JPanel carregarMenuConteudos(){
 		JPanel painel = new JPanel();
-		painel.setBackground(new Color(48,120,187));
+		painel.setBackground(Color.white);
 		
 		// Cria o ouvinte
 		OuvinteMainMenu oc = new OuvinteMainMenu();
@@ -260,7 +282,7 @@ public class MainView extends JFrame {
 	public static MainView getInstance() 
 	{
 		if(instance == null)
-			instance = new MainView("SGS-TI");
+			instance = new MainView(SystemConstant.SYSTEM_TITLE);
 		return instance;
 	}
 
@@ -277,7 +299,11 @@ public class MainView extends JFrame {
 		{
 			// Atualiza o horario de ultimaAtualizacao e notifica que não será desativado.
 			ClientController.getInstance().setDesativando(false);
-			ClientController.getInstance().atualizarCliente();
+			try {
+				ClientController.getInstance().atualizarCliente();
+			} catch (RemoteException e) {
+				mostrarMensagemErroRemoto();
+			}
 		}
 	}
 
@@ -285,8 +311,12 @@ public class MainView extends JFrame {
 		if(JOptionPane.showConfirmDialog(null,"Deseja Fechar?","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
 			ClientController.getInstance().encerrarSessao();
 			System.exit(0);
-		}else
-			ClientController.getInstance().atualizarCliente();
+		} else
+			try {
+				ClientController.getInstance().atualizarCliente();
+			} catch (RemoteException e) {
+				mostrarMensagemErroRemoto();
+			}
 	}
 
 	/*Funções do TrayIcon*/
@@ -338,5 +368,42 @@ public class MainView extends JFrame {
 		});
 		menu.add(exit);
 		return menu;
+	}
+	public void mostrarMensagemPersonalizada(String msg) {
+		JOptionPane.showMessageDialog(null, msg);
+	}
+	
+	public void alterarStatusSistema(boolean status){
+		if(status){
+			this.systemStatus.setForeground(new Color(155,206,0));
+			this.systemStatus.setText(SystemConstant.SERVER_STATUS + " " + SystemConstant.STATUS_ONLINE);
+		}else{
+			this.systemStatus.setForeground(Color.RED);
+			this.systemStatus.setText(SystemConstant.SERVER_STATUS + " " + SystemConstant.STATUS_OFFLINE);
+		}
+	}
+	
+	public void mostrarMensagemErroRemoto(){
+		JOptionPane.showMessageDialog(null, SystemConstant.MSG_AM_SEM_CONEXAO_REMOTA);
+	}
+	
+	public void alterarWelcomeMsg(String msg){
+		this.welcomeMsg.setText(msg);
+	}
+	
+	public JLabel getSystemStatus() {
+		return systemStatus;
+	}
+
+	public void setSystemStatus(JLabel systemStatus) {
+		this.systemStatus = systemStatus;
+	}
+	
+	public JLabel getWelcomeMsg() {
+		return welcomeMsg;
+	}
+
+	public void setWelcomeMsg(JLabel welcomeMsg) {
+		this.welcomeMsg = welcomeMsg;
 	}
 }
