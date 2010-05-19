@@ -40,7 +40,14 @@ public class ObservadorFilaImpl extends Observable implements ObservadorFila{
 	}
 
 	@Override
-	public void removerObservador() throws RemoteException {	
-		serviceChamado.removerObservadorFila(myStub);
+	public void removerObservador() throws RemoteException {
+			serviceChamado.removerObservadorFila(myStub);
+	}
+	
+	public void addObserverNotificacoesFila(Observer obs){
+		this.addObserver(obs);
+	}
+	public void removeObserverNotificacoesFila(Observer obs){
+		this.deleteObserver(obs);
 	}
 }

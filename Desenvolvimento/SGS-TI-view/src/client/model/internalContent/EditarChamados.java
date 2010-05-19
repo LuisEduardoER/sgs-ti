@@ -6,13 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -24,27 +22,21 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-
 import com.toedter.calendar.JDateChooser;
-
 import common.entity.Chamado;
 import common.entity.StatusChamado;
 import common.entity.TipoFalha;
 import common.exception.BusinessException;
-import common.remote.ObservadorFila;
 import common.remote.ServiceChamadoItens;
 import common.util.Utils;
-
 import client.Modal;
 import client.controller.ClientController;
 import client.util.SpringUtilities;
-
 
 public class EditarChamados extends Observable implements InternalContent
 {
 	private JInternalFrame jif;
 	private JPanel form;
-	private ObservadorFila observadorFila;
 	private ServiceChamadoItens servico;
 	private List<TipoFalha> listFalha;
 	private List<StatusChamado> listStatus;
@@ -227,38 +219,14 @@ public class EditarChamados extends Observable implements InternalContent
 		}
 	}
 
-	/*
-	 * GETTERs AND SETTERs
-	 */
-	public void setObservadorFila(ObservadorFila observadorFila) {
-		this.observadorFila = observadorFila;
-	}
-
-	public ObservadorFila getObservadorFila() {
-		return observadorFila;
-	}
-
 	public class ouvinteInternalContent implements InternalFrameListener{
 		@Override
 		public void internalFrameOpened(InternalFrameEvent e) {
 			inicializar();
 		}
-
-		@Override
-		public void internalFrameClosing(InternalFrameEvent e) {
-		}			
-
+		
 		@Override
 		public void internalFrameClosed(InternalFrameEvent e) {
-			try {
-				if(getObservadorFila() != null)
-					getObservadorFila().removerObservador();
-
-			} catch (RemoteException ex) {
-				// TODO Vanessa - Criar exception
-				ex.printStackTrace();
-			}	
-
 			Modal modal = new Modal();
 			modal.setModal(true);
 
@@ -273,19 +241,19 @@ public class EditarChamados extends Observable implements InternalContent
 
 			modal.setVisible(true);
 		}
-
+		
+		@Override
+		public void internalFrameClosing(InternalFrameEvent e) {
+		}			
 		@Override
 		public void internalFrameActivated(InternalFrameEvent e) {
 		}
-
 		@Override
 		public void internalFrameIconified(InternalFrameEvent e) {
 		}
-
 		@Override
 		public void internalFrameDeiconified(InternalFrameEvent e) {
 		}
-
 		@Override
 		public void internalFrameDeactivated(InternalFrameEvent e) {
 		}
