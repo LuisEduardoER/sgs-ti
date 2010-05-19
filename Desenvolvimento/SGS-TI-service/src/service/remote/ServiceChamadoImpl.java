@@ -3,8 +3,12 @@ package service.remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
+import persistencia.facade.FacadeChamado;
+import persistencia.facade.FacadeHistoricoChamado;
 import service.base.FilaChamado;
 import common.entity.Chamado;
+import common.entity.HistoricoChamado;
 import common.remote.ObservadorFila;
 import common.remote.ServiceChamado;
 
@@ -61,8 +65,21 @@ public class ServiceChamadoImpl implements ServiceChamado {
 
 	@Override
 	public void atualizarChamado(Chamado chamado) throws RemoteException {
-		// TODO: atualizar no banco.
-		
+		HistoricoChamado historicoChamado = FacadeChamado.buscarChamado(chamado);
+		boolean criou = FacadeHistoricoChamado.criarHistoricoChamado(historicoChamado);
+		if(criou)
+		{
+			boolean salvou = FacadeChamado.atualizarChamado(chamado);
+			if(salvou)
+			{
+				if(chamado.getStatus().getNome().equals("AGENDADO"))
+				{
+					// TODO - Notificar ListarAgenda
+					FilaChamado.getInstance().adicionaAgendamento(chamado);
+					//notificarObservadorFila();
+				}
+			}
+		}
 		
 		
 		// atualiza o chamado na fila e notificar.

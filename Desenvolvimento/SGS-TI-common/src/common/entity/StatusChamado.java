@@ -12,6 +12,7 @@ public class StatusChamado implements Serializable
 	public static final String FECHADO = "FECHADO";
 	
 	private String nome;
+	private int codigo;
 
 	/**
 	 * Construtor
@@ -31,4 +32,13 @@ public class StatusChamado implements Serializable
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	
 }

@@ -1,6 +1,7 @@
 package persistencia.dao;
 
 import common.entity.Chamado;
+import common.entity.HistoricoChamado;
 
 public interface DAOChamado {
 	
@@ -26,5 +27,15 @@ public interface DAOChamado {
 	 * 		Boolean
 	 */
 	abstract boolean atualizarChamado(Chamado chamado);
+
+	/**
+	 * Método que busca o chamado.
+	 * 
+	 * @param user
+	 * 		Objeto Chamado.
+	 * @return
+	 * 		Chamado
+	 */
+	abstract HistoricoChamado buscarChamado(Chamado chamado);
 
 }

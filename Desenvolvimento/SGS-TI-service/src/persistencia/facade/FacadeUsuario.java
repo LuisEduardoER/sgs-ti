@@ -76,4 +76,14 @@ public class FacadeUsuario
 		DAOUsuario dao = new SQLUsuario();
 		return dao.existeUser(username);
 	}
+	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public static int obterCodigo(Usuario user){
+		DAOUsuario dao = new SQLUsuario();
+		return dao.obterCodigo(user);
+	}
 }
