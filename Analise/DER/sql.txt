@@ -1,0 +1,4 @@
+create table Tipochamado(
+	 codigoTipoChamado integer not null constraint CODIGO_TIPOCHAMADO PRIMARY KEY,
+	 nomeTipoChamado varchar(255), 
+	 valorPrioridade integer);
