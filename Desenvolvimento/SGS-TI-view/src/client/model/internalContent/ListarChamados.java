@@ -162,16 +162,9 @@ public class ListarChamados implements InternalContent, Observer{
 			this.listaChamados = listaChamados;
 			modeloFila.setLinhas(converterListEmMatriz(listaChamados));
 		}
-		try{
-			
-			modeloFila.fireTableDataChanged();
-			
-			tabelaChamados.updateUI();
-			scrollPane.updateUI();
-			
-		}catch (NullPointerException e) {
-			// tratamento caso o updeteUI rode enquanto a janela esta fechando.
-		}
+		
+		modeloFila.fireTableDataChanged();
+		
 		Utils.printMsg(this.getClass().getName(), new Date() + " - Fila atualizada. Size: " + listaChamados.size());
 	}
 
