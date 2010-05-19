@@ -9,13 +9,12 @@ import java.util.Observer;
 import common.entity.Chamado;
 import common.exception.BusinessException;
 import common.remote.ObservadorAgendamento;
-import common.remote.ObservadorFila;
 import common.remote.ServiceChamado;
 import common.util.Utils;
 
 public class ObservadorFilaImplAgendamento extends Observable implements ObservadorAgendamento{
 	private ServiceChamado serviceChamado;
-	private ObservadorFila myStub;
+	private ObservadorAgendamento myStub;
 	
 	public ObservadorFilaImplAgendamento(Observer obs) throws BusinessException{
 		try {
@@ -23,10 +22,10 @@ public class ObservadorFilaImplAgendamento extends Observable implements Observa
 			serviceChamado = Utils.obterServiceChamado();
 
 			// Criar um stub
-			myStub = (ObservadorFila) UnicastRemoteObject
+			myStub = (ObservadorAgendamento) UnicastRemoteObject
 					.exportObject(this, 0);
 
-			serviceChamado.adicionarObservadorFila(myStub);
+			serviceChamado.adicionarObservadorAgendamento(myStub);
 
 		} catch (RemoteException e) {
 			// TODO: criar exception de infra.
@@ -42,6 +41,6 @@ public class ObservadorFilaImplAgendamento extends Observable implements Observa
 
 	@Override
 	public void removerObservador() throws RemoteException {	
-		serviceChamado.removerObservadorFila(myStub);
+		serviceChamado.removerObservadorAgendamento(myStub);
 	}
 }

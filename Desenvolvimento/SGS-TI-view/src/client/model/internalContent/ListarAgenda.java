@@ -26,10 +26,10 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import common.entity.Chamado;
 import common.exception.BusinessException;
-import common.remote.ObservadorFila;
+import common.remote.ObservadorAgendamento;
 import common.util.Utils;
 import client.Modal;
-import client.controller.ObservadorFilaImpl;
+import client.controller.ObservadorFilaImplAgendamento;
 import client.util.SpringUtilities;
 import client.view.MainView;
 
@@ -43,7 +43,8 @@ public class ListarAgenda implements InternalContent, Observer{
 	
 	private JTable tabelaChamados;
 	private JScrollPane scrollPane;
-	private ObservadorFila observadorFila;
+	private ObservadorAgendamento observadorAgendamento;
+
 	private FilaChamadoModel modeloFila;
 	private List<Chamado> listaChamados;
 
@@ -100,7 +101,7 @@ public class ListarAgenda implements InternalContent, Observer{
 		jif.add(scrollPane,BorderLayout.CENTER);
 		
 		try{
-			setObservadorFila(new ObservadorFilaImpl(this));
+			setObservadorAgendamento(new ObservadorFilaImplAgendamento(this));
 
 		}catch(BusinessException e){
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -158,12 +159,12 @@ public class ListarAgenda implements InternalContent, Observer{
 	/*
 	 * GETTERs AND SETTERs
 	 */
-	public void setObservadorFila(ObservadorFila observadorFila) {
-		this.observadorFila = observadorFila;
+	public ObservadorAgendamento getObservadorAgendamento() {
+		return observadorAgendamento;
 	}
 
-	public ObservadorFila getObservadorFila() {
-		return observadorFila;
+	public void setObservadorAgendamento(ObservadorAgendamento observadorAgendamento) {
+		this.observadorAgendamento = observadorAgendamento;
 	}
 	
 	public class ouvinteInternalContent implements InternalFrameListener{
@@ -179,8 +180,8 @@ public class ListarAgenda implements InternalContent, Observer{
 		@Override
 		public void internalFrameClosed(InternalFrameEvent e) {
 			try {
-				if(getObservadorFila() != null)
-					getObservadorFila().removerObservador();
+				if(getObservadorAgendamento() != null)
+					getObservadorAgendamento().removerObservador();
 
 			} catch (RemoteException ex) {
 				// TODO criar exception
