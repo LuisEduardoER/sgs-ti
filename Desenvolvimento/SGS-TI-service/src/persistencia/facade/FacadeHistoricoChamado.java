@@ -1,6 +1,5 @@
 package persistencia.facade;
 
-import common.entity.Chamado;
 import common.entity.HistoricoChamado;
 
 import persistencia.dao.DAOHistoricoChamado;
