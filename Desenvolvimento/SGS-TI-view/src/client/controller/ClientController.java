@@ -217,7 +217,11 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	public void addObserverNotificacoesFila(Observer obs){
 		try {
-			this.observerFila.addObserverNotificacoesFila(obs);
+			if(observerFila!=null){
+				this.observerFila.addObserverNotificacoesFila(obs);
+				
+			}
+			System.out.println("add obs");
 		} catch (RemoteException e) {
 			mostrarMensagem("Não foi possível adicionar observador da fila de chamados.");
 		}
@@ -229,7 +233,8 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	public void removeObserverNotificacoesFila(Observer obs){
 		try {
-			this.observerFila.removeObserverNotificacoesFila(obs);
+			if(observerFila!=null)
+				this.observerFila.removeObserverNotificacoesFila(obs);
 		} catch (RemoteException e) {
 			mostrarMensagem("Não foi possível remover observador da fila de chamados.");
 		}

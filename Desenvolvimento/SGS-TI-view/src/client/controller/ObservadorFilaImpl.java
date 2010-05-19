@@ -46,6 +46,7 @@ public class ObservadorFilaImpl extends Observable implements ObservadorFila{
 	
 	public void addObserverNotificacoesFila(Observer obs){
 		this.addObserver(obs);
+		System.out.println("************* count " + countObservers());
 	}
 	public void removeObserverNotificacoesFila(Observer obs){
 		this.deleteObserver(obs);

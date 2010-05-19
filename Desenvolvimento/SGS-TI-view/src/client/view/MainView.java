@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 import common.util.SystemConstant;
 import common.util.Utils;
 import client.controller.ClientController;
+import client.trayIcon.JTrayIcon;
 import client.util.ClientConstraint;
 import cliente.task.ThreadCheckServer;
 
@@ -47,7 +48,7 @@ public class MainView extends JFrame {
 	private JPanel mainMenu;
 	private JDesktopPane conteudo;
 	private JPanel sideMenu;
-	private TrayIcon icon;
+	private JTrayIcon icon;
 	private JLabel systemStatus;
 	private JLabel welcomeMsg;
 
@@ -330,12 +331,14 @@ public class MainView extends JFrame {
 				// TODO tratar exception
 				e1.printStackTrace();
 			}
-
+			ClientController.getInstance().addObserverNotificacoesFila(icon);
 			icon.displayMessage("SGS-TI", "Aplicativo continua rodando...",TrayIcon.MessageType.INFO);
 		}
 	}
 	public void removeIcon(){
 		if(SystemTray.isSupported() && icon != null){
+			ClientController.getInstance().removeObserverNotificacoesFila(icon);
+			
 			SystemTray.getSystemTray().remove(icon);
 			this.setVisible(true);
 			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -344,7 +347,7 @@ public class MainView extends JFrame {
 	public void criarTrayIcon(){
 		if(SystemTray.isSupported()){			
 			
-			icon = new TrayIcon(getImage(),"SGS-TI", createPopupMenu());
+			icon = new JTrayIcon(getImage(),"SGS-TI", createPopupMenu());
 			icon.setImageAutoSize(true);
 			icon.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
