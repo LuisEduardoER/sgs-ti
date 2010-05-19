@@ -8,11 +8,12 @@ import java.util.Observer;
 
 import common.entity.Chamado;
 import common.exception.BusinessException;
+import common.remote.ObservadorAgendamento;
 import common.remote.ObservadorFila;
 import common.remote.ServiceChamado;
 import common.util.Utils;
 
-public class ObservadorFilaImplAgendamento extends Observable implements ObservadorFila{
+public class ObservadorFilaImplAgendamento extends Observable implements ObservadorAgendamento{
 	private ServiceChamado serviceChamado;
 	private ObservadorFila myStub;
 	
