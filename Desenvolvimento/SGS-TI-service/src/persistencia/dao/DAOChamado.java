@@ -14,7 +14,7 @@ public interface DAOChamado {
 	 * @return
 	 * 		Boolean
 	 */
-	abstract boolean addChamado(Chamado chamado);
+	abstract boolean adicionaChamado(Chamado chamado);
 
 
 	/**
@@ -25,18 +25,6 @@ public interface DAOChamado {
 	 * @return
 	 * 		Boolean
 	 */
-	abstract boolean updateChamado(Chamado chamado);
+	abstract boolean atualizarChamado(Chamado chamado);
 
-	/**
-	 * Método que verifica se o usuário já existe.
-	 * 
-	 * @param user
-	 * 		Login do Usuário.
-	 * @return
-	 * 		True se já existe e false se não existe.
-	 */
-	abstract boolean existeChamado(String chamado);
-	
-	
-	abstract int obterCodigo(Chamado chamado);
 }

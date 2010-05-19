@@ -1,28 +1,25 @@
 package persistencia.facade;
 
+import common.entity.Chamado;
+
+import persistencia.dao.DAOChamado;
+import persistencia.sql.SQLChamado;
+
 public class FacadeChamado {
 	
-	/*public static boolean criarChamado(Chamado chamado){
+	public static boolean criarChamado(Chamado chamado){
 		
 		DAOChamado dao = new SQLChamado();
 		
-		boolean inserido = dao.addChamado(chamado);
+		boolean inserido = dao.adicionaChamado(chamado);
 		return inserido;
 	}
 
 	public static boolean atualizarChamado(Chamado chamado) {
 		
-		// Usa o utilitario para criptografar a senha
-		user.setSenha( MD5Encryption.encript(user.getSenha()) );
+		DAOChamado dao = new SQLChamado();
 		
-		DAOUsuario dao = new SQLUsuario();
-		boolean atualizado = dao.updateUser(user);
-		
+		boolean atualizado = dao.atualizarChamado(chamado);	
 		return atualizado;
 	}
-	
-	public static boolean verificarUsername(String username){
-		DAOUsuario dao = new SQLUsuario();
-		return dao.existeUser(username);
-	}*/
 }

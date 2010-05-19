@@ -11,13 +11,11 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -38,11 +36,10 @@ import common.util.Utils;
 
 import client.Modal;
 import client.controller.ClientController;
-import client.controller.ObservadorFilaImpl;
 import client.util.SpringUtilities;
 
 
-public class EditarChamados  implements InternalContent, Observer
+public class EditarChamados implements InternalContent
 {
 	private JInternalFrame jif;
 	private JPanel form;
@@ -52,7 +49,7 @@ public class EditarChamados  implements InternalContent, Observer
 	private List<StatusChamado> listStatus;
 	private Chamado chamado;
 	private OuvinteEditarChamado oec;
-	
+
 	/**
 	 * Componetes 
 	 */
@@ -85,7 +82,7 @@ public class EditarChamados  implements InternalContent, Observer
 		chamado = (Chamado) param;
 
 		Utils.printMsg(this.getClass().getName(), "Editando chamado número: " + chamado.getNumeroChamado());
-		
+
 		jif = new JInternalFrame();
 		jif.addInternalFrameListener(new ouvinteInternalContent());
 
@@ -100,122 +97,116 @@ public class EditarChamados  implements InternalContent, Observer
 		return jif;
 	}
 
-	private void inicializar(){
+	private void inicializar()
+	{
+		//Form
+		form = new JPanel(new SpringLayout());
 
-		try {
-			//Form
-			form = new JPanel(new SpringLayout());
-			
-			// Cria o ouvinte
-			oec = new OuvinteEditarChamado();
+		// Cria o ouvinte
+		oec = new OuvinteEditarChamado();
 
-			JLabel dataAberturaL = new JLabel("Data Abertura: ");		
-			dataAberturaTextField = new JTextField();
+		JLabel dataAberturaL = new JLabel("Data Abertura: ");		
+		dataAberturaTextField = new JTextField();
 
-			JLabel aberturaL = new JLabel("Aberto por: ");
-			aberturaTextField = new JTextField();
+		JLabel aberturaL = new JLabel("Aberto por: ");
+		aberturaTextField = new JTextField();
 
-			JLabel clienteL = new JLabel("Cliente: ");
-			clienteTextField = new JTextField();
+		JLabel clienteL = new JLabel("Cliente: ");
+		clienteTextField = new JTextField();
 
-			JLabel responsavelL = new JLabel("Responsavel: ");
-			responsavelTextField = new JTextField();
-			
-			JLabel tipoFalhaL = new JLabel("Tipo de falha: ");
-			tipoFalhaComboBox = new JComboBox();
+		JLabel responsavelL = new JLabel("Responsavel: ");
+		responsavelTextField = new JTextField();
 
-			JLabel statusL = new JLabel("Status: ");
-			statusComboBox = new JComboBox();
+		JLabel tipoFalhaL = new JLabel("Tipo de falha: ");
+		tipoFalhaComboBox = new JComboBox();
 
-			JLabel dataAgendamentoL = new JLabel("Data: ");		
-			dataAgentamentoDateChooser = new JDateChooser();
+		JLabel statusL = new JLabel("Status: ");
+		statusComboBox = new JComboBox();
 
-			JLabel horaAgendamentoL = new JLabel("Hora: ");		
-			horaAgendamentoTextField = new JTextField();
-			
-			JLabel descricaoL = new JLabel("Descrição: ");		
-			descricaoTextArea = new JTextArea();
-			
-			JScrollPane scroll = new JScrollPane(descricaoTextArea);
-			
-			btSalvar = new JButton();
-			
-			btCancelar = new JButton(); 
-			
-			inicializacaoComponentes();
-			
-			form.add(dataAberturaL);
-			form.add(dataAberturaTextField);
-			form.add(aberturaL);
-			form.add(aberturaTextField);
-			form.add(clienteL);
-			form.add(clienteTextField);
-			form.add(responsavelL);
-			form.add(responsavelTextField);
-			form.add(tipoFalhaL);
-			form.add(tipoFalhaComboBox);
-			form.add(statusL);
-			form.add(statusComboBox);
-			form.add(dataAgendamentoL);
-			form.add(dataAgentamentoDateChooser);
-			form.add(horaAgendamentoL);
-			form.add(horaAgendamentoTextField);
-			form.add(descricaoL);
-			form.add(scroll);
-			form.add(btSalvar);
-			form.add(btCancelar);
+		JLabel dataAgendamentoL = new JLabel("Data: ");		
+		dataAgentamentoDateChooser = new JDateChooser();
 
-			SpringUtilities.makeCompactGrid(form,
-					10, 2,		//rows, cols
-					6, 6,     	//initX, initY
-					6, 6);      //xPad, yPad
+		JLabel horaAgendamentoL = new JLabel("Hora: ");		
+		horaAgendamentoTextField = new JTextField();
 
-			jif.add(form);
+		JLabel descricaoL = new JLabel("Descrição: ");		
+		descricaoTextArea = new JTextArea();
+
+		JScrollPane scroll = new JScrollPane(descricaoTextArea);
+
+		btSalvar = new JButton();
+
+		btCancelar = new JButton(); 
+
+		inicializacaoComponentes();
+
+		form.add(dataAberturaL);
+		form.add(dataAberturaTextField);
+		form.add(aberturaL);
+		form.add(aberturaTextField);
+		form.add(clienteL);
+		form.add(clienteTextField);
+		form.add(responsavelL);
+		form.add(responsavelTextField);
+		form.add(tipoFalhaL);
+		form.add(tipoFalhaComboBox);
+		form.add(statusL);
+		form.add(statusComboBox);
+		form.add(dataAgendamentoL);
+		form.add(dataAgentamentoDateChooser);
+		form.add(horaAgendamentoL);
+		form.add(horaAgendamentoTextField);
+		form.add(descricaoL);
+		form.add(scroll);
+		form.add(btSalvar);
+		form.add(btCancelar);
+
+		SpringUtilities.makeCompactGrid(form,
+				10, 2,		//rows, cols
+				6, 6,     	//initX, initY
+				6, 6);      //xPad, yPad
+
+		jif.add(form);
 
 
-			setObservadorFila(new ObservadorFilaImpl(this));
-
-		}catch(BusinessException e){
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
 
 	}
-	
+
 	public void inicializacaoComponentes()
 	{
 		try {
 			dataAberturaTextField.setText(chamado.getDataHoraAbertura().toString());
 			dataAberturaTextField.setEditable(false);
-	
+
 			aberturaTextField.setText(chamado.getUsuarioResgistro().getUsername().toString());
 			aberturaTextField.setEditable(false);
-	
+
 			clienteTextField.setText(chamado.getReclamante().getNome().toString());
 			clienteTextField.setEditable(false);
-			
+
 			statusComboBox.setActionCommand("AGENDAR");
 			statusComboBox.addActionListener(oec);
-			
+
 			responsavelTextField.setText(chamado.getResponsavel().toString());
 			responsavelTextField.setEditable(false);
 
 			descricaoTextArea.setAutoscrolls(true);
 			descricaoTextArea.setRows(10);
 			descricaoTextArea.setText(chamado.getDetalhes());
-			
+
 			btSalvar.setText("Salvar");
 			btSalvar.addActionListener(oec);
 			btSalvar.setToolTipText("Salvar alterações");
 			btSalvar.setActionCommand("SALVAR");
-			
+
 			btCancelar.setText("Cancelar");
 			btCancelar.addActionListener(oec);
 			btCancelar.setToolTipText("Cancelar alterações");
 			btCancelar.setActionCommand("CANCELAR");
-			
+
 			listFalha = servico.procurarFalha();		
 			listStatus = servico.procurarStatus();
-	
+
 			for (int cont = 0; cont < listFalha.size(); cont++) {
 				tipoFalhaComboBox.addItem(listFalha.get(cont).getNome());
 			}			
@@ -223,7 +214,7 @@ public class EditarChamados  implements InternalContent, Observer
 				if(chamado.getTipoFalha().getNome().toString().equals(listFalha.get(i).getNome().toString()))
 					tipoFalhaComboBox.setSelectedIndex(i);
 			}
-			
+
 			for (int cont = 0; cont < listStatus.size(); cont++) {
 				statusComboBox.addItem(listStatus.get(cont).getNome());
 			}  
@@ -231,7 +222,7 @@ public class EditarChamados  implements InternalContent, Observer
 				if(chamado.getStatus().getNome().toString().equals(listStatus.get(i).getNome().toString()))
 					statusComboBox.setSelectedIndex(i);
 			}
-			
+
 		} catch (RemoteException e) {
 			// TODO Vanessa - Colocar Exception
 			e.printStackTrace();
@@ -305,7 +296,7 @@ public class EditarChamados  implements InternalContent, Observer
 		public void internalFrameDeactivated(InternalFrameEvent e) {
 		}
 	}
-	
+
 	class OuvinteEditarChamado implements ActionListener 
 	{
 		@Override
@@ -318,7 +309,7 @@ public class EditarChamados  implements InternalContent, Observer
 			{
 				jif.dispose();
 			}	
-			
+
 			if(evt.getActionCommand().equals("AGENDAR"))
 			{
 				if(statusComboBox.getSelectedItem().toString().equals(StatusChamado.AGENDADO))
