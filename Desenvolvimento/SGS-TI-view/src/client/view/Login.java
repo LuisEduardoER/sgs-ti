@@ -9,6 +9,8 @@ import java.awt.Toolkit;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,6 +23,7 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 
 import common.entity.Usuario;
+import common.util.SystemConstant;
 import common.util.Utils;
 
 import client.controller.ClientController;
@@ -33,8 +36,9 @@ public class Login extends JFrame {
 	private JLabel lblUser;
 	private JPasswordField password;
 	private JTextField user;
+	
 	public Login() {
-		super("Login");
+		super(SystemConstant.LOGIN_TITLE);
 		JFrame.setDefaultLookAndFeelDecorated(true);
 			
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -63,8 +67,7 @@ public class Login extends JFrame {
 		// painel da imagem
 		Image img = new ImageIcon(java.awt.Toolkit.getDefaultToolkit().getImage("resources/imgs/LOGO_01.png")).getImage();
 		ImagePanel logo = new ImagePanel(img);
-
-
+		
 		// painel do form
 		JPanel form = criarForm();
 		
@@ -116,6 +119,13 @@ public class Login extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			//TODO 01 - fazer controller para verificar login
+			// Antes verifica conexão
+			try {
+				ClientController.getInstance().inicializarServidorRemoto();
+			} catch (RemoteException e1) {
+				JOptionPane.showMessageDialog(null, SystemConstant.MSG_AM_SEM_CONEXAO_REMOTA);
+				return;
+			}
 			String loginUser = user.getText();
 			String loginPass = password.getText();
 			if(Utils.isNullOrEmpty(loginUser))
@@ -126,19 +136,27 @@ public class Login extends JFrame {
 			{
 				Usuario login = new Usuario(loginUser,loginPass);
 				
-				boolean acesso = ClientController.getInstance().autenticar(login);
-				if(!acesso){
-					JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
-				}else{
-					Login.this.setVisible(false);
-					Login.this.dispose();
-					
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							MainView.getInstance().setVisible(true);
-						}
-					});
+				boolean acesso;
+				try {
+					acesso = ClientController.getInstance().autenticar(login);
+					if(!acesso){
+						JOptionPane.showMessageDialog(null, SystemConstant.MSG_AM_USUARIO_INVALIDO);
+					}else{
+						Login.this.setVisible(false);
+						Login.this.dispose();
+						
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								MainView.getInstance().setVisible(true);
+							}
+						});
+					}
+				} catch (RemoteException ex) {
+					JOptionPane.showMessageDialog(null, SystemConstant.MSG_AM_SEM_CONEXAO_REMOTA);
+				} catch (NullPointerException ex){
+					JOptionPane.showMessageDialog(null, SystemConstant.MSG_AM_SEM_CONEXAO_REMOTA);
 				}
+				
 			}
 		}
 	}

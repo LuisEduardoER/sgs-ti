@@ -4,16 +4,14 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashSet;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import common.entity.Chamado;
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
-import common.exception.BusinessException;
 import common.remote.ObserverUsuario;
-import common.remote.ServiceChamado;
 import common.remote.ServiceUsuario;
+import common.util.SystemConstant;
 import common.util.Utils;
 import client.model.internalContent.InternalContent;
 import client.model.sideMenu.SideMenu;
@@ -25,30 +23,13 @@ public class ClientController implements ObserverUsuario, Serializable{
 
 	private static ClientController instance;
 	private ServiceUsuario serviceUsuario;
-	private ServiceChamado serviceChamado;
 	private ObserverUsuario stubUsuario;
 	private Usuario usuario;
 
 	private boolean desativando;
 
 	private ClientController() {
-
-		try {
-			serviceUsuario = Utils.obterServiceUsuario();
-			// Criar um stub
-			stubUsuario = (ObserverUsuario) UnicastRemoteObject.exportObject(this, 0);
-
-			serviceChamado = Utils.obterServiceChamado();
-			
-			// TODO: Possivel tratamento caso n tenha conseguido conexao
-
-		} catch (BusinessException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		this.usuario = new Usuario();
 	}
 
 	public static ClientController getInstance() {
@@ -56,79 +37,124 @@ public class ClientController implements ObserverUsuario, Serializable{
 			instance = new ClientController();
 		return instance;
 	}
+	
+	/**
+	 * Este metodo tem como objetivo inicializar comnunicação com o Servidor Remoto.
+	 * Caso não seja possível estabelecer conexão, a exceção deverá ser tratada.
+	 * @throws RemoteException
+	 */
+	public boolean inicializarServidorRemoto() throws RemoteException{
+		serviceUsuario = Utils.obterServiceUsuario();
+		// Criar um stub
+		stubUsuario = (ObserverUsuario) UnicastRemoteObject
+		.exportObject(this, 0);
+		return true;
+	}
+	/**
+	 * Este metodo é utilizado pelo ThreadClientNotification para tentar
+	 * re-ativar a aplicação caso falhe.
+	 * @return Condição de notificação
+	 * @throws RemoteException
+	 */
+	public boolean reinicializarServidorRemoto() throws RemoteException{
+		serviceUsuario = Utils.obterServiceUsuario();
+		// Criar um stub
+		return autenticar(this.usuario);
+	}
 
-	// Metodos remotos
+	/**
+	 * Este metodo encerra a sessao no ServicoUsuario e já mata a aplicação
+	 * mesmo que o usuário não tenha confirmado se fica online ou não.
+	 *  @throws RemoteException
+	 */
 	@Override
 	public void encerrarClient() throws RemoteException {
 		encerrarSessao();
 		System.exit(0);		
 	}
 
+	/**
+	 * Este metodo notifica a tela principal que o tempo de inatividade esta
+	 * excedendo, o usuario deverá decidir se permanece ou não.
+	 *  @throws RemoteException
+	 */
 	@Override
 	public void notificarTempoExcedido() throws RemoteException {
 		if(!desativando)
 		{
 			// Controle para evitar multiplos avisos simultaneos
 			desativando = true;
-			// A view decide se irá fechar ou não, caso não ele volta a ser false;
 			MainView.getInstance().tempoExcedido();
 		}
 	}
 
+	/**
+	 * Metodo necessário para autenticar o usuário no Servico Usuario remoto.
+	 * @throws RemoteException
+	 */
 	@Override
-	public boolean autenticar(Usuario usuario){
-		try {
-			boolean acesso = serviceUsuario.autenticar(stubUsuario, usuario);
-			if(acesso)
-				this.usuario = usuario;
-			return acesso;
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+	public boolean autenticar(Usuario usuario) throws RemoteException{
+		boolean acesso = serviceUsuario.autenticar(stubUsuario, usuario);
+		if(acesso){
+			this.usuario = usuario;
+			MainView.getInstance().alterarWelcomeMsg(SystemConstant.USUARIO_LOGADO + this.usuario.getUsername());
 		}
+		return acesso;
 	}
 
+	/**
+	 * Toda atualização do usuário irá reiniciar o tempo de inatividade no 
+	 * Service Usuario remoto.
+	 * @throws RemoteException
+	 */
 	@Override
-	public void atualizarCliente(){
-		try {
-			serviceUsuario.atualizarClient(this.usuario);
-		} catch (RemoteException e) {
-			// TODO =  Arrumar exeção
-			e.printStackTrace();
-		}
+	public void atualizarCliente() throws RemoteException {
+		serviceUsuario.atualizarClient(this.usuario);
 	}
 
+	/**
+	 * Tenta encerrar a sessão do usuário antes que ele saia.
+	 * Se não for possível remover o usuário, deleta.
+	 */
 	@Override
 	public void encerrarSessao(){
 		try {
-			Utils.printMsg(this.getClass().getName(), "Encerrando cliente...");
 			serviceUsuario.removerObservador(this.usuario);
 		} catch (RemoteException e) {
-			// TODO =  Arrumar exeção
-			e.printStackTrace();
-		}
-	}
-
-	public void atualizarChamado(Chamado chamado)
-	{
-		try {
-			Utils.printMsg(this.getClass().getName(), "Atualizando chamado");
-			serviceChamado.atualizarChamado(chamado);
-		} catch (RemoteException e) {
-			// TODO Vanessa -  Arrumar exceção
 			e.printStackTrace();
 		}
 	}
 	
-	public HashSet<UsuarioAutenticado> getStatusSistema(){
-		try {
-			return serviceUsuario.getUsuarioAutenticado();
-		} catch (RemoteException e) {
-			// TODO =  Arrumar exceção
-			e.printStackTrace();
-		}
-		return null;
+	/**
+	 * Este metodo retornar todos os usuarios contectados e autenticados.
+	 * @return Todos os usuários conectados no Servico Usuário
+	 * @throws RemoteException 
+	 */
+	public HashSet<UsuarioAutenticado> getUsuariosAutenticados() throws RemoteException{
+		return serviceUsuario.getUsuarioAutenticado();
+	}
+	
+	/**
+	 * Este metodo apenas envia uma chamada remota para verificar se o server
+	 * está respondendo ou não.
+	 */
+	@Override
+	public boolean checkServerStatus() throws RemoteException {
+		return serviceUsuario.isAlive();
+		
+	}
+	
+	/**
+	 * Este metodo apenas envia mensagem de algum lugar para a tela principal.
+	 */
+	@Override
+	public void mostrarMensagem(String msg){
+		MainView.getInstance().mostrarMensagemPersonalizada(msg);
+	}
+	
+	public void atualizarChamado(Chamado chamado)
+	{
+		Utils.printMsg(this.getClass().getName(), "Atualizando chamado");
 	}
 	
 	// Metodos de controle
@@ -151,7 +177,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 		Utils.printMsg(this.getClass().getName(), "Fabricado nova InternalContent - " + ic.getClass().getName());
 		return ic.getInternalContent(param);
 	}
-
+	
 
 	public boolean isDesativando() {
 		return desativando;
@@ -168,4 +194,6 @@ public class ClientController implements ObserverUsuario, Serializable{
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
+	
 }
