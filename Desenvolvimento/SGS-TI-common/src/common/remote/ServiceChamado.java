@@ -47,4 +47,21 @@ public interface ServiceChamado extends Remote{
 	 * Método para atualizar um chamado.
 	 */
 	public void atualizarChamado(Chamado chamado) throws RemoteException;
+	
+	
+	public void adicionarObservadorAgendamento(ObservadorAgendamento obs) throws RemoteException;
+	
+	/**
+	 * Remove um observador.
+	 * @param obs
+	 * 		Qual observador da fila que será removido.
+	 * @throws RemoteException
+	 */
+	public void removerObservadorAgendamento(ObservadorAgendamento obs) throws RemoteException;
+	
+	/**
+	 * Metodo que notifica os interessados.
+	 * @throws RemoteException
+	 */
+	public void notificarObservadorAgendamento() throws RemoteException;
 }
