@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import common.entity.Chamado;
 import common.entity.HistoricoChamado;
 
 import persistencia.dao.DAOHistoricoChamado;
