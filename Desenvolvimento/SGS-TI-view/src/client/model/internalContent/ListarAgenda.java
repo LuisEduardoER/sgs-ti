@@ -10,8 +10,6 @@ import java.awt.event.WindowEvent;
 
 import java.rmi.RemoteException;
 
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,12 +36,13 @@ import common.entity.Chamado;
 import common.exception.BusinessException;
 import common.remote.ObservadorAgendamento;
 import common.util.Utils;
+
 import client.Modal;
 import client.controller.ObservadorFilaImplAgendamento;
 import client.util.SpringUtilities;
 
-
-public class ListarAgenda implements InternalContent, Observer{
+public class ListarAgenda implements InternalContent, Observer
+{
 
 	private static final long serialVersionUID = 1L;
 	public static final String FILTRAR_CHAMADOS = "FILTRAR_CHAMADOS";
@@ -170,17 +169,15 @@ public class ListarAgenda implements InternalContent, Observer{
 	}
 
 	public String[][] converterListEmMatriz(List<Chamado> chamados){
-		String [][]matriz = new String [chamados.size()][5];
-		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+		String [][]matriz = new String [chamados.size()][4];
 
-		// "Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"
+		// "Codigo", "Cliente", "Prioridade", "Reclamante"
 		for(int linha=0; linha<chamados.size(); linha++){
 			Chamado chamado = chamados.get(linha);
 			matriz[linha][0] = String.valueOf(chamado.getNumeroChamado());
 			matriz[linha][1] = chamado.getReclamante().getNome();
 			matriz[linha][2] = String.valueOf(chamado.getPrioridade().getValorPrioridade());
-			matriz[linha][3] = formatador.format(chamado.getDataHoraAbertura()).toString();
-			matriz[linha][4] = chamado.getStatus().getNome();
+			matriz[linha][3] = chamado.getReclamante().getEndereco().toString();
 		}
 
 		return matriz;
@@ -275,5 +272,4 @@ public class ListarAgenda implements InternalContent, Observer{
 		}
 
 	}
-
 }
