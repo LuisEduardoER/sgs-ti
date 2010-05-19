@@ -103,7 +103,7 @@ public class ServiceChamadoImpl implements ServiceChamado
 			if(salvou)
 			{*/	
 				//TODO - Tentar colocar constraint
-				if(chamado.getStatus().getNome().equals("AGENDADO"))
+				if(chamado.getStatus().getNome().toUpperCase().equals("AGENDADO"))
 				{
 					// TODO - Notificar ListarAgenda
 					FilaChamado.getInstance().adicionaAgendamento(chamado);
