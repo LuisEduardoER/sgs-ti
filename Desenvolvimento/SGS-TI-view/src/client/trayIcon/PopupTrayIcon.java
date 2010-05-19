@@ -38,13 +38,13 @@ public class PopupTrayIcon extends Observable {
 				try {
 					Thread.sleep(timeToLive);
 					popup.setVisible(false);
-					popup.invalidate();
+					popup.dispose();
 					setChanged();
 					notifyObservers();
 					
 				} catch (InterruptedException e) {
 					popup.setVisible(false);
-					popup.invalidate();
+					popup.dispose();
 				}
 			};
 		}.start();
