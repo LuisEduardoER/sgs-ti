@@ -27,17 +27,17 @@ public class Utils {
 		return null;
 	}
 	
-	public static ServiceUsuario obterServiceUsuario() throws BusinessException{
+	public static ServiceUsuario obterServiceUsuario() throws RemoteException{
 		try{	
 			return (ServiceUsuario) Naming.lookup("rmi://localhost/serviceUsuario");
 			
 		}catch(RemoteException e){
-			throw new BusinessException("Não consegui conectar ao serviço remoto.");
+			throw new RemoteException(SystemConstant.MSG_ERRO_OBTER_SERVICO_REMOTO);
 		}catch(MalformedURLException e ){
-			
+			throw new RemoteException(SystemConstant.MSG_ERRO_CAMINHO_CONEXAO_REMOTO);
 		}catch(NotBoundException e){
+			throw new RemoteException(SystemConstant.MSG_ERRO_OBTER_SERVICO_REMOTO);
 		}
-		return null;
 	}
 	
 	public static ServiceChamadoItens obterServiceChamadoItens() throws BusinessException{

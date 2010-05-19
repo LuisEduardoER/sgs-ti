@@ -16,5 +16,9 @@ public interface ObserverUsuario extends Remote{
 	public void atualizarCliente() throws RemoteException;
 	
 	public void encerrarSessao() throws RemoteException;
+	
+	public void mostrarMensagem(String mensagem) throws RemoteException;
+	
+	public boolean checkServerStatus() throws RemoteException;
 
 }

@@ -82,4 +82,9 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 		this.usuarioAutenticado = usuarioAutenticado;
 	}
 
+	@Override
+	public boolean isAlive() {
+		return true;
+	}
+
 }

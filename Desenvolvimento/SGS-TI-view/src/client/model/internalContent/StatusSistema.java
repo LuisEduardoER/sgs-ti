@@ -17,6 +17,7 @@ import common.entity.UsuarioAutenticado;
 import common.util.Utils;
 import client.controller.ClientController;
 import client.util.SpringUtilities;
+import client.view.MainView;
 
 
 public class StatusSistema  implements InternalContent
@@ -55,9 +56,13 @@ public class StatusSistema  implements InternalContent
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getStatusSistema();
-				if(!Utils.isEmptyCollection(ua)){
-					numUser.setText(String.valueOf(ua.size()));
+				try{
+					HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+					if(!Utils.isEmptyCollection(ua)){
+						numUser.setText(String.valueOf(ua.size()));
+					}
+				}catch(RemoteException ex){
+					MainView.getInstance().mostrarMensagemErroRemoto();
 				}
 			}
 		});
@@ -68,19 +73,23 @@ public class StatusSistema  implements InternalContent
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Usuario user = ClientController.getInstance().getUsuario();
-				HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getStatusSistema();
-				Iterator<UsuarioAutenticado> it = ua.iterator();
-				while(it.hasNext()){
-					UsuarioAutenticado usuario = it.next();
-					if(!usuario.getUsuario().equals(user)){
-						try {
-							usuario.getObservador().encerrarClient();
-						} catch (RemoteException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+				try{
+					// Mata todos os usuários menos ele mesmo
+					Usuario user = ClientController.getInstance().getUsuario();
+					HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+					Iterator<UsuarioAutenticado> it = ua.iterator();
+					while(it.hasNext()){
+						UsuarioAutenticado usuario = it.next();
+						if(!usuario.getUsuario().equals(user)){
+							try {
+								usuario.getObservador().encerrarClient();
+							} catch (RemoteException e1) {
+								e1.printStackTrace();
+							}
 						}
 					}
+				}catch (RemoteException ex) {
+					MainView.getInstance().mostrarMensagemErroRemoto();
 				}
 			}
 		});

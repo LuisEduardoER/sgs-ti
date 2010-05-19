@@ -20,5 +20,7 @@ public interface ServiceUsuario extends Remote{
 	public void notificarTempoExcedido(UsuarioAutenticado usuarioAutenticado) throws RemoteException;
 	
 	public HashSet<UsuarioAutenticado> getUsuarioAutenticado() throws RemoteException;
+	
+	public boolean isAlive() throws RemoteException;
 
 }

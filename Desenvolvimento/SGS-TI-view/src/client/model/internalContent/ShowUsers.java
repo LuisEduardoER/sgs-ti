@@ -7,19 +7,17 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.HashSet;
 import java.util.Iterator;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-
-import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
+import common.util.Utils;
 import client.controller.ClientController;
 import client.util.SpringUtilities;
+import client.view.MainView;
 
 
 public class ShowUsers  implements InternalContent
@@ -58,33 +56,34 @@ public class ShowUsers  implements InternalContent
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(acoes.getSelectedIndex()==0){
-					String user = jcb.getSelectedItem().toString();
-					HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getStatusSistema();
-					Iterator<UsuarioAutenticado> it = ua.iterator();
-					while(it.hasNext()){
-						UsuarioAutenticado usuario = it.next();
-						if(!usuario.getUsuario().equals(user)){
-							try {
-								usuario.getObservador().encerrarClient();
-							} catch (RemoteException e1) {
-								e1.printStackTrace();
+				
+					try{
+						String user = jcb.getSelectedItem().toString();
+						HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+						Iterator<UsuarioAutenticado> it = ua.iterator();
+						while(it.hasNext()){
+							UsuarioAutenticado usuario = it.next();
+							if(usuario.getUsuario().getUsername().equals(user)){
+								try {
+									if(acoes.getSelectedIndex()==0){
+										usuario.getObservador().encerrarClient();
+									}else{
+										// TODO: notificador, se der tempo
+										usuario.getObservador().mostrarMensagem("hi tela");
+									}
+								} catch (RemoteException e1) {
+								}
 							}
 						}
+						atualizaUsuariosComboBox();
+					}catch(RemoteException ex){
+						MainView.getInstance().mostrarMensagemErroRemoto();
 					}
-				}else{
-					JOptionPane.showMessageDialog(null, "Ainda não foi implementado.");
-				}
+				
 			}
 		});
 		btExecutar.setVisible(true);
-		HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getStatusSistema();
-		Iterator<UsuarioAutenticado> it = ua.iterator();
-		while(it.hasNext()){
-			UsuarioAutenticado usuario = it.next();
-			jcb.addItem(usuario.getUsuario().getUsername());
-		}
-		
+		atualizaUsuariosComboBox();
         form = new JPanel(new SpringLayout());
         form.setSize(new Dimension(355,230));
         form.setBackground(Color.WHITE);
@@ -116,5 +115,24 @@ public class ShowUsers  implements InternalContent
 	}
 	
 
+	public void atualizaUsuariosComboBox(){
+		try{
+			
+			Utils.printMsg(this.getClass().getName(), "Atualizando ComboBox");
+			String userName = ClientController.getInstance().getUsuario().getUsername();
+			HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+			Iterator<UsuarioAutenticado> it = ua.iterator();
+			jcb.removeAllItems();
+			jcb.addItem("Selecione");
+			while(it.hasNext()){
+				UsuarioAutenticado usuario = it.next();
+				if(!userName.equals(usuario.getUsuario().getUsername()))
+					jcb.addItem(usuario.getUsuario().getUsername());
+			}
+		}catch(RemoteException e){
+			MainView.getInstance().mostrarMensagemErroRemoto();
+		}
+		jcb.repaint();
+	}
 
 }
