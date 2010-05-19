@@ -13,10 +13,10 @@ import persistencia.util.Conexao;
 public class SQLChamado implements DAOChamado{
 	private static final boolean DEBUG = true;
 	private static String INSERIR_CHAMADO = ".jdbc.INSERIR_CHAMADO";
-	private static String OBTER_CODIGO_CHAMADO = ".jdbc.OBTER_CODIGO_CHAMADO";
+	private static String ATUALIZAR_CHAMADO = ".jdbc.ATUALIZAR_CHAMADO";
 
 	@Override
-	public boolean addChamado(Chamado chamado) {
+	public boolean adicionaChamado(Chamado chamado) {
 		Connection con = null;
 		String sql= null;
 		
@@ -54,51 +54,7 @@ public class SQLChamado implements DAOChamado{
 	}
 
 	@Override
-	public boolean existeChamado(String chamado) {
-		Connection con = null;
-		String sql = null;
-		
-		if(DEBUG){
-			//TODO - Sei lá
-		}
-		
-		try {
-			// Obtem a conexão
-			con = Conexao.obterConexao();
-			con.setAutoCommit(false);
-			
-			String origem = Conexao.obterOrigem();
-			sql = FabricaSql.getSql(origem + OBTER_CODIGO_CHAMADO);
-			
-			if(DEBUG)
-				System.out.println("SQL - " + sql);
-			
-			PreparedStatement stmt = con.prepareStatement(sql);
-			//TODO - Colocar parametro
-			
-			ResultSet rs = stmt.executeQuery();
-		
-			while(rs.next()){
-				//TODO - Colocar procura
-			}					
-			stmt.close();
-			return false;
-			
-		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL",e);
-		} finally {
-			Conexao.fecharConexao(con);
-		}
-	}
-
-	@Override
-	public int obterCodigo(Chamado chamado) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean updateChamado(Chamado chamado) {
+	public boolean atualizarChamado(Chamado chamado) {
 		Connection con = null;
 		String sql= "UPDATE chamado SET status=?,detalhes=?,prioridade=?,tipoChamado=?,cliente=? WHERE codigo=?";
 

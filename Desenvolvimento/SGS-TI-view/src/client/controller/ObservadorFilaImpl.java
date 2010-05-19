@@ -43,5 +43,4 @@ public class ObservadorFilaImpl extends Observable implements ObservadorFila{
 	public void removerObservador() throws RemoteException {	
 		serviceChamado.removerObservadorFila(myStub);
 	}
-
 }
