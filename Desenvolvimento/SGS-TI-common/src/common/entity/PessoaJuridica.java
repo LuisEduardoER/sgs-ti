@@ -8,7 +8,8 @@ public class PessoaJuridica extends Cliente
 	private String razaoSocial;
 	private String nomeFantasia;
 	private long CNPJ;
-	
+	private String contato;
+
 	/**
 	* TODO - Descrever melhor os campos
 	*/
@@ -22,12 +23,13 @@ public class PessoaJuridica extends Cliente
 	 * @param CNPJ
 	 */
 	public PessoaJuridica(String endereco, Porte porte, List<Usuario> usuarios,
-			String razaoSocial, String nomeFantasia, long CNPJ) {
+			String razaoSocial, String nomeFantasia, long CNPJ, String contato) {
 		
-		super(endereco, porte, null, nomeFantasia);
+		super(endereco, porte, null, nomeFantasia, contato);
 		this.razaoSocial = razaoSocial;
 		this.nomeFantasia = nomeFantasia;
 		this.CNPJ = CNPJ;
+		this.contato = contato;
 	}
 	
 	/*
@@ -50,5 +52,11 @@ public class PessoaJuridica extends Cliente
 	}
 	public void setCNPJ(long cNPJ) {
 		CNPJ = cNPJ;
+	}
+	public String getContato() {
+		return contato;
+	}
+	public void setContato(String contato) {
+		this.contato = contato;
 	}
 }
