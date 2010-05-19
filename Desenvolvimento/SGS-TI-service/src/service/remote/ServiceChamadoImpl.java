@@ -29,6 +29,7 @@ public class ServiceChamadoImpl implements ServiceChamado {
 			throws RemoteException {
 
 		observadoresFila.add(obs);
+		obs.atualizarFila(FilaChamado.getInstance().getFila());
 	}
 	
 	@Override

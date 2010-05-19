@@ -68,7 +68,7 @@ public class ListarChamados implements InternalContent, Observer{
 		jif.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		jif.setBackground(Color.WHITE);
 		jif.setLocation(10, 10);
-		jif.setSize(new Dimension(600, 600));
+		jif.setSize(new Dimension(800, 450));
 		jif.setClosable(true);
 		jif.setResizable(true);	
 		jif.setLayout(new BorderLayout());
