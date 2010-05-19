@@ -102,6 +102,7 @@ public class ServiceChamadoImpl implements ServiceChamado {
 			boolean salvou = FacadeChamado.atualizarChamado(chamado);
 			if(salvou)
 			{*/
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 				if(chamado.getStatus().getNome().equals("AGENDADO"))
 				{
 					// TODO - Notificar ListarAgenda
