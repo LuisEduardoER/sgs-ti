@@ -9,7 +9,9 @@ import javax.swing.JPanel;
 import common.entity.Chamado;
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
+import common.exception.BusinessException;
 import common.remote.ObserverUsuario;
+import common.remote.ServiceChamado;
 import common.remote.ServiceUsuario;
 import common.util.SystemConstant;
 import common.util.Utils;
@@ -23,6 +25,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 
 	private static ClientController instance;
 	private ServiceUsuario serviceUsuario;
+	private ServiceChamado serviceChamado;
 	private ObserverUsuario stubUsuario;
 	private Usuario usuario;
 
@@ -37,18 +40,26 @@ public class ClientController implements ObserverUsuario, Serializable{
 			instance = new ClientController();
 		return instance;
 	}
-	
+
 	/**
 	 * Este metodo tem como objetivo inicializar comnunicação com o Servidor Remoto.
 	 * Caso não seja possível estabelecer conexão, a exceção deverá ser tratada.
 	 * @throws RemoteException
 	 */
 	public boolean inicializarServidorRemoto() throws RemoteException{
-		serviceUsuario = Utils.obterServiceUsuario();
-		// Criar um stub
-		stubUsuario = (ObserverUsuario) UnicastRemoteObject
-		.exportObject(this, 0);
-		return true;
+		try {
+			serviceUsuario = Utils.obterServiceUsuario();
+			serviceChamado = Utils.obterServiceChamado();
+
+			// Criar um stub
+			stubUsuario = (ObserverUsuario) UnicastRemoteObject
+			.exportObject(this, 0);
+			return true;
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	/**
 	 * Este metodo é utilizado pelo ThreadClientNotification para tentar
@@ -124,7 +135,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Este metodo retornar todos os usuarios contectados e autenticados.
 	 * @return Todos os usuários conectados no Servico Usuário
@@ -133,7 +144,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 	public HashSet<UsuarioAutenticado> getUsuariosAutenticados() throws RemoteException{
 		return serviceUsuario.getUsuarioAutenticado();
 	}
-	
+
 	/**
 	 * Este metodo apenas envia uma chamada remota para verificar se o server
 	 * está respondendo ou não.
@@ -141,9 +152,9 @@ public class ClientController implements ObserverUsuario, Serializable{
 	@Override
 	public boolean checkServerStatus() throws RemoteException {
 		return serviceUsuario.isAlive();
-		
+
 	}
-	
+
 	/**
 	 * Este metodo apenas envia mensagem de algum lugar para a tela principal.
 	 */
@@ -151,12 +162,18 @@ public class ClientController implements ObserverUsuario, Serializable{
 	public void mostrarMensagem(String msg){
 		MainView.getInstance().mostrarMensagemPersonalizada(msg);
 	}
-	
+
 	public void atualizarChamado(Chamado chamado)
 	{
-		Utils.printMsg(this.getClass().getName(), "Atualizando chamado");
+		try {
+			Utils.printMsg(this.getClass().getName(), "Atualizando chamado");
+			serviceChamado.atualizarChamado(chamado);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
+
 	// Metodos de controle
 	public JPanel getSideMenu(String action){
 
@@ -177,7 +194,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 		Utils.printMsg(this.getClass().getName(), "Fabricado nova InternalContent - " + ic.getClass().getName());
 		return ic.getInternalContent(param);
 	}
-	
+
 
 	public boolean isDesativando() {
 		return desativando;
@@ -186,7 +203,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 	public void setDesativando(boolean desativando) {
 		this.desativando = desativando;
 	}
-	
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -195,5 +212,5 @@ public class ClientController implements ObserverUsuario, Serializable{
 		this.usuario = usuario;
 	}
 
-	
+
 }
