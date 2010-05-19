@@ -4,17 +4,16 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import persistencia.facade.FacadeChamado;
-import persistencia.facade.FacadeHistoricoChamado;
 import service.base.FilaChamado;
 import common.entity.Chamado;
-import common.entity.HistoricoChamado;
+import common.remote.ObservadorAgendamento;
 import common.remote.ObservadorFila;
 import common.remote.ServiceChamado;
 
 public class ServiceChamadoImpl implements ServiceChamado {
 
 	List<ObservadorFila> observadoresFila;
+	List<ObservadorAgendamento> observadoresAgendamento;
 	FilaChamado filaChamados;
 	
 	/**
@@ -22,6 +21,7 @@ public class ServiceChamadoImpl implements ServiceChamado {
 	 */
 	public ServiceChamadoImpl(){
 		observadoresFila = new ArrayList<ObservadorFila>();
+		observadoresAgendamento = new ArrayList<ObservadorAgendamento>();
 	}
 	
 	@Override
@@ -29,7 +29,6 @@ public class ServiceChamadoImpl implements ServiceChamado {
 			throws RemoteException {
 
 		observadoresFila.add(obs);
-		obs.atualizarFila(FilaChamado.getInstance().getFila());
 	}
 	
 	@Override
@@ -55,6 +54,35 @@ public class ServiceChamadoImpl implements ServiceChamado {
 	}
 
 	@Override
+	public void adicionarObservadorAgendamento(ObservadorAgendamento obs)
+			throws RemoteException {
+		observadoresAgendamento.add(obs);	
+	}
+	
+	@Override
+	public void notificarObservadorAgendamento() throws RemoteException {
+		for(int i=0; i<observadoresAgendamento.size();i++){
+			ObservadorAgendamento obs = observadoresAgendamento.get(i);
+			try{
+				obs.atualizarFila(FilaChamado.getInstance().getFilaAgendamento());
+				
+			}catch(RemoteException e){
+				// se o observador fila está indisponivel, remove
+				observadoresAgendamento.remove(i);
+				i--;
+			}	
+		}
+		
+	}
+
+	@Override
+	public void removerObservadorAgendamento(ObservadorAgendamento obs)
+			throws RemoteException {
+		observadoresAgendamento.remove(obs);
+		
+	}
+	
+	@Override
 	public void cadastrarChamado(Chamado chamado) throws RemoteException {
 
 		// TODO: adicionar no banco.
@@ -66,21 +94,22 @@ public class ServiceChamadoImpl implements ServiceChamado {
 
 	@Override
 	public void atualizarChamado(Chamado chamado) throws RemoteException {
-		HistoricoChamado historicoChamado = FacadeChamado.buscarChamado(chamado);
+		// TODO - Esperar Denis fazer cadastrar se não dá pau
+		/*HistoricoChamado historicoChamado = FacadeChamado.buscarChamado(chamado);
 		boolean criou = FacadeHistoricoChamado.criarHistoricoChamado(historicoChamado);
 		if(criou)
 		{
 			boolean salvou = FacadeChamado.atualizarChamado(chamado);
 			if(salvou)
-			{
+			{*/
 				if(chamado.getStatus().getNome().equals("AGENDADO"))
 				{
 					// TODO - Notificar ListarAgenda
 					FilaChamado.getInstance().adicionaAgendamento(chamado);
-					//notificarObservadorFila();
+					notificarObservadorAgendamento();
 				}
-			}
-		}
+			/*}
+		}*/
 		
 		
 		// atualiza o chamado na fila e notificar.
