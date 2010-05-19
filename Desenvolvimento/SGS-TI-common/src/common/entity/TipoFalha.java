@@ -4,35 +4,41 @@ import java.io.Serializable;
 
 public class TipoFalha implements Serializable
 {
-
-	//constantes
 	private static final long serialVersionUID = 1L;
 	public static final String HARDWARE = "HARDWARE";
 	public static final String SOFTWARE = "SOFTWARE";
 	public static final String DUVIDA = "DUVIDA";
 	private String nome;
 
+	/**
+	* TODO - Descrever melhor os campos
+	*/
+	/**
+	 * Construdor
+	 * 
+	 * @param nome
+	 */
 	public TipoFalha(String nome)
 	{
 		setNome(nome);
 	}
 	
-
-
+	/*
+	 * GETTERs AND SETTERs
+	 */
 	public String getNome() {
 		return nome;
 	}
-
-
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-
-
+	/**
+	* TODO - Documentar
+	*/
 	@Override
-	public int hashCode() {
+	public int hashCode() 
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
@@ -40,8 +46,12 @@ public class TipoFalha implements Serializable
 		return result;
 	}
 
+	/**
+	* TODO - Documentar
+	*/
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -56,6 +66,4 @@ public class TipoFalha implements Serializable
 			return false;
 		return true;
 	}
-	
-	
 }

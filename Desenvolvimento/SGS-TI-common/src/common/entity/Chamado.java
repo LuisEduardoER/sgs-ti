@@ -1,15 +1,12 @@
 package common.entity;
 
 import java.io.Serializable;
+
 import java.util.Date;
 import java.util.Random;
 
-
-public class Chamado implements Serializable {
-	
-	/**
-	 * 
-	 */
+public class Chamado implements Serializable 
+{
 	private static final long serialVersionUID = 1L;
 	private long numeroChamado;
 	private Date dataHoraAbertura;
@@ -22,7 +19,7 @@ public class Chamado implements Serializable {
 	private String responsavel;
 	private Cliente reclamante;
 	private Usuario usuarioResgistro;
-	
+
 	/**
 	 * Construtor.
 	 * 
@@ -33,7 +30,8 @@ public class Chamado implements Serializable {
 	 * @param reclamante
 	 * 		Pessoa ou empresa que abriu a reclamação.
 	 */
-	public Chamado(Date dataHoraAbertura,TipoChamado tipoChamado, Cliente reclamante) {
+	public Chamado(Date dataHoraAbertura,TipoChamado tipoChamado, Cliente reclamante) 
+	{
 		setNumeroChamado(new Random().nextInt(999999999));
 		this.dataHoraAbertura = dataHoraAbertura;
 		this.dataHoraFechamento = null;
@@ -45,10 +43,37 @@ public class Chamado implements Serializable {
 		this.prioridade = new Prioridade(getTipoChamado().getValor(), getReclamante().getPorte().getValor(), new Date());
 	}
 
+	/**
+	 * 
+	 * Construtor
+	 * 
+	 * @param numeroChamado
+	 * 		Identificação do chamado.
+	 * @param dataHoraAbertura
+	 * 		Data e Hora da abertura do chamado.
+	 * @param dataHoraFechamento
+	 * 		Data e Hora do fechamento do chamado.
+	 * @param detalhes
+	 * 		Informações extras do problema do chamado.
+	 * @param status
+	 * 		Status do chamado.
+	 * @param prioridade
+	 * 		Prioridade do chamado.
+	 * @param tipoChamado
+	 * 		Tipo do chamado.
+	 * @param reclamante
+	 * 		Pessoa ou empresa que abriu a reclamação.
+	 * @param tipoFalha
+	 * 		Tipo de falha
+	 * @param responsavel
+	 * 		Pessoa que solicitou a abertura do chamado.
+	 * @param usuarioRegistro
+	 * 		Pessoa que registrou o chamado.
+	 */
 	public Chamado(long numeroChamado, Date dataHoraAbertura, Date dataHoraFechamento,
-					String detalhes, StatusChamado status, Prioridade prioridade,
-					TipoChamado tipoChamado, Cliente reclamante, TipoFalha tipoFalha,
-					String responsavel, Usuario usuarioRegistro)
+			String detalhes, StatusChamado status, Prioridade prioridade,
+			TipoChamado tipoChamado, Cliente reclamante, TipoFalha tipoFalha,
+			String responsavel, Usuario usuarioRegistro)
 	{
 		this.numeroChamado = numeroChamado;
 		this.dataHoraAbertura = dataHoraAbertura;
@@ -62,7 +87,7 @@ public class Chamado implements Serializable {
 		this.usuarioResgistro = usuarioRegistro;
 		this.prioridade = new Prioridade(getTipoChamado().getValor(), getReclamante().getPorte().getValor(), new Date());
 	}
-	
+
 	/*
 	 * GETTERs AND SETTERs
 	 */
@@ -114,42 +139,44 @@ public class Chamado implements Serializable {
 	public void setReclamante(Cliente reclamante) {
 		this.reclamante = reclamante;
 	}
-
 	public TipoFalha getTipoFalha() {
 		return tipoFalha;
 	}
-
 	public void setTipoFalha(TipoFalha tipoFalha) {
 		this.tipoFalha = tipoFalha;
 	}
-
 	public String getResponsavel() {
 		return responsavel;
 	}
-
 	public void setResponsavel(String responsavel) {
 		this.responsavel = responsavel;
 	}
-
 	public Usuario getUsuarioResgistro() {
 		return usuarioResgistro;
 	}
-
 	public void setUsuarioResgistro(Usuario usuarioResgistro) {
 		this.usuarioResgistro = usuarioResgistro;
 	}
 
+	/**
+	 * TODO - Documentar
+	 */
 	@Override
-	public int hashCode() {
+	public int hashCode() 
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ (int) (numeroChamado ^ (numeroChamado >>> 32));
+		+ (int) (numeroChamado ^ (numeroChamado >>> 32));
 		return result;
 	}
 
+	/**
+	 * TODO - Documentar
+	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)

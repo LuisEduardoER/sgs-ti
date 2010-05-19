@@ -16,11 +16,8 @@ public class SQLTipoFalha implements DAOTipoFalha{
 	private static String PROCURAR_TIPO_FALHA = ".jdbc.PROCURAR_TIPO_FALHA";
 	
 	/**
-	 create table TipoFalha(
-	 codigoTipoFalha integer not null constraint CODIGO_TIPO_FALHA PRIMARY KEY,
-	 nomeTipoFalha varchar(255));
+	 * TODO - Descrever melhor os campos
 	 */
-
 	@Override
 	public boolean adicionaTipoFalha(TipoFalha tipoFalha) {
 		Connection con = null;
@@ -60,11 +57,8 @@ public class SQLTipoFalha implements DAOTipoFalha{
 	}
 
 	/**
-	 create table TipoFalha(
-	 codigoTipoFalha integer not null constraint CODIGO_TIPO_FALHA PRIMARY KEY,
-	 nomeTipoFalha varchar(255));
+	 * TODO - Descrever melhor os campos
 	 */
-	
 	@Override
 	public int procurarTipoFalha(TipoFalha tipoFalha) {
 		Connection con = null;

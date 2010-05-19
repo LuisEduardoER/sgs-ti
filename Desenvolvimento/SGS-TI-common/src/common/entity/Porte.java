@@ -2,8 +2,8 @@ package common.entity;
 
 import java.io.Serializable;
 
-public class Porte implements Serializable  {
-
+public class Porte implements Serializable  
+{
 	private static final long serialVersionUID = 1L;
 	public static final String GRANDE = "GRANDE";
 	public static final String MEDIA = "MEDIA";
@@ -25,18 +25,18 @@ public class Porte implements Serializable  {
 		this.valor = 1;
 	}
 
+	/*
+	 * GETTERs AND SETTERs
+	 */
 	public String getNome() {
 		return nome;
 	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 	public int getValor() {
 		return valor;
 	}
-
 	public void setValor(int valor) {
 		this.valor = valor;
 	}

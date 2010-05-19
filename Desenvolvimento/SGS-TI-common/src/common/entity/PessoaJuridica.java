@@ -2,13 +2,16 @@ package common.entity;
 
 import java.util.List;
 
-public class PessoaJuridica extends Cliente {
-
+public class PessoaJuridica extends Cliente 
+{
 	private static final long serialVersionUID = 1L;
 	private String razaoSocial;
 	private String nomeFantasia;
 	private long CNPJ;
 	
+	/**
+	* TODO - Descrever melhor os campos
+	*/
 	/**
 	 * Construtor
 	 * @param endereco

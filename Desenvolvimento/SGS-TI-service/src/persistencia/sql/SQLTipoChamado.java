@@ -15,14 +15,9 @@ public class SQLTipoChamado implements DAOTipoChamado{
 	private static String INSERIR_TIPO_CHAMADO = ".jdbc.INSERIR_TIPO_CHAMADO";
 	private static String PROCURAR_TIPO_CHAMADO = ".jdbc.PROCURAR_TIPO_CHAMADO";
 
-	
 	/**
-	 create table Tipochamado(
-	 codigoTipoChamado integer not null constraint CODIGO_TIPOCHAMADO PRIMARY KEY,
-	 nomeTipoChamado varchar(255), 
-	 valorPrioridade integer);
-	 */
-	
+	 * TODO - Descrever melhor os campos
+	 */	
 	@Override
 	public boolean adicionaTipoChamado(TipoChamado tipoChamado) {
 		Connection con = null;
@@ -62,10 +57,7 @@ public class SQLTipoChamado implements DAOTipoChamado{
 	}
 
 	/**
-	 create table Tipochamado(
-	 codigoTipoChamado integer not null constraint CODIGO_TIPOCHAMADO PRIMARY KEY,
-	 nomeTipoChamado varchar(255), 
-	 valorPrioridade integer);
+	 * TODO - Descrever melhor os campos
 	 */
 	@Override
 	public int procurarTipoChamado(TipoChamado tipoChamado) {

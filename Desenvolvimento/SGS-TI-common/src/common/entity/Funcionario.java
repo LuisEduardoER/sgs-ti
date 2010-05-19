@@ -2,8 +2,8 @@ package common.entity;
 
 import java.util.Date;
 
-public class Funcionario extends Pessoa {
-
+public class Funcionario extends Pessoa 
+{
 	private static final long serialVersionUID = 1L;
 	private String matricula;
 	private String nome;
@@ -13,9 +13,24 @@ public class Funcionario extends Pessoa {
 	private Date dataDemissao;
 	private long CPF;
 	
+	/**
+	* TODO - Descrever campos
+	*/
+
+	/**
+	 * Construtor.
+	 * 
+	 * @param matricula
+	 * @param nome
+	 * @param sexo
+	 * @param dataNascimento
+	 * @param dataAdmissao
+	 * @param endereco
+	 * @param CPF
+	 */
 	public Funcionario(String matricula, String nome, String sexo,
-			Date dataNascimento, Date dataAdmissao, String endereco, long CPF ) {
-		
+			Date dataNascimento, Date dataAdmissao, String endereco, long CPF ) 
+	{		
 		super(endereco);
 		this.matricula = matricula;
 		this.nome = nome;
@@ -25,6 +40,11 @@ public class Funcionario extends Pessoa {
 		this.dataDemissao = null;
 		this.CPF = CPF;
 	}
+	
+	/*
+	 * GETTERs AND SETTERs
+	 */
+
 	public String getMatricula() {
 		return matricula;
 	}

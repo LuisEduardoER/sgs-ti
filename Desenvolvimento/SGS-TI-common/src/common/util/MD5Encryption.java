@@ -3,12 +3,21 @@ package common.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MD5Encryption {
-	
-	public static String encript(String value){
-		byte[] valueBytes = value.getBytes();
-		
-		try{
+public class MD5Encryption 
+{
+	/**
+	 * TODO - Descrever melhor os campos
+	 */
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static String encript(String value)
+	{
+		byte[] valueBytes = value.getBytes();		
+		try
+		{
 			MessageDigest algorithm = MessageDigest.getInstance("MD5");
 			algorithm.reset();
 			algorithm.update(valueBytes);

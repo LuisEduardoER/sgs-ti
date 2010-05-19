@@ -25,18 +25,19 @@ public class Conexao {
 	 * uma vez, não precisando ser carregado diversas vezes desnecessariamente.
 	 */
 	
-	
-	static {
-		
+	static 
+	{	
 		try {
 			InputStream is = Conexao.class.getClassLoader().getResourceAsStream(ARQUIVO_CONF);
 			configuracoes = new Properties();
 			configuracoes.load(is);
-			
+		
+			/**
+			 * TODO - Arrumar Exceptio
+			 */
 		} catch (IOException e) {
 			throw new RuntimeException("Erro de I/O", e);
 		}
-	
 	}
 	
 	/**

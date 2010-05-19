@@ -1,9 +1,23 @@
 package persistencia.facade;
 
-public class FacadeUsuario {
+import persistencia.dao.DAOUsuario;
+import persistencia.sql.SQLUsuario;
+import common.entity.Usuario;
+import common.util.MD5Encryption;
+
+public class FacadeUsuario 
+{
 	
-	/*public static boolean criarUser(Usuario user){
-		
+	/**
+	 * TODO - Descrever melhor os campos
+	 */
+	/**
+	 * 	
+	 * @param user
+	 * @return
+	 */
+	public static boolean criarUser(Usuario user)
+	{	
 		// Usa o utilitario para criptografar a senha
 		user.setPassword( MD5Encryption.encript(user.getPassword()) );
 		
@@ -13,8 +27,16 @@ public class FacadeUsuario {
 		return inserido;
 	}
 	
-	public static boolean autenticarUser(Usuario user){
-
+	/**
+	 * TODO - Descrever melhor os campos
+	 */
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public static boolean autenticarUser(Usuario user)
+	{
 		// Usa o utilitario para criptografar a senha
 		user.setPassword( MD5Encryption.encript(user.getPassword()) );
 		
@@ -23,8 +45,16 @@ public class FacadeUsuario {
 		return dao.autenticar(user);
 	}
 
-	public static boolean atualizarPerfil(Usuario user) {
-		
+	/**
+	 * TODO - Descrever melhor os campos
+	 */
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public static boolean atualizarPerfil(Usuario user) 
+	{
 		// Usa o utilitario para criptografar a senha
 		user.setPassword( MD5Encryption.encript(user.getPassword()) );
 		
@@ -34,8 +64,16 @@ public class FacadeUsuario {
 		return atualizado;
 	}
 	
+	/**
+	 * TODO - Descrever melhor os campos
+	 */
+	/**
+	 * 
+	 * @param username
+	 * @return
+	 */
 	public static boolean verificarUsername(String username){
 		DAOUsuario dao = new SQLUsuario();
 		return dao.existeUser(username);
-	}*/
+	}
 }

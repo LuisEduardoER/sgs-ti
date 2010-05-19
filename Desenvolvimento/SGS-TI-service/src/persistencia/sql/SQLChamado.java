@@ -16,6 +16,9 @@ public class SQLChamado implements DAOChamado{
 	private static String INSERIR_CHAMADO = ".jdbc.INSERIR_CHAMADO";
 	private static String ATUALIZAR_CHAMADO = ".jdbc.ATUALIZAR_CHAMADO";
 
+	/**
+	 * TODO - Descrever melhor os campos
+	 */
 	@Override
 	public boolean adicionaChamado(Chamado chamado) {
 		Connection con = null;
@@ -54,6 +57,9 @@ public class SQLChamado implements DAOChamado{
 		return true;
 	}
 	
+	/**
+	 * TODO - Descrever melhor os campos
+	 */
 	@Override
 	public boolean atualizarChamado(Chamado chamado) {
 		Connection con = null;
