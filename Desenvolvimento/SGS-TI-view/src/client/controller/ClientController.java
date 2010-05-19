@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashSet;
+import java.util.Observer;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import common.entity.Chamado;
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
 import common.exception.BusinessException;
+import common.remote.ObservadorFila;
 import common.remote.ObserverUsuario;
 import common.remote.ServiceChamado;
 import common.remote.ServiceUsuario;
@@ -27,6 +30,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 	private ServiceUsuario serviceUsuario;
 	private ServiceChamado serviceChamado;
 	private ObserverUsuario stubUsuario;
+	private ObservadorFila observerFila;
 	private Usuario usuario;
 
 	private boolean desativando;
@@ -171,6 +175,59 @@ public class ClientController implements ObserverUsuario, Serializable{
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Ativa o observador da fila, para receber notificações do serviço remoto.
+	 * @param obs
+	 * 		Observer interessado em receber o notify
+	 */
+	public void ativarObservadorFila(Observer obs){
+		try {
+			this.observerFila = new ObservadorFilaImpl(obs);
+			
+		} catch (BusinessException e) {
+			mostrarMensagem(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Desativa o observador da fila, para parar de receber notificações do serviço remoto.
+	 * @param obs
+	 * 		Observer que será removido.
+	 */
+	public void desativarObservadorFila(Observer obs){
+		try {
+			this.observerFila.removerObservador();
+			
+		} catch (RemoteException e) {
+			mostrarMensagem("Erro ao conectar com o serviço de chamados.");
+		}	
+	}
+	
+	/**
+	 * Adicionar um observer ao Observador Fila
+	 * @param obs
+	 * 		Observer interessado em receber o notify
+	 */
+	public void addObserverNotificacoesFila(Observer obs){
+		try {
+			this.observerFila.addObserverNotificacoesFila(obs);
+		} catch (RemoteException e) {
+			mostrarMensagem("Não foi possível adicionar observador da fila de chamados.");
+		}
+	}
+	/**
+	 * Remove um observer ao Observador Fila
+	 * @param obs
+	 * 		Observer que será removido
+	 */
+	public void removeObserverNotificacoesFila(Observer obs){
+		try {
+			this.observerFila.removeObserverNotificacoesFila(obs);
+		} catch (RemoteException e) {
+			mostrarMensagem("Não foi possível remover observador da fila de chamados.");
 		}
 	}
 

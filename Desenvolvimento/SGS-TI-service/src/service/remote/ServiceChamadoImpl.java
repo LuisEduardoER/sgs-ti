@@ -35,8 +35,8 @@ public class ServiceChamadoImpl implements ServiceChamado {
 	@Override
 	public void removerObservadorFila(ObservadorFila obs)
 			throws RemoteException {
-		
-		observadoresFila.remove(obs);
+		if(observadoresFila.contains(obs))
+			observadoresFila.remove(obs);
 	}
 	
 	@Override

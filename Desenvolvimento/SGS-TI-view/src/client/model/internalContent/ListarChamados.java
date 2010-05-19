@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,25 +16,21 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.Filter;
 import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.PatternFilter;
-
 import common.entity.Chamado;
-import common.exception.BusinessException;
 import common.remote.ObservadorFila;
 import common.util.Utils;
 import client.Modal;
-import client.controller.ObservadorFilaImpl;
+import client.controller.ClientController;
 import client.util.ClientConstraint;
 import client.util.SpringUtilities;
 import client.view.MainView;
@@ -83,7 +78,7 @@ public class ListarChamados implements InternalContent, Observer{
 		modeloFila = new FilaChamadoModel(converterListEmMatriz(listaChamados), colunas);
 		tabelaChamados = new JXTable(modeloFila);	
 		tabelaChamados.setDragEnabled(false);
-
+		tabelaChamados.setDoubleBuffered(false);
 
 		/* 
 		 * form 
@@ -138,20 +133,43 @@ public class ListarChamados implements InternalContent, Observer{
 		jif.add(scrollPane,BorderLayout.CENTER);
 		jif.add(buttons, BorderLayout.SOUTH);
 
-		try{
-			setObservadorFila(new ObservadorFilaImpl(this));
-
-		}catch(BusinessException e){
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
+		
+		// ativa o observadorFila e se add como interessado em receber notify
+		ClientController.getInstance().ativarObservadorFila(this);
 	}
 
-	public void atualizarFila(List<Chamado> listaChamados){
-		this.listaChamados = listaChamados;
-		modeloFila.setLinhas(converterListEmMatriz(listaChamados));
-		tabelaChamados.updateUI();
-		scrollPane.updateUI();
+	private void finalizar(){
+		// ativa o observadorFila e se add como interessado em receber notify
+		ClientController.getInstance().desativarObservadorFila(ListarChamados.this);
 
+		Modal modal = new Modal();
+		modal.setModal(true);
+
+		modal.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				List<String> form = ((Modal)e.getSource()).pegarDados();
+				for(String s : form)
+					System.out.println(s);
+			}	
+		});
+
+		modal.setVisible(true);
+	}
+	
+	public void atualizarFila(List<Chamado> listaChamados){
+		if(listaChamados!=null){
+			this.listaChamados = listaChamados;
+			modeloFila.setLinhas(converterListEmMatriz(listaChamados));
+		}
+		try{
+			
+			tabelaChamados.updateUI();
+			scrollPane.updateUI();
+			
+		}catch (NullPointerException e) {
+			// tratamento caso o updeteUI rode enquanto a janela esta fechando.
+		}
 		Utils.printMsg(this.getClass().getName(), new Date() + " - Fila atualizada. Size: " + listaChamados.size());
 	}
 
@@ -221,37 +239,14 @@ public class ListarChamados implements InternalContent, Observer{
 		public void internalFrameOpened(InternalFrameEvent e) {
 			inicializar();
 		}
-
+		@Override
+		public void internalFrameClosed(InternalFrameEvent e) {
+			finalizar();
+		}
+		
 		@Override
 		public void internalFrameClosing(InternalFrameEvent e) {
 		}			
-
-		@Override
-		public void internalFrameClosed(InternalFrameEvent e) {
-			try {
-				if(getObservadorFila() != null)
-					getObservadorFila().removerObservador();
-
-			} catch (RemoteException ex) {
-				// TODO criar exception
-				ex.printStackTrace();
-			}	
-
-			Modal modal = new Modal();
-			modal.setModal(true);
-
-			modal.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent e) {
-					List<String> form = ((Modal)e.getSource()).pegarDados();
-					for(String s : form)
-						System.out.println(s);
-				}	
-			});
-
-			modal.setVisible(true);
-		}
-
 		@Override
 		public void internalFrameActivated(InternalFrameEvent e) {
 			// TODO Auto-generated method stub
