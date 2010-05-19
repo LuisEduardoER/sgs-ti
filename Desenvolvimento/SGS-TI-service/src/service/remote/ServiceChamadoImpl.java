@@ -35,9 +35,17 @@ public class ServiceChamadoImpl implements ServiceChamado {
 	}
 	
 	@Override
-	public void notificarObservadorFila() throws RemoteException {
-		for(ObservadorFila obs : observadoresFila){
-			obs.atualizarFila(FilaChamado.getInstance().getFila());
+	public void notificarObservadorFila() {
+		for(int i=0; i<observadoresFila.size();i++){
+			ObservadorFila obs = observadoresFila.get(i);
+			try{
+				obs.atualizarFila(FilaChamado.getInstance().getFila());
+				
+			}catch(RemoteException e){
+				// se o observador fila está indisponivel, remove
+				observadoresFila.remove(i);
+				i--;
+			}	
 		}
 	}
 
