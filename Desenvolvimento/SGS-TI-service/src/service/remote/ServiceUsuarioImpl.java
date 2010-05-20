@@ -1,9 +1,12 @@
 package service.remote;
 
 import java.rmi.RemoteException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
+
 import service.task.ThreadUserMonitor;
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
@@ -13,12 +16,12 @@ import common.util.Utils;
 
 public class ServiceUsuarioImpl implements ServiceUsuario{
 	
-	private HashSet<UsuarioAutenticado> usuarioAutenticado;
+	private Set<UsuarioAutenticado> usuarioAutenticado;
 
 	public ServiceUsuarioImpl() {
 		Utils.printMsg(this.getClass().getSimpleName(),"Criando Servico.");
 		// Inicializa a HashSet
-		usuarioAutenticado = new HashSet<UsuarioAutenticado>();
+		usuarioAutenticado = Collections.synchronizedSet(new HashSet<UsuarioAutenticado>());
 		// Lanca o UserMonitor
 		new ThreadUserMonitor(this).start();
 	}
@@ -74,7 +77,7 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 	}
 	
 	@Override
-	public HashSet<UsuarioAutenticado> getUsuarioAutenticado() {
+	public Set<UsuarioAutenticado> getUsuarioAutenticado() {
 		return usuarioAutenticado;
 	}
 
