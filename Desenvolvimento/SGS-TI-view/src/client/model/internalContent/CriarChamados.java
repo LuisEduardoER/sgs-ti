@@ -171,7 +171,9 @@ public class CriarChamados implements InternalContent
 			clienteTextField.setText("Pegar o cliente na modal");
 			clienteTextField.setEditable(false);
 
-			//responsavelTextField.setText(chamado.getResponsavel().toString());
+			String usuario = ClientController.getInstance().getUsuario().getNome();
+			
+			responsavelTextField.setText(usuario);
 			responsavelTextField.setEditable(false);
 
 			descricaoTextArea.setAutoscrolls(true);
@@ -275,11 +277,20 @@ public class CriarChamados implements InternalContent
 
 				modal.addWindowListener(new WindowAdapter() {
 					// Quando fechar a modal, exibir
+					
 					@Override
-					public void windowClosing(WindowEvent e) {
-						String cliente = ((ModalCliente)e.getSource()).getCliente();
-						clienteTextField.setText(cliente);
-					}	
+					public void windowClosed(WindowEvent e) {
+						pegarUser(e);
+					}
+					
+					public void pegarUser(WindowEvent e){
+						boolean cancelado = ((ModalCliente)e.getSource()).isCancelado();
+						if(!cancelado)
+						{
+							String cliente = ((ModalCliente)e.getSource()).getCliente();
+							clienteTextField.setText(cliente);
+						}
+					}
 				});
 
 				modal.setVisible(true);
