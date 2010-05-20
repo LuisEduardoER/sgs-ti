@@ -121,12 +121,13 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	@Override
 	public boolean autenticar(Usuario usuario) throws RemoteException, BusinessException{
-		boolean acesso = serviceUsuario.autenticar(stubUsuario, usuario);
-		if(acesso){
-			this.usuario = usuario;
+		this.usuario = serviceUsuario.autenticar(stubUsuario, usuario);
+		System.out.println(this.usuario.getNome());
+		if(!Utils.isNullOrEmpty(this.usuario)){
 			MainView.getInstance().alterarWelcomeMsg(SystemConstant.USUARIO_LOGADO + this.usuario.getUsername());
+			return true;
 		}
-		return acesso;
+		return false;
 	}
 
 	/**

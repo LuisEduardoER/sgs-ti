@@ -47,12 +47,16 @@ public class ModalCliente extends JDialog {
 	
 	private JTextField campoPesquisa;
 	private JButton btPesquisar;
+	private JButton btOk;
 	private JTextArea areaTEMP;
 	private JPanel form;
 	private ListenerPesquisar lp;
 	private JXTable tabela;
 	private String nome;
 	private List<PessoaJuridica> lista;
+	private JXTableModel tm;
+
+	private boolean cancelado;
 	public String getNome() {
 		return nome;
 	}
@@ -62,10 +66,11 @@ public class ModalCliente extends JDialog {
 	}
 
 	public ModalCliente() {
+		cancelado = false;
 		setTitle("Pesquisar Cliente");
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		setSize(600, 460);
+		setSize(600, 470);
 		setResizable(false);
 		setLocation(ViewUtils.getScreenCenter(this));
 		addWindowListener(new WindowAdapter() {
@@ -76,12 +81,7 @@ public class ModalCliente extends JDialog {
 					
 				}
 				if(JOptionPane.showConfirmDialog(null,"Nenhum cliente foi selecionado, deseja cancelar a busca?","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
-					if(!(tabela.getSelectedRowCount()==0))
-					{
-						int linha = tabela.getSelectedRow();
-						nome = tabela.getValueAt(linha, 0).toString();
-					}else
-						nome = "";
+					cancelado = true;
 					fecharModal();
 				}
 			}
@@ -101,19 +101,25 @@ public class ModalCliente extends JDialog {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		usuarios.add(new Usuario("Marcio Fuckner","wokdow"));
 		//Cliente novo = new Cliente("Rua da cidade de Curitiba", porte,usuarios,"");
-		Cliente cliente = new PessoaFisica("Rua x", new Porte(Porte.PF), null, "PUC-PR", "Masculino",
+		Cliente cliente = new PessoaFisica("", new Porte(""), null, "", "",
 				new Date(), new Long("0123456789"));
 		
 		List<Cliente> listaCli = new ArrayList<Cliente>();
 		listaCli.add(cliente);
 		
-		JXTableModel tm = new JXTableModel(converterListEmMatriz(listaCli),header);
+		tm = new JXTableModel(converterListEmMatriz(new ArrayList<PessoaJuridica>()),header);
 		tabela = new JXTable(tm);
 		JScrollPane scroll = new JScrollPane(tabela);
 		scroll.setSize(270,150);
+		lp = new ListenerPesquisar();
 		btPesquisar = new JButton("Buscar");
 		btPesquisar.addActionListener(lp);
 		btPesquisar.setActionCommand("PESQUISAR");
+		
+		btOk = new JButton("Enviar");
+		btOk.addActionListener(lp);
+		btOk.setActionCommand("ENVIAR");
+		
 		
 		form = new JPanel();
 		form.setLayout(new SpringLayout());
@@ -128,8 +134,11 @@ public class ModalCliente extends JDialog {
 		form.add(btPesquisar);
 		
 		form.add(lblResultado);
+		form.add(btOk);
 		form.add(new JLabel(""));
-		form.add(new JLabel(""));
+		
+		
+		
 
 		SpringUtilities.makeCompactGrid(form,
 				2, 3,		//rows, cols
@@ -152,21 +161,32 @@ public class ModalCliente extends JDialog {
 	{
 		@Override
 		public void actionPerformed(ActionEvent evt) {
-			if (evt.getActionCommand().equals("Pesquisar")) {
-				System.out.println("OIIOOIOIO");
+			if (evt.getActionCommand().equals("PESQUISAR")) {
 				String desc = campoPesquisa.getText();
 				if(!Utils.isNullOrEmpty(desc))
 					try {
-						lista = ClientController.getInstance().pesquisarPJ(desc);
+						List<PessoaJuridica> pjs = ClientController.getInstance().pesquisarPJ(desc);
+						if(!Utils.isEmptyCollection(pjs)){
+							lista = pjs;
+						}else
+							lista = new ArrayList<PessoaJuridica>();
+						atualizarTabela();
 					} catch (RemoteException e) {
 						MainView.getInstance().mostrarMensagemErroRemoto();
 					}
+			}else if (evt.getActionCommand().equals("ENVIAR")) {
+				int linha = tabela.getSelectedRow();
+				if(linha>-1)
+					nome = tabela.getValueAt(linha, 0).toString();
+				if(Utils.isNullOrEmpty(nome))
+					nome = "";
+				fecharModal();
 			}
 
 		}
 	}
 	
-	public String[][] converterListEmMatriz(List<Cliente> clientes){
+	public String[][] converterListEmMatriz(List<PessoaJuridica> clientes){
 		String [][]matriz = new String [clientes.size()][3];
 		// nome, porte e endereco
 		for(int linha=0; linha<clientes.size(); linha++){
@@ -177,6 +197,20 @@ public class ModalCliente extends JDialog {
 		}
 
 		return matriz;
+	}
+	
+	public void atualizarTabela(){
+		if(!Utils.isEmptyCollection(lista)){
+			tm.setLinhas(converterListEmMatriz(lista));
+		}else
+		{
+			String [][] matriz = new String[0][0];
+			tm.setLinhas(matriz);
+		}
+		
+		tm.fireTableDataChanged();
+		
+		Utils.printMsg(this.getClass().getName(), new Date() + " - Lista Cli atualizada. Size: " + lista.size());
 	}
 	
 	public void fecharModal(){
@@ -215,4 +249,14 @@ public class ModalCliente extends JDialog {
 	public void setTabela(JXTable tabela) {
 		this.tabela = tabela;
 	}
+
+	public boolean isCancelado() {
+		return cancelado;
+	}
+
+	public void setCancelado(boolean cancelado) {
+		this.cancelado = cancelado;
+	}
+	
+	
 }
