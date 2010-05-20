@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -16,7 +15,7 @@ import java.util.Properties;
  */
 public class Conexao {
 
-	private static final String ARQUIVO_CONF = "META-INF/properties/conexao.properties";
+	private static final String ARQUIVO_CONF = "resources/properties/conexao.properties";
 	
 	private static final Properties configuracoes;
 
