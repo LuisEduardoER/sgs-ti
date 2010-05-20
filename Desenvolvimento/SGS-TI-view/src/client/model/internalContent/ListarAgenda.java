@@ -7,15 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import java.rmi.RemoteException;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -26,17 +23,14 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.Filter;
 import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.PatternFilter;
-
 import common.entity.Chamado;
 import common.exception.BusinessException;
 import common.remote.ObservadorAgendamento;
 import common.util.Utils;
-
 import client.Modal;
 import client.controller.ObservadorFilaImplAgendamento;
 import client.util.SpringUtilities;
@@ -62,7 +56,7 @@ public class ListarAgenda implements InternalContent, Observer
 	
 	@Override
 	public JInternalFrame getInternalContent(Object param) {
-
+	
 		jif = new JInternalFrame();
 		jif.addInternalFrameListener(new ouvinteInternalContent());
 
