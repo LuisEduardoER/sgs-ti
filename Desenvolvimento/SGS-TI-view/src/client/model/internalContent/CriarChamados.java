@@ -8,6 +8,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Observable;
 import javax.swing.JButton;
@@ -21,13 +23,17 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+
+import common.entity.Chamado;
 import common.entity.TipoFalha;
 import common.exception.BusinessException;
 import common.remote.ObservadorFila;
 import common.remote.ServiceChamadoItens;
 import common.util.Utils;
 import client.ModalCliente;
+import client.controller.ClientController;
 import client.util.SpringUtilities;
+import client.view.MainView;
 
 
 public class CriarChamados implements InternalContent
@@ -38,6 +44,7 @@ public class CriarChamados implements InternalContent
 	private ServiceChamadoItens servico;
 	private List<TipoFalha> listFalha;
 	private OuvinteEditarChamado oec;
+	private Chamado chamado;
 
 	/**
 	 * Componetes 
@@ -250,7 +257,11 @@ public class CriarChamados implements InternalContent
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			if (evt.getActionCommand().equals("SALVAR")) {
-				//ClientController.getInstance().atualizarChamado(chamado);
+				try {
+					ClientController.getInstance().criarChamado(chamado);
+				} catch (RemoteException e) {
+					MainView.getInstance().mostrarMensagemErroRemoto();
+				}
 			}
 
 			if(evt.getActionCommand().equals("CANCELAR"))

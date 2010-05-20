@@ -23,6 +23,8 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 
 import common.entity.Usuario;
+import common.exception.BusinessException;
+import common.util.MD5Encryption;
 import common.util.SystemConstant;
 import common.util.Utils;
 
@@ -128,6 +130,8 @@ public class Login extends JFrame {
 			}
 			String loginUser = user.getText();
 			String loginPass = password.getText();
+			// Criptografa a senha
+			loginPass = MD5Encryption.encript(loginPass);
 			if(Utils.isNullOrEmpty(loginUser))
 				JOptionPane.showMessageDialog(null, "Digite um usuário.");
 			else if(Utils.isNullOrEmpty(loginPass))
@@ -155,6 +159,8 @@ public class Login extends JFrame {
 					JOptionPane.showMessageDialog(null, SystemConstant.MSG_AM_SEM_CONEXAO_REMOTA);
 				} catch (NullPointerException ex){
 					JOptionPane.showMessageDialog(null, SystemConstant.MSG_AM_SEM_CONEXAO_REMOTA);
+				} catch (BusinessException ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage());
 				}
 				
 			}

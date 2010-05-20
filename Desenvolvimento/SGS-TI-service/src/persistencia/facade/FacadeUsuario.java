@@ -3,6 +3,7 @@ package persistencia.facade;
 import persistencia.dao.DAOUsuario;
 import persistencia.sql.SQLUsuario;
 import common.entity.Usuario;
+import common.exception.BusinessException;
 import common.util.MD5Encryption;
 
 public class FacadeUsuario 
@@ -35,11 +36,8 @@ public class FacadeUsuario
 	 * @param user
 	 * @return
 	 */
-	public static boolean autenticarUser(Usuario user)
+	public static Usuario autenticarUser(Usuario user) throws BusinessException
 	{
-		// Usa o utilitario para criptografar a senha
-		user.setPassword( MD5Encryption.encript(user.getPassword()) );
-		
 		DAOUsuario dao = new SQLUsuario();
 		
 		return dao.autenticar(user);

@@ -1,6 +1,7 @@
 package persistencia.dao;
 
 import common.entity.Usuario;
+import common.exception.BusinessException;
 
 /**
  * Interface do DAO
@@ -18,7 +19,7 @@ public interface DAOUsuario
 	 * 		Boolean 
 	 * 
 	 */
-	boolean autenticar(Usuario user);
+	Usuario autenticar(Usuario user) throws BusinessException;
 	
 	/**
 	 * Método que adiciona no banco de dados um novo usuário.

@@ -3,12 +3,13 @@ package client.controller;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Observer;
-
+import java.util.Set;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import common.entity.Chamado;
+import common.entity.PessoaJuridica;
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
 import common.exception.BusinessException;
@@ -52,12 +53,17 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	public boolean inicializarServidorRemoto() throws RemoteException{
 		try {
-			serviceUsuario = Utils.obterServiceUsuario();
-			serviceChamado = Utils.obterServiceChamado();
+			if(Utils.isNullOrEmpty(serviceUsuario)){
+				serviceUsuario = Utils.obterServiceUsuario();
+			}
+			if(Utils.isNullOrEmpty(serviceChamado)){
+				serviceChamado = Utils.obterServiceChamado();
+			}
+			if(Utils.isNullOrEmpty(stubUsuario)){
+				stubUsuario = (ObserverUsuario) UnicastRemoteObject
+				.exportObject(this, 0);
+			}
 
-			// Criar um stub
-			stubUsuario = (ObserverUsuario) UnicastRemoteObject
-			.exportObject(this, 0);
 			return true;
 		} catch (BusinessException e) {
 			// TODO Auto-generated catch block
@@ -74,7 +80,12 @@ public class ClientController implements ObserverUsuario, Serializable{
 	public boolean reinicializarServidorRemoto() throws RemoteException{
 		serviceUsuario = Utils.obterServiceUsuario();
 		// Criar um stub
-		return autenticar(this.usuario);
+		try {
+			return autenticar(this.usuario);
+		} catch (BusinessException e) {
+			// Só entra se o Server remoto não estabeleceu e apos uma queda do server, desconsiderar
+		}
+		return false;
 	}
 
 	/**
@@ -106,9 +117,10 @@ public class ClientController implements ObserverUsuario, Serializable{
 	/**
 	 * Metodo necessário para autenticar o usuário no Servico Usuario remoto.
 	 * @throws RemoteException
+	 * @throws BusinessException 
 	 */
 	@Override
-	public boolean autenticar(Usuario usuario) throws RemoteException{
+	public boolean autenticar(Usuario usuario) throws RemoteException, BusinessException{
 		boolean acesso = serviceUsuario.autenticar(stubUsuario, usuario);
 		if(acesso){
 			this.usuario = usuario;
@@ -145,7 +157,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 * @return Todos os usuários conectados no Servico Usuário
 	 * @throws RemoteException 
 	 */
-	public HashSet<UsuarioAutenticado> getUsuariosAutenticados() throws RemoteException{
+	public Set<UsuarioAutenticado> getUsuariosAutenticados() throws RemoteException{
 		return serviceUsuario.getUsuarioAutenticado();
 	}
 
@@ -238,6 +250,19 @@ public class ClientController implements ObserverUsuario, Serializable{
 		} catch (RemoteException e) {
 			mostrarMensagem("Não foi possível remover observador da fila de chamados.");
 		}
+	}
+	
+	public List<PessoaJuridica> pesquisarPJ(String descricao) throws RemoteException{
+		return serviceUsuario.pesquisarPJ(descricao);
+	}
+	
+	/**
+	 * Cria um chamado e adiciona no banco e na lista de chamados
+	 * @throws RemoteException
+	 */
+	@Override
+	public void criarChamado(Chamado chamado) throws RemoteException{
+		serviceChamado.cadastrarChamado(chamado);
 	}
 
 	// Metodos de controle

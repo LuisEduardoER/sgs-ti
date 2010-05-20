@@ -6,13 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import common.entity.Usuario;
+import common.exception.BusinessException;
+import common.util.Utils;
 
 import persistencia.dao.DAOUsuario;
 import persistencia.util.Conexao;
 
 public class SQLUsuario implements DAOUsuario{
 	private static final boolean DEBUG = true;
-	private static String AUTENTICAR_USER = ".jdbc.AUTENTICA_USUARIO";
+	private static String AUTENTICAR_USER = ".jdbc.AUTENTICAR_USER";
 	private static String INSERIR_USER = ".jdbc.INSERE_USUARIO";
 	private static String VERIFICA_USERNAME = ".jdbc.VERIFICA_USERNAME";
 	private static String OBTER_CODIGO_USUARIO = ".jdbc.OBTER_CODIGO_USUARIO";
@@ -111,57 +113,52 @@ public class SQLUsuario implements DAOUsuario{
 
 	/**
 	* TODO - Documentar
+	 * @throws BusinessException 
 	*/
 	@Override
-	public boolean autenticar(Usuario user) {
+	public Usuario autenticar(Usuario user) throws BusinessException {
 		Connection con = null;
 		String sql = null;
-		
-		if(DEBUG){
-			System.out.println("USER:" + user.getUsername());
-			System.out.println("SENHA:" + user.getPassword());
-		}
-		
+
 		try {
 			// Obtem a conexão
 			con = Conexao.obterConexao();
 			con.setAutoCommit(false);
-			
+
 			String origem = Conexao.obterOrigem();
 			sql = FabricaSql.getSql(origem + AUTENTICAR_USER);
-			
-			if(DEBUG)
-				System.out.println("SQL - " + sql);
-			
+
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, user.getUsername());
 			stmt.setString(2, user.getPassword());
-			
+
 			ResultSet rs = stmt.executeQuery();
-		
+			Usuario usuario = null;
 			while(rs.next()){
-				System.out.println(rs.getString("RESULT"));
-				int r = Integer.parseInt(rs.getString("RESULT"));
-				if(r!=1){
-					stmt.close();
-					
-					// TODO 09: VERICAR ERRO DA QUERY
-					return false;
-				}else{
-					stmt.close();
-					return true;
-				}	
-			}					
+				int codigo = Integer.parseInt(rs.getString("CODIGO"));
+				String nome = rs.getString("NOME");
+				if(Utils.isNullOrEmpty(nome)){
+					throw new BusinessException("Usuário não possui nome.");
+				}else
+				{
+					usuario = user;
+					usuario.setCodigo(codigo);
+					usuario.setNome(nome);
+				}
+			}
+
 			stmt.close();
-			return false;
-			
+			if(Utils.isNullOrEmpty(usuario))
+				throw new BusinessException("Usuário não encontrado!");
+			else
+				return usuario;
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro SQL",e);
 		} finally {
-			
 			Conexao.fecharConexao(con);
 		}
-		}
+		
+	}
 
 	/**
 	* TODO - Documentar

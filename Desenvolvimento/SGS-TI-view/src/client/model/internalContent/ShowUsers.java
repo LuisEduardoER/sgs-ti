@@ -5,8 +5,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -59,7 +59,7 @@ public class ShowUsers  implements InternalContent
 				
 					try{
 						String user = jcb.getSelectedItem().toString();
-						HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+						Set<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
 						Iterator<UsuarioAutenticado> it = ua.iterator();
 						while(it.hasNext()){
 							UsuarioAutenticado usuario = it.next();
@@ -120,7 +120,7 @@ public class ShowUsers  implements InternalContent
 			
 			Utils.printMsg(this.getClass().getName(), "Atualizando ComboBox");
 			String userName = ClientController.getInstance().getUsuario().getUsername();
-			HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+			Set<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
 			Iterator<UsuarioAutenticado> it = ua.iterator();
 			jcb.removeAllItems();
 			jcb.addItem("Selecione");
