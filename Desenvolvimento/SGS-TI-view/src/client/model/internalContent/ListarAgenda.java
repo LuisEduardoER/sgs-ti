@@ -135,11 +135,35 @@ public class ListarAgenda implements InternalContent, Observer
 				while (true) {
 					for(Chamado c : listaChamados)
 					{
-						// VERIFICAR
+						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+						System.out.println("@  Data agendamento = " + c.getDataHoraAbertura());
+						System.out.println("@  Data atual = " + new Date());
+						System.out.println("@  Data agendamento string = " + c.getDataHoraAbertura().toString());
+						System.out.println("@  Data atual string = " + new Date().toString());
+						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+						
+						long d = c.getDataHoraAgendamento().getTime();
+						long dd = new Date().getTime();
+						
+						//if(c.getDataHoraAgendamento().after(new Date()))
+						if(d < dd)
+							System.out.println("Agendamento " + c.getDataHoraAbertura() + "já passou");
+						if(d == dd)
+							System.out.println("Agendamento " + c.getDataHoraAbertura() + "AGORA");
+						if(d > dd)
+							System.out.println("Agendamento " + c.getDataHoraAbertura() + "ira vir");
+							
+						
+						try {
+							sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 			};
-		};
+		}.start();
 		
 	}
 
