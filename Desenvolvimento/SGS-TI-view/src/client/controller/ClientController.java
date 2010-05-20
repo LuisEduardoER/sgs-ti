@@ -198,8 +198,10 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	public void ativarObservadorFila(Observer obs){
 		try {
-			this.observerFila = new ObservadorFilaImpl(obs);
-			atualizarCliente();
+			if(observerFila!= null){
+				this.observerFila = new ObservadorFilaImpl(obs);
+				atualizarCliente();
+			}
 			
 		} catch (BusinessException e) {
 			mostrarMensagem(e.getMessage());
@@ -215,8 +217,10 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	public void desativarObservadorFila(Observer obs){
 		try {
-			this.observerFila.removerObservador();
-			atualizarCliente();
+			if(observerFila!= null){
+				this.observerFila.removerObservador();
+				atualizarCliente();
+			}
 			
 		} catch (RemoteException e) {
 			mostrarMensagem("Erro ao conectar com o serviço de chamados.");

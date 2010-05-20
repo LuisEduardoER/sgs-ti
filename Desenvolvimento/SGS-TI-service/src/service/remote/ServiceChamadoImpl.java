@@ -89,12 +89,15 @@ public class ServiceChamadoImpl implements ServiceChamado
 	public void cadastrarChamado(Chamado chamado) throws RemoteException {
 
 		// TODO: adicionar no banco.
-		Utils.printMsg(this.getClass().getName(), "Cadastrando chamado");
+		
 		boolean inseriu = FacadeChamado.criarChamado(chamado);
-		System.out.println(inseriu);
-		// adicionar o chamado na fila e notificar.
-		FilaChamado.getInstance().adicionaChamado(chamado);
-		notificarObservadorFila();
+		Utils.printMsg(this.getClass().getName(), "Cadastrando chamado: " + inseriu);
+
+		if(inseriu){
+			// adicionar o chamado na fila e notificar.
+			FilaChamado.getInstance().adicionaChamado(chamado);
+			notificarObservadorFila();
+		}
 	}
 
 	@Override
@@ -122,6 +125,14 @@ public class ServiceChamadoImpl implements ServiceChamado
 		FilaChamado.getInstance().atualizarChamado(chamado);
 		notificarObservadorFila();
 		
+	}
+	
+	@Override
+	public void verificarStatus(ObservadorFila obs) throws RemoteException{
+		if(!observadoresFila.contains(obs)){
+			observadoresFila.add(obs);
+			obs.atualizarFila(FilaChamado.getInstance().getFila());
+		}
 	}
 	
 	/*

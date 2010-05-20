@@ -7,12 +7,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import persistencia.facade.FacadePessoaJuridica;
 import persistencia.facade.FacadeUsuario;
-
 import service.task.ThreadUserMonitor;
-import common.entity.Cliente;
 import common.entity.PessoaJuridica;
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
