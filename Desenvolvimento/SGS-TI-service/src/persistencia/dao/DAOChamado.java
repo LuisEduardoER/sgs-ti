@@ -1,5 +1,7 @@
 package persistencia.dao;
 
+import java.util.List;
+
 import common.entity.Chamado;
 import common.entity.HistoricoChamado;
 
@@ -38,4 +40,14 @@ public interface DAOChamado {
 	 */
 	abstract HistoricoChamado buscarChamado(Chamado chamado);
 
+	
+	/**
+	 * Método que busca o chamado.
+	 * 
+	 * @param user
+	 * 		Objeto Chamado.
+	 * @return
+	 * 		Chamado
+	 */
+	abstract List<Chamado> buscarChamadosAbertos();
 }

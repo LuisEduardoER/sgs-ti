@@ -16,4 +16,11 @@ public interface DAOStatus
 	 * 
 	 */
 	abstract int procurarStatus(StatusChamado status);
+	
+	/**
+	 * Metodo que procura um status pelo ID
+	 * @param codigo
+	 * @return
+	 */
+	abstract StatusChamado getById(int codigo);
 }

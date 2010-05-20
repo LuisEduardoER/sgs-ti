@@ -36,4 +36,14 @@ public class FacadeTipoFalha
 		int codigo = dao.procurarTipoFalha(tipoFalha);	
 		return codigo;
 	}
+	
+	/**
+	 * Procura um objeto pelo id.
+	 * @param codigo
+	 * @return
+	 */
+	public static TipoFalha getById(int codigo){
+		DAOTipoFalha dao = new SQLTipoFalha();
+		return dao.getById(codigo);
+	}
 }

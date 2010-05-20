@@ -26,5 +26,12 @@ public interface DAOTipoChamado {
 	 * 		int
 	 */
 	abstract int procurarTipoChamado(TipoChamado tipoChamado);
+	
+	/**
+	 * Procura um tipo de chamado pelo id.
+	 * @param codigo
+	 * @return
+	 */
+	abstract TipoChamado getById(int codigo);
 
 }

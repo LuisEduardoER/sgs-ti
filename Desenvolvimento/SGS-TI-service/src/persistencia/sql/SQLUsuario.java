@@ -16,6 +16,7 @@ public class SQLUsuario implements DAOUsuario{
 	private static String INSERIR_USER = ".jdbc.INSERE_USUARIO";
 	private static String VERIFICA_USERNAME = ".jdbc.VERIFICA_USERNAME";
 	private static String OBTER_CODIGO_USUARIO = ".jdbc.OBTER_CODIGO_USUARIO";
+	private static String OBTER_USUARIO_BY_ID = ".jdbc.OBTER_USUARIO_BY_ID";
 
 	
 	/**
@@ -236,5 +237,46 @@ public class SQLUsuario implements DAOUsuario{
 			Conexao.fecharConexao(con);
 		}
 		return true;
+	}
+
+	@Override
+	public Usuario getById(int codigo) {
+		Connection con = null;
+		String sql = null;		
+		
+		try {
+			// Obtem a conexão
+			con = Conexao.obterConexao();
+			con.setAutoCommit(false);
+			
+			String origem = Conexao.obterOrigem();
+			sql = FabricaSql.getSql(origem + OBTER_USUARIO_BY_ID);
+			
+			if(DEBUG)
+				System.out.println("SQL - " + sql);
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, codigo);
+			
+			ResultSet rs = stmt.executeQuery();
+		
+			while(rs.next()){
+				Usuario usu = new Usuario();
+				String nome = rs.getString("NOME");
+				String username = rs.getString("USERNAME");
+				
+				usu.setNome(nome);
+				usu.setUsername(username);
+
+				return usu;
+			}					
+			stmt.close();
+			return null;
+			
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro SQL",e);
+		} finally {
+			Conexao.fecharConexao(con);
+		}
 	}
 }

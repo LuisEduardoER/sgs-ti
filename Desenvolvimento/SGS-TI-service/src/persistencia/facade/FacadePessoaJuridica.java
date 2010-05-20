@@ -1,0 +1,32 @@
+package persistencia.facade;
+
+import common.entity.PessoaJuridica;
+import persistencia.dao.DAOPessoaJuridica;
+import persistencia.sql.SQLPessoaJuridica;
+
+public class FacadePessoaJuridica 
+{	
+	/**
+	 * TODO - Descrever melhor os campos
+	 */
+	/**
+	 * 
+	 * @param tipoFalha
+	 * @return
+	 */
+	public static boolean criarPessoaJuridica(PessoaJuridica pessoaJuridica)
+	{		
+		return false;
+	}
+	
+	/**
+	 * Metodo que procura um objeto pelo ID
+	 * @param codigo
+	 * @return
+	 */
+	public static PessoaJuridica getById(int codigo){
+		DAOPessoaJuridica dao = new SQLPessoaJuridica();
+		return dao.getById(codigo);
+	}
+	
+}

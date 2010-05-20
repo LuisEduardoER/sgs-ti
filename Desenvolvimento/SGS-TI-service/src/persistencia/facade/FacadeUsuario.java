@@ -86,4 +86,15 @@ public class FacadeUsuario
 		DAOUsuario dao = new SQLUsuario();
 		return dao.obterCodigo(user);
 	}
+	
+	
+	/**
+	 * Busca um objeto pelo id.
+	 * @param codigo
+	 * @return
+	 */
+	public static Usuario getById(int codigo){
+		DAOUsuario dao = new SQLUsuario();
+		return dao.getById(codigo);
+	}
 }

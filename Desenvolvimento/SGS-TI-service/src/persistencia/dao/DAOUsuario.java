@@ -62,4 +62,11 @@ public interface DAOUsuario
 	 * @return
 	 */
 	int obterCodigo(Usuario user);
+	
+	/**
+	 * Busca um objeto pelo id.
+	 * @param codigo
+	 * @return
+	 */
+	Usuario getById(int codigo);
 }

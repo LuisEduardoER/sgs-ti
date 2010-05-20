@@ -46,7 +46,7 @@ public class ProdutoraChamados extends Thread {
 			try {
 				
 				Cliente cliente = new PessoaFisica("Rua x", new Porte(Porte.PF), null, "André", "Macho",
-						new Date(), new Long("0123456789"), "12345678");
+						new Date(), new Long("0123456789"), "4121212121");
 				Usuario usuario = new Usuario("Vane Iwa", "senha");
 				
 				//Chamado chamado = new Chamado(new Date(), new TipoChamado(TipoChamado.URGENTE),cliente);
@@ -97,7 +97,7 @@ public class ProdutoraChamados extends Thread {
 				
 				Chamado chamado = new Chamado(indiceChamado, new Date(), null, descricao, tempStatusChamado, 
 						new Prioridade(2, 1, new Date()), tempTipoChamado, cliente, tempTipoFalha,
-						"Nome do Responsavel", usuario, null);
+						"Nome do Responsavel", usuario, null, "4121212121");
 								
 				serviceChamado.cadastrarChamado(chamado);
 				Utils.printMsg(this.getClass().getName(), "Cadastrando novo chamado.");

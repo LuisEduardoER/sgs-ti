@@ -25,6 +25,11 @@ public class TipoChamado implements Serializable
 		this.valor = 1;
 	}
 
+	public TipoChamado(String nome, int prioridade) {
+		setNome(nome);
+		setValor(prioridade);
+	}
+
 	/*
 	 * GETTERs AND SETTERs
 	 */
