@@ -9,7 +9,7 @@ public class StatusChamado implements Serializable
 	public static final String PENDENTE = "PENDENTE";
 	public static final String AGUARDANDO_CLIENTE = "AGUARDANDO_CLIENTE";
 	public static final String AGENDADO = "AGENDADO";
-	public static final String FECHADO = "FECHADO";
+	public static final String FINALIZADO = "FINALIZADO";
 	
 	private String nome;
 	private int codigo;

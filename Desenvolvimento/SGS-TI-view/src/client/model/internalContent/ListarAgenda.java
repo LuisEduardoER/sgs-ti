@@ -79,7 +79,7 @@ public class ListarAgenda implements InternalContent, Observer
 	}
 
 	private void inicializar(){
-		colunas = new String[]{"Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"};
+		colunas = new String[]{"Chamado", "Cliente", "Prioridade", "Endereço", "Contato"};
 		listaChamados = new ArrayList<Chamado>();
 		modeloFila = new JXTableModel(converterListEmMatriz(listaChamados), colunas);
 		tabelaChamados = new JXTable(modeloFila);	
@@ -133,14 +133,26 @@ public class ListarAgenda implements InternalContent, Observer
 		}catch(BusinessException e){
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+		
+		
+		new Thread()
+		{
+			public void run() {
+				while (true) {
+					for(Chamado c : listaChamados)
+					{
+						
+					}
+				}
+			};
+		};
+		
 	}
 
 	public void atualizarFila(List<Chamado> listaChamados){
 		this.listaChamados = listaChamados;
 		modeloFila.setLinhas(converterListEmMatriz(listaChamados));
-		
-		tabelaChamados.updateUI();
-		scrollPane.updateUI();
+		modeloFila.fireTableDataChanged();
 
 		Utils.printMsg(this.getClass().getName(), new Date() + " - Fila atualizada. Size: " + listaChamados.size());
 	}
@@ -150,6 +162,7 @@ public class ListarAgenda implements InternalContent, Observer
 		FilterPipeline filters = new FilterPipeline(filterArray);
 		tabelaChamados.setFilters(filters);
 	}
+	
 	private void removerFiltro(){
 		filtro.setText(null);
 		tabelaChamados.setFilters(null);
@@ -170,15 +183,16 @@ public class ListarAgenda implements InternalContent, Observer
 	}
 
 	public String[][] converterListEmMatriz(List<Chamado> chamados){
-		String [][]matriz = new String [chamados.size()][4];
+		String [][]matriz = new String [chamados.size()][5];
 
-		// "Codigo", "Cliente", "Prioridade", "Reclamante"
+		// "Codigo", "Cliente", "Prioridade", "Reclamante", "Contato"
 		for(int linha=0; linha<chamados.size(); linha++){
 			Chamado chamado = chamados.get(linha);
 			matriz[linha][0] = String.valueOf(chamado.getNumeroChamado());
 			matriz[linha][1] = chamado.getReclamante().getNome();
 			matriz[linha][2] = String.valueOf(chamado.getPrioridade().getValorPrioridade());
 			matriz[linha][3] = chamado.getReclamante().getEndereco().toString();
+			matriz[linha][4] = chamado.getReclamante().getContato().toString();
 		}
 
 		return matriz;
@@ -209,11 +223,9 @@ public class ListarAgenda implements InternalContent, Observer
 		public void internalFrameOpened(InternalFrameEvent e) {
 			inicializar();
 		}
-
 		@Override
 		public void internalFrameClosing(InternalFrameEvent e) {
 		}			
-
 		@Override
 		public void internalFrameClosed(InternalFrameEvent e) {
 			try {
