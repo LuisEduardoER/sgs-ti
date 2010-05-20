@@ -21,7 +21,7 @@ public interface ServiceUsuario extends Remote
 	 * @throws RemoteException
 	 * @throws BusinessException 
 	 */
-	public boolean autenticar(ObserverUsuario observador, Usuario usuario) throws RemoteException, BusinessException;
+	public Usuario autenticar(ObserverUsuario observador, Usuario usuario) throws RemoteException, BusinessException;
 	
 	/**
 	 * Atualiza o cliente quando ele manipulou a tela, para que não seja desativado
