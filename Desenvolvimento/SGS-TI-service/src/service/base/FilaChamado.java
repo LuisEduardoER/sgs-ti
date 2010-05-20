@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
-import persistencia.facade.FacadeChamado;
 import common.entity.Chamado;
 
-public class FilaChamado extends Observable{
+public class FilaChamado extends Observable
+{
 	private List<Chamado> fila;
 	private List<Chamado> filaAgendamento;
 	public static FilaChamado instance;
@@ -17,7 +17,9 @@ public class FilaChamado extends Observable{
 	 * Construtor
 	 */
 	private FilaChamado(){
-		fila = FacadeChamado.buscarChamadosAbertos();
+		//fila = FacadeChamado.buscarChamadosAbertos();
+		fila = new LinkedList<Chamado>();
+		//filaAgendamento = FacadeChamado.buscarChamadosAgendados();
 		filaAgendamento = new LinkedList<Chamado>();
 	}
 	

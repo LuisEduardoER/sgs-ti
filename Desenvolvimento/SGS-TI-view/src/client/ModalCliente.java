@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +22,6 @@ import javax.swing.SpringLayout;
 
 import org.jdesktop.swingx.JXTable;
 
-import common.entity.Chamado;
 import common.entity.Cliente;
 import common.entity.PessoaFisica;
 import common.entity.PessoaJuridica;
@@ -32,7 +30,6 @@ import common.entity.Usuario;
 import common.util.Utils;
 
 import client.controller.ClientController;
-import client.model.internalContent.CriarChamados;
 import client.model.internalContent.JXTableModel;
 import client.util.SpringUtilities;
 import client.util.ViewUtils;

@@ -63,4 +63,13 @@ public class FacadeChamado
 		DAOChamado dao = new SQLChamado();
 		return dao.buscarChamadosAbertos();
 	}
+	
+	/**
+	 * Método que busca todos os chamados agendados.
+	 * @return
+	 */
+	public static List<Chamado> buscarChamadosAgendados(){
+		DAOChamado dao = new SQLChamado();
+		return dao.buscarChamadosAgendado();
+	}
 }
