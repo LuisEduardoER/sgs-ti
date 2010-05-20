@@ -88,7 +88,7 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 		return usuarioAutenticado;
 	}
 	
-	public List<PessoaJuridica> pesquisarPJ(String desc) throws RemoteException{
+	public List<PessoaJuridica> pesquisarPJ(String desc) throws RemoteException, BusinessException{
 		return FacadePessoaJuridica.pesquisarPessoaJuridicaPorDesc(desc);
 	}
 

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import common.entity.Porte;
+import common.exception.BusinessException;
 import persistencia.dao.DAOPorte;
 import persistencia.util.Conexao;
 
@@ -20,7 +21,7 @@ public class SQLPorte implements DAOPorte{
 	}
 	
 	@Override
-	public Porte getById(int codigo) {
+	public Porte getById(int codigo) throws BusinessException{
 		Connection con = null;
 		String sql = null;
 			

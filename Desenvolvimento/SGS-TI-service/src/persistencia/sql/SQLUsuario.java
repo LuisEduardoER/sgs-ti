@@ -25,7 +25,7 @@ public class SQLUsuario implements DAOUsuario{
 	* TODO - Documentar
 	*/
 	@Override
-	public boolean existeUser(String user) {
+	public boolean existeUser(String user)  throws BusinessException{
 		Connection con = null;
 		String sql = null;
 		
@@ -72,7 +72,7 @@ public class SQLUsuario implements DAOUsuario{
 	* TODO - Documentar
 	*/
 	@Override
-	public boolean addUsuario(Usuario user) {
+	public boolean addUsuario(Usuario user)  throws BusinessException{
 		Connection con = null;
 		String sql= null;
 		
@@ -164,7 +164,7 @@ public class SQLUsuario implements DAOUsuario{
 	* TODO - Documentar
 	*/
 	@Override
-	public int obterCodigo(Usuario user) {
+	public int obterCodigo(Usuario user) throws BusinessException {
 		Connection con = null;
 		String sql = null;
 		
@@ -208,7 +208,7 @@ public class SQLUsuario implements DAOUsuario{
 	* TODO - Documentar
 	*/
 	@Override
-	public boolean updateUser(Usuario user) {
+	public boolean updateUser(Usuario user)  throws BusinessException{
 		Connection con = null;
 		String sql= "UPDATE usuario SET senha=? WHERE login=?";
 
@@ -237,7 +237,7 @@ public class SQLUsuario implements DAOUsuario{
 	}
 
 	@Override
-	public Usuario getById(int codigo) {
+	public Usuario getById(int codigo) throws BusinessException{
 		Connection con = null;
 		String sql = null;		
 		

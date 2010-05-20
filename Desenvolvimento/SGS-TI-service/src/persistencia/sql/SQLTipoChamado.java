@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import common.entity.TipoChamado;
+import common.exception.BusinessException;
 
 import persistencia.dao.DAOTipoChamado;
 import persistencia.util.Conexao;
@@ -20,7 +21,7 @@ public class SQLTipoChamado implements DAOTipoChamado{
 	 * TODO - Descrever melhor os campos
 	 */	
 	@Override
-	public boolean adicionaTipoChamado(TipoChamado tipoChamado) {
+	public boolean adicionaTipoChamado(TipoChamado tipoChamado) throws BusinessException {
 		Connection con = null;
 		String sql= null;
 		
@@ -61,7 +62,7 @@ public class SQLTipoChamado implements DAOTipoChamado{
 	 * TODO - Descrever melhor os campos
 	 */
 	@Override
-	public int procurarTipoChamado(TipoChamado tipoChamado) {
+	public int procurarTipoChamado(TipoChamado tipoChamado) throws BusinessException {
 		Connection con = null;
 		String sql = null;
 			
@@ -98,7 +99,7 @@ public class SQLTipoChamado implements DAOTipoChamado{
 	}
 
 	@Override
-	public TipoChamado getById(int codigo) {
+	public TipoChamado getById(int codigo) throws BusinessException {
 		Connection con = null;
 		String sql = null;
 			

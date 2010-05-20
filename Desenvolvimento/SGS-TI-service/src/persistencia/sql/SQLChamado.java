@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import common.entity.Chamado;
 import common.entity.HistoricoChamado;
+import common.exception.BusinessException;
 import persistencia.dao.DAOChamado;
 import persistencia.facade.FacadePessoaJuridica;
 import persistencia.facade.FacadeStatus;
@@ -29,7 +30,7 @@ public class SQLChamado implements DAOChamado{
 	 * TODO - Descrever melhor os campos
 	 */
 	@Override
-	public boolean adicionaChamado(Chamado chamado) {
+	public boolean adicionaChamado(Chamado chamado)  throws BusinessException{
 		Connection con = null;
 		String sql= null;
 		
@@ -63,7 +64,7 @@ public class SQLChamado implements DAOChamado{
 			stmt.setInt(8,1);
 			stmt.setInt(9,1);
 			stmt.setNull(10,1);
-			stmt.setNull(11,1);
+			stmt.setInt(11,4);
 			
 			int qtd = stmt.executeUpdate();
 			
@@ -89,7 +90,7 @@ public class SQLChamado implements DAOChamado{
 	 * TODO - Descrever melhor os campos
 	 */
 	@Override
-	public boolean atualizarChamado(Chamado chamado) {
+	public boolean atualizarChamado(Chamado chamado) throws BusinessException{
 		Connection con = null;
 		String sql= null;
 		
@@ -131,7 +132,7 @@ public class SQLChamado implements DAOChamado{
 	}
 
 	@Override
-	public HistoricoChamado buscarChamado(Chamado chamado) {
+	public HistoricoChamado buscarChamado(Chamado chamado) throws BusinessException{
 		Connection con = null;
 		String sql = null;
 		
@@ -172,7 +173,7 @@ public class SQLChamado implements DAOChamado{
 	}
 
 	@Override
-	public List<Chamado> buscarChamadosAbertos() {
+	public List<Chamado> buscarChamadosAbertos() throws BusinessException{
 		Connection con = null;
 		String sql = null;
 		

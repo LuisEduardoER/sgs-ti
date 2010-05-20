@@ -33,6 +33,7 @@ public class SystemConstant {
 		
 	// Constantes de erro amigaveis - CRITICOS
 	public static final String MSG_AM_SEM_CONEXAO_REMOTA = "Ocorreu um erro ao conectar com o servidor!\r\nAlgumas funcionalidades podem estar indisponíveis.";
+	public static final String MSG_AM_ERRO_CONEXAO = "Ocorreu um erro ao conectar com o banco de dados.";
 	
 	/**
 	 * TODO - Descrever melhor os campos

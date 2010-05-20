@@ -1,6 +1,7 @@
 package persistencia.dao;
 
 import common.entity.TipoChamado;
+import common.exception.BusinessException;
 
 public interface DAOTipoChamado {
 	
@@ -14,7 +15,7 @@ public interface DAOTipoChamado {
 	 * @return
 	 * 		Boolean
 	 */
-	abstract boolean adicionaTipoChamado(TipoChamado tipoChamado);
+	abstract boolean adicionaTipoChamado(TipoChamado tipoChamado) throws BusinessException;
 
 
 	/**
@@ -25,13 +26,13 @@ public interface DAOTipoChamado {
 	 * @return
 	 * 		int
 	 */
-	abstract int procurarTipoChamado(TipoChamado tipoChamado);
+	abstract int procurarTipoChamado(TipoChamado tipoChamado) throws BusinessException;
 	
 	/**
 	 * Procura um tipo de chamado pelo id.
 	 * @param codigo
 	 * @return
 	 */
-	abstract TipoChamado getById(int codigo);
+	abstract TipoChamado getById(int codigo) throws BusinessException;
 
 }

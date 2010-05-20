@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-
 import common.entity.Chamado;
 import common.entity.TipoFalha;
 import common.exception.BusinessException;

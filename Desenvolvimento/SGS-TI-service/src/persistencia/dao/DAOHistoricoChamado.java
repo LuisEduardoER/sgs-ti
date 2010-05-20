@@ -1,6 +1,7 @@
 package persistencia.dao;
 
 import common.entity.HistoricoChamado;
+import common.exception.BusinessException;
 
 public interface DAOHistoricoChamado {
 	
@@ -12,5 +13,5 @@ public interface DAOHistoricoChamado {
 	 * @return
 	 * 		Boolean
 	 */
-	abstract boolean adicionaHistoricoChamado(HistoricoChamado chamado);
+	abstract boolean adicionaHistoricoChamado(HistoricoChamado chamado) throws BusinessException;
 }

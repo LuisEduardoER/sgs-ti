@@ -3,6 +3,7 @@ package persistencia.facade;
 import java.util.List;
 
 import common.entity.PessoaJuridica;
+import common.exception.BusinessException;
 import persistencia.dao.DAOPessoaJuridica;
 import persistencia.sql.SQLPessoaJuridica;
 
@@ -16,12 +17,12 @@ public class FacadePessoaJuridica
 	 * @param tipoFalha
 	 * @return
 	 */
-	public static boolean criarPessoaJuridica(PessoaJuridica pessoaJuridica)
+	public static boolean criarPessoaJuridica(PessoaJuridica pessoaJuridica) throws BusinessException
 	{	
 		return false;
 	}
 	
-	public static List<PessoaJuridica> pesquisarPessoaJuridicaPorDesc(String descricao)
+	public static List<PessoaJuridica> pesquisarPessoaJuridicaPorDesc(String descricao) throws BusinessException
 	{	
 		DAOPessoaJuridica dao = new SQLPessoaJuridica();
 		return dao.pesquisarPorDescricao(descricao);
@@ -32,7 +33,7 @@ public class FacadePessoaJuridica
 	 * @param codigo
 	 * @return
 	 */
-	public static PessoaJuridica getById(int codigo){
+	public static PessoaJuridica getById(int codigo) throws BusinessException{
 		DAOPessoaJuridica dao = new SQLPessoaJuridica();
 		return dao.getById(codigo);
 	}

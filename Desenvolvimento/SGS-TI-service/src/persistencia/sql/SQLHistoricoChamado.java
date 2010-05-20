@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import common.entity.HistoricoChamado;
+import common.exception.BusinessException;
 
 import persistencia.dao.DAOHistoricoChamado;
 import persistencia.util.Conexao;
@@ -18,7 +19,7 @@ public class SQLHistoricoChamado implements DAOHistoricoChamado
 	 * TODO - Descrever melhor os campos
 	 */
 	@Override
-	public boolean adicionaHistoricoChamado(HistoricoChamado chamado) 
+	public boolean adicionaHistoricoChamado(HistoricoChamado chamado)  throws BusinessException 
 	{
 		Connection con = null;
 		String sql= null;

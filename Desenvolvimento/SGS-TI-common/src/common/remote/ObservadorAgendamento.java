@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Observer;
 
 import common.entity.Chamado;
+import common.exception.BusinessException;
 
 public interface ObservadorAgendamento extends Remote
 {
@@ -17,7 +18,7 @@ public interface ObservadorAgendamento extends Remote
 	 * @param chamados
 	 * @throws RemoteException
 	 */
-	public void atualizarFila(List<Chamado> chamados) throws RemoteException;
+	public void atualizarFila(List<Chamado> chamados) throws RemoteException, BusinessException;
 	
 	/**
 	* TODO - Documentar
@@ -26,16 +27,16 @@ public interface ObservadorAgendamento extends Remote
 	 * 
 	 * @throws RemoteException
 	 */
-	public void removerObservador() throws RemoteException;
+	public void removerObservador() throws RemoteException, BusinessException;
 	
 	/**
 	 * Adicionar um observer ao Observador Agendamento
 	 * @param obs
 	 */
-	public void addObserverNotificacoesAgendamento(Observer obs) throws RemoteException;
+	public void addObserverNotificacoesAgendamento(Observer obs) throws RemoteException, BusinessException;
 	/**
 	 * Remove um observer ao Observador Agendamento
 	 * @param obs
 	 */
-	public void removeObserverNotificacoesAgendamento(Observer obs) throws RemoteException;
+	public void removeObserverNotificacoesAgendamento(Observer obs) throws RemoteException, BusinessException;
 }
