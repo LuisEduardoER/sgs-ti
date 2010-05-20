@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import common.entity.TipoFalha;
+import common.exception.BusinessException;
 
 import persistencia.dao.DAOTipoFalha;
 import persistencia.util.Conexao;
@@ -20,7 +21,7 @@ public class SQLTipoFalha implements DAOTipoFalha{
 	 * TODO - Descrever melhor os campos
 	 */
 	@Override
-	public boolean adicionaTipoFalha(TipoFalha tipoFalha) {
+	public boolean adicionaTipoFalha(TipoFalha tipoFalha) throws BusinessException {
 		Connection con = null;
 		String sql= null;
 		
@@ -61,7 +62,7 @@ public class SQLTipoFalha implements DAOTipoFalha{
 	 * TODO - Descrever melhor os campos
 	 */
 	@Override
-	public int procurarTipoFalha(TipoFalha tipoFalha) {
+	public int procurarTipoFalha(TipoFalha tipoFalha) throws BusinessException {
 		Connection con = null;
 		String sql = null;
 			
@@ -98,7 +99,7 @@ public class SQLTipoFalha implements DAOTipoFalha{
 	}
 
 	@Override
-	public TipoFalha getById(int codigo) {
+	public TipoFalha getById(int codigo) throws BusinessException {
 		Connection con = null;
 		String sql = null;
 			

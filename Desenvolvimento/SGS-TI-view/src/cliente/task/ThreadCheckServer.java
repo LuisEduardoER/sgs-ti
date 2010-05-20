@@ -1,9 +1,7 @@
 package cliente.task;
 
 import java.rmi.RemoteException;
-
 import common.util.SystemConstant;
-
 import client.controller.ClientController;
 import client.view.MainView;
 
@@ -12,7 +10,7 @@ public class ThreadCheckServer extends Thread {
 	
 	@Override
 	public void run() {
-		
+
 		while(true){
 			try {
 				try {
@@ -24,6 +22,7 @@ public class ThreadCheckServer extends Thread {
 					while(!restart){
 						try {
 							restart = ClientController.getInstance().reinicializarServidorRemoto();
+							
 						} catch (RemoteException e1) {
 							// ignora exception e tenta novamente
 						}

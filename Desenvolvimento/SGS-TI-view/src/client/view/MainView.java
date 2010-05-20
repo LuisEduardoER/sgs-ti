@@ -13,6 +13,8 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -252,7 +254,18 @@ public class MainView extends JFrame {
 		Utils.printMsg(this.getClass().getName(), "openNewInternalContent - " + newInternalFrame);
 
 		JInternalFrame jif = ClientController.getInstance().getInternalContent(newInternalFrame,param);
-		
+		jif.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent window) {
+				JInternalFrame jif = (JInternalFrame)window.getSource();
+				jif.setLayer(0);
+			}
+			@Override
+			public void focusGained(FocusEvent window) {
+				JInternalFrame jif = (JInternalFrame)window.getSource();
+				jif.setLayer(new Integer(200));
+			}
+		});
 		
 		for(JInternalFrame j : conteudo.getAllFrames()){
 			j.setLayer(0);

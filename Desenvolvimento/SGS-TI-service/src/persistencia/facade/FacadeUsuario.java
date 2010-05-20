@@ -17,7 +17,7 @@ public class FacadeUsuario
 	 * @param user
 	 * @return
 	 */
-	public static boolean criarUser(Usuario user)
+	public static boolean criarUser(Usuario user) throws BusinessException
 	{	
 		// Usa o utilitario para criptografar a senha
 		user.setPassword( MD5Encryption.encript(user.getPassword()) );
@@ -51,7 +51,7 @@ public class FacadeUsuario
 	 * @param user
 	 * @return
 	 */
-	public static boolean atualizarPerfil(Usuario user) 
+	public static boolean atualizarPerfil(Usuario user) throws BusinessException
 	{
 		// Usa o utilitario para criptografar a senha
 		user.setPassword( MD5Encryption.encript(user.getPassword()) );
@@ -70,7 +70,7 @@ public class FacadeUsuario
 	 * @param username
 	 * @return
 	 */
-	public static boolean verificarUsername(String username){
+	public static boolean verificarUsername(String username) throws BusinessException{
 		DAOUsuario dao = new SQLUsuario();
 		return dao.existeUser(username);
 	}
@@ -80,7 +80,7 @@ public class FacadeUsuario
 	 * @param user
 	 * @return
 	 */
-	public static int obterCodigo(Usuario user){
+	public static int obterCodigo(Usuario user) throws BusinessException{
 		DAOUsuario dao = new SQLUsuario();
 		return dao.obterCodigo(user);
 	}
@@ -91,7 +91,7 @@ public class FacadeUsuario
 	 * @param codigo
 	 * @return
 	 */
-	public static Usuario getById(int codigo){
+	public static Usuario getById(int codigo) throws BusinessException{
 		DAOUsuario dao = new SQLUsuario();
 		return dao.getById(codigo);
 	}

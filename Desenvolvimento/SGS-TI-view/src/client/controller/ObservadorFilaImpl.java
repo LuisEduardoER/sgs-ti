@@ -33,35 +33,46 @@ public class ObservadorFilaImpl extends Observable implements ObservadorFila{
 			new Thread(){
 				public void run() {
 					int contadorTentativas = 0;
-					try {
-						while(!Thread.interrupted()){
+
+					while(!Thread.interrupted()){
+						try {
 							if(!atualizou){
 								serviceChamado.verificarStatus(myStub);
 							}
-							
+
 							Utils.printMsg(this.getClass().getName(), "Verificando status do ServiceChamado. Status: online");
+							
 							atualizou = false;
 							contadorTentativas = 0;
 							Thread.sleep(SystemConstant.TEMPO_ESPERA_MONITOR_CONEXAO);
-						}
-					} catch (RemoteException e) {
-						// ops algum problema com o service
-						// tenta novamente
-						Utils.printMsg(this.getClass().getName(), "Verificando status do ServiceChamado. Status: offline");
-						try {
-							if(contadorTentativas <= SystemConstant.MAX_TENTATIVAS_RECONEXAO){
-								Utils.printMsg(this.getClass().getName(), "Tentativa #" +contadorTentativas+ " de reconexão.");
-								contadorTentativas++;
-								serviceChamado.verificarStatus(myStub);
-							}else{
-								// mandar msg pro user
+							
+						} catch (RemoteException e) {
+							// ops algum problema com o service
+							// tenta novamente
+							
+							Utils.printMsg(this.getClass().getName(), "Verificando status do ServiceChamado. Status: offline");
+							try {
+								if(contadorTentativas <= SystemConstant.MAX_TENTATIVAS_RECONEXAO){
+									
+									Utils.printMsg(this.getClass().getName(), "Tentativa #" +contadorTentativas+ " de reconexão.");
+									contadorTentativas++;
+									serviceChamado.verificarStatus(myStub);
+								}else{
+									// mandar msg pro user
+								}
+							} catch (RemoteException e1) {
+								// não faz nada
+							} catch (BusinessException be) {
+								Utils.printMsg(this.getClass().getName(),be.getMessage());
 							}
-						} catch (RemoteException e1) {
-							// não faz nada
+							
+						} catch (InterruptedException e) {
+							Utils.printMsg(this.getClass().getName(), "Thread do ObservadorFila finalizando.");
+						} catch (BusinessException e) {
+							Utils.printMsg(this.getClass().getName(),e.getMessage());
 						}
-					} catch (InterruptedException e) {
-						Utils.printMsg(this.getClass().getName(), "Thread do ObservadorFila finalizando.");
 					}
+					
 				};
 			}.start();
 			

@@ -26,14 +26,12 @@ import client.view.MainView;
 public class ClientController implements ObserverUsuario, Serializable{
 
 	private static final long serialVersionUID = 1L;
-
 	private static ClientController instance;
 	private ServiceUsuario serviceUsuario;
 	private ServiceChamado serviceChamado;
 	private ObserverUsuario stubUsuario;
 	private ObservadorFila observerFila;
 	private Usuario usuario;
-
 	private boolean desativando;
 
 	private ClientController() {
@@ -75,7 +73,8 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 * Este metodo é utilizado pelo ThreadClientNotification para tentar
 	 * re-ativar a aplicação caso falhe.
 	 * @return Condição de notificação
-	 * @throws RemoteException
+	 * @throws RemoteException 
+	 * @throws BusinessException 
 	 */
 	public boolean reinicializarServidorRemoto() throws RemoteException{
 		serviceUsuario = Utils.obterServiceUsuario();
@@ -83,9 +82,11 @@ public class ClientController implements ObserverUsuario, Serializable{
 		try {
 			return autenticar(this.usuario);
 		} catch (BusinessException e) {
-			// Só entra se o Server remoto não estabeleceu e apos uma queda do server, desconsiderar
+			// TODO Auto-generated catch block
+			mostrarMensagem(e.getMessage());
+			return false;
 		}
-		return false;
+	
 	}
 
 	/**
@@ -121,7 +122,9 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	@Override
 	public boolean autenticar(Usuario usuario) throws RemoteException, BusinessException{
+
 		this.usuario = serviceUsuario.autenticar(stubUsuario, usuario);
+
 		System.out.println(this.usuario.getNome());
 		if(!Utils.isNullOrEmpty(this.usuario)){
 			MainView.getInstance().alterarWelcomeMsg(SystemConstant.USUARIO_LOGADO + this.usuario.getUsername());
@@ -137,7 +140,12 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	@Override
 	public void atualizarCliente() throws RemoteException {
-		serviceUsuario.atualizarClient(this.usuario);
+		try {
+			serviceUsuario.atualizarClient(this.usuario);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			mostrarMensagem(e.getMessage());
+		}
 	}
 
 	/**
@@ -150,6 +158,9 @@ public class ClientController implements ObserverUsuario, Serializable{
 			serviceUsuario.removerObservador(this.usuario);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			mostrarMensagem(e.getMessage());
 		}
 	}
 
@@ -159,7 +170,13 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 * @throws RemoteException 
 	 */
 	public Set<UsuarioAutenticado> getUsuariosAutenticados() throws RemoteException{
-		return serviceUsuario.getUsuarioAutenticado();
+		try {
+			return serviceUsuario.getUsuarioAutenticado();
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			mostrarMensagem(e.getMessage());
+			return null;
+		}
 	}
 
 	/**
@@ -188,6 +205,9 @@ public class ClientController implements ObserverUsuario, Serializable{
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			mostrarMensagem(e.getMessage());
 		}
 	}
 	
@@ -198,10 +218,8 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	public void ativarObservadorFila(Observer obs){
 		try {
-			if(observerFila!= null){
-				this.observerFila = new ObservadorFilaImpl(obs);
-				atualizarCliente();
-			}
+			this.observerFila = new ObservadorFilaImpl(obs);
+			atualizarCliente();
 			
 		} catch (BusinessException e) {
 			mostrarMensagem(e.getMessage());
@@ -217,13 +235,16 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	public void desativarObservadorFila(Observer obs){
 		try {
-			if(observerFila!= null){
+			if(this.observerFila!= null){
 				this.observerFila.removerObservador();
 				atualizarCliente();
 			}
 			
 		} catch (RemoteException e) {
 			mostrarMensagem("Erro ao conectar com o serviço de chamados.");
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			mostrarMensagem(e.getMessage());
 		}	
 	}
 	
@@ -241,6 +262,9 @@ public class ClientController implements ObserverUsuario, Serializable{
 			System.out.println("add obs");
 		} catch (RemoteException e) {
 			mostrarMensagem("Não foi possível adicionar observador da fila de chamados.");
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			mostrarMensagem(e.getMessage());
 		}
 	}
 	/**
@@ -254,11 +278,20 @@ public class ClientController implements ObserverUsuario, Serializable{
 				this.observerFila.removeObserverNotificacoesFila(obs);
 		} catch (RemoteException e) {
 			mostrarMensagem("Não foi possível remover observador da fila de chamados.");
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			mostrarMensagem(e.getMessage());
 		}
 	}
 	
 	public List<PessoaJuridica> pesquisarPJ(String descricao) throws RemoteException{
-		return serviceUsuario.pesquisarPJ(descricao);
+		try {
+			return serviceUsuario.pesquisarPJ(descricao);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			mostrarMensagem(e.getMessage());
+			return null;
+		}
 	}
 	
 	/**
@@ -267,7 +300,12 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	@Override
 	public void criarChamado(Chamado chamado) throws RemoteException{
-		serviceChamado.cadastrarChamado(chamado);
+		try {
+			serviceChamado.cadastrarChamado(chamado);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			mostrarMensagem(e.getMessage());
+		}
 	}
 
 	// Metodos de controle
@@ -288,6 +326,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 
 		InternalContent ic = InternalContentFactory.getInternalContent(action);
 		Utils.printMsg(this.getClass().getName(), "Fabricado nova InternalContent - " + ic.getClass().getName());
+
 		return ic.getInternalContent(param);
 	}
 

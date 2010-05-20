@@ -4,6 +4,7 @@ import java.util.List;
 
 import common.entity.Chamado;
 import common.entity.HistoricoChamado;
+import common.exception.BusinessException;
 
 public interface DAOChamado {
 	
@@ -17,7 +18,7 @@ public interface DAOChamado {
 	 * @return
 	 * 		Boolean
 	 */
-	abstract boolean adicionaChamado(Chamado chamado);
+	abstract boolean adicionaChamado(Chamado chamado) throws BusinessException;
 
 
 	/**
@@ -28,7 +29,7 @@ public interface DAOChamado {
 	 * @return
 	 * 		Boolean
 	 */
-	abstract boolean atualizarChamado(Chamado chamado);
+	abstract boolean atualizarChamado(Chamado chamado) throws BusinessException;
 
 	/**
 	 * Método que busca o chamado.
@@ -38,7 +39,7 @@ public interface DAOChamado {
 	 * @return
 	 * 		Chamado
 	 */
-	abstract HistoricoChamado buscarChamado(Chamado chamado);
+	abstract HistoricoChamado buscarChamado(Chamado chamado) throws BusinessException;
 
 	
 	/**
@@ -49,7 +50,7 @@ public interface DAOChamado {
 	 * @return
 	 * 		Chamado
 	 */
-	abstract List<Chamado> buscarChamadosAbertos();
+	abstract List<Chamado> buscarChamadosAbertos() throws BusinessException;
 
 	/**
 	 * Método que busca o chamado agendado.

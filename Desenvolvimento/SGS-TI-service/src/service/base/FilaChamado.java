@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Observable;
 
 import common.entity.Chamado;
+import common.exception.BusinessException;
 
 public class FilaChamado extends Observable
 {
@@ -16,7 +17,7 @@ public class FilaChamado extends Observable
 	/**
 	 * Construtor
 	 */
-	private FilaChamado(){
+	private FilaChamado() throws BusinessException{
 		//fila = FacadeChamado.buscarChamadosAbertos();
 		fila = new LinkedList<Chamado>();
 		//filaAgendamento = FacadeChamado.buscarChamadosAgendados();
@@ -28,7 +29,7 @@ public class FilaChamado extends Observable
 	 * @return
 	 * 		Instancia da FilaChamado.
 	 */
-	public static FilaChamado getInstance(){
+	public static FilaChamado getInstance() throws BusinessException{
 		if(instance ==null)
 			instance = new FilaChamado();
 		

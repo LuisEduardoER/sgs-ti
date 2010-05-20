@@ -1,6 +1,7 @@
 package persistencia.dao;
 
 import common.entity.TipoFalha;
+import common.exception.BusinessException;
 
 public interface DAOTipoFalha {
 	
@@ -14,7 +15,7 @@ public interface DAOTipoFalha {
 	 * @return
 	 * 		Boolean
 	 */
-	abstract boolean adicionaTipoFalha(TipoFalha tipoFalha);
+	abstract boolean adicionaTipoFalha(TipoFalha tipoFalha) throws BusinessException;
 
 
 	/**
@@ -25,7 +26,7 @@ public interface DAOTipoFalha {
 	 * @return
 	 * 		int
 	 */
-	abstract int procurarTipoFalha(TipoFalha tipoFalha);
+	abstract int procurarTipoFalha(TipoFalha tipoFalha) throws BusinessException;
 	
 	
 	/**
@@ -33,7 +34,7 @@ public interface DAOTipoFalha {
 	 * @param codigo
 	 * @return
 	 */
-	abstract TipoFalha getById(int codigo);
+	abstract TipoFalha getById(int codigo) throws BusinessException;
 	
 
 }

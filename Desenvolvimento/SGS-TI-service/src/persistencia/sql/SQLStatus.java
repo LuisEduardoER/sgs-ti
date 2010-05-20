@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import common.entity.StatusChamado;
+import common.exception.BusinessException;
 import persistencia.dao.DAOStatus;
 import persistencia.util.Conexao;
 
@@ -17,7 +18,7 @@ public class SQLStatus implements DAOStatus{
 	/**
 	 * TODO - Descrever melhor os campos
 	 */
-	public boolean adicionaStatus(StatusChamado status) {
+	public boolean adicionaStatus(StatusChamado status) throws BusinessException {
 		Connection con = null;
 		String sql= null;
 		
@@ -57,7 +58,7 @@ public class SQLStatus implements DAOStatus{
 	/**
 	 * TODO - Descrever melhor os campos
 	 */
-	public int procurarStatus(StatusChamado status) {
+	public int procurarStatus(StatusChamado status) throws BusinessException {
 		Connection con = null;
 		String sql = null;
 			
@@ -94,7 +95,7 @@ public class SQLStatus implements DAOStatus{
 	}
 
 	@Override
-	public StatusChamado getById(int codigo) {
+	public StatusChamado getById(int codigo) throws BusinessException {
 		Connection con = null;
 		String sql = null;
 			

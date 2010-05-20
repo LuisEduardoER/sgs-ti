@@ -1,6 +1,7 @@
 package persistencia.facade;
 
 import common.entity.Porte;
+import common.exception.BusinessException;
 import persistencia.dao.DAOPorte;
 import persistencia.sql.SQLPorte;
 
@@ -14,7 +15,7 @@ public class FacadePorte
 	 * @param tipoFalha
 	 * @return
 	 */
-	public static boolean criarPorte(Porte porte)
+	public static boolean criarPorte(Porte porte) throws BusinessException
 	{		
 		return false;
 	}
@@ -24,7 +25,7 @@ public class FacadePorte
 	 * @param codigo
 	 * @return
 	 */
-	public static Porte getById(int codigo){
+	public static Porte getById(int codigo) throws BusinessException{
 		DAOPorte dao = new SQLPorte();
 		return dao.getById(codigo);
 	}

@@ -9,6 +9,7 @@ import java.util.List;
 
 import common.entity.PessoaJuridica;
 import common.entity.Porte;
+import common.exception.BusinessException;
 import persistencia.dao.DAOPessoaJuridica;
 import persistencia.facade.FacadePorte;
 import persistencia.util.Conexao;
@@ -20,13 +21,13 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 	private static String PROCURAR_PJ_BY_DESC = ".jdbc.PROCURAR_PJ_BY_DESC";
 
 	@Override
-	public boolean adicionaPessoaJuridica(PessoaJuridica pessoaJuridica) {
+	public boolean adicionaPessoaJuridica(PessoaJuridica pessoaJuridica) throws BusinessException{
 		// TODO Auto-generated method stub
 		return false;
 	}
 	
 	@Override
-	public PessoaJuridica getById(int codigo) {
+	public PessoaJuridica getById(int codigo) throws BusinessException {
 		Connection con = null;
 		String sql = null;
 			
@@ -70,7 +71,7 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 	}
 
 	@Override
-	public List<PessoaJuridica> pesquisarPorDescricao(String descricao) {
+	public List<PessoaJuridica> pesquisarPorDescricao(String descricao)  throws BusinessException{
 		Connection con = null;
 		String sql = null;
 		List<PessoaJuridica> pjs = new ArrayList<PessoaJuridica>();

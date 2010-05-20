@@ -31,7 +31,7 @@ public interface DAOUsuario
 	 * @return
 	 * 		Boolean
 	 */
-	boolean addUsuario(Usuario user);
+	boolean addUsuario(Usuario user) throws BusinessException;
 
 
 	/**
@@ -42,7 +42,7 @@ public interface DAOUsuario
 	 * @return
 	 * 		Boolean
 	 */
-	boolean updateUser(Usuario user);
+	boolean updateUser(Usuario user) throws BusinessException;
 
 	/**
 	 * Método que verifica se o usuário já existe.
@@ -52,7 +52,7 @@ public interface DAOUsuario
 	 * @return
 	 * 		True se já existe e false se não existe.
 	 */
-	boolean existeUser(String user);
+	boolean existeUser(String user) throws BusinessException;
 	
 	/**
 	 * Descrever melhor os campos
@@ -62,12 +62,12 @@ public interface DAOUsuario
 	 * @param user
 	 * @return
 	 */
-	int obterCodigo(Usuario user);
+	int obterCodigo(Usuario user) throws BusinessException;
 	
 	/**
 	 * Busca um objeto pelo id.
 	 * @param codigo
 	 * @return
 	 */
-	Usuario getById(int codigo);
+	Usuario getById(int codigo) throws BusinessException;
 }

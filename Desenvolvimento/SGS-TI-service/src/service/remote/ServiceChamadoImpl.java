@@ -6,12 +6,13 @@ import java.util.List;
 import persistencia.facade.FacadeChamado;
 import service.base.FilaChamado;
 import common.entity.Chamado;
+import common.exception.BusinessException;
 import common.remote.ObservadorAgendamento;
 import common.remote.ObservadorFila;
 import common.remote.ServiceChamado;
 import common.util.Utils;
 
-public class ServiceChamadoImpl implements ServiceChamado 
+public class ServiceChamadoImpl implements ServiceChamado
 {
 	List<ObservadorFila> observadoresFila;
 	List<ObservadorAgendamento> observadoresAgendamento;
@@ -27,7 +28,8 @@ public class ServiceChamadoImpl implements ServiceChamado
 	
 	@Override
 	public void adicionarObservadorFila(ObservadorFila obs)
-			throws RemoteException {
+			throws RemoteException, BusinessException
+	{
 
 		observadoresFila.add(obs);
 		obs.atualizarFila(FilaChamado.getInstance().getFila());
@@ -41,7 +43,7 @@ public class ServiceChamadoImpl implements ServiceChamado
 	}
 	
 	@Override
-	public void notificarObservadorFila() {
+	public void notificarObservadorFila() throws BusinessException {
 		for(int i=0; i<observadoresFila.size();i++){
 			ObservadorFila obs = observadoresFila.get(i);
 			try{
@@ -57,13 +59,13 @@ public class ServiceChamadoImpl implements ServiceChamado
 
 	@Override
 	public void adicionarObservadorAgendamento(ObservadorAgendamento obs)
-			throws RemoteException {
+			throws RemoteException, BusinessException {
 		observadoresAgendamento.add(obs);	
 		obs.atualizarFila(FilaChamado.getInstance().getFilaAgendamento());
 	}
 	
 	@Override
-	public void notificarObservadorAgendamento() throws RemoteException {
+	public void notificarObservadorAgendamento() throws RemoteException, BusinessException {
 		for(int i = 0;  i <observadoresAgendamento.size(); i++)
 		{
 			ObservadorAgendamento obs = observadoresAgendamento.get(i);
@@ -86,7 +88,7 @@ public class ServiceChamadoImpl implements ServiceChamado
 	}
 	
 	@Override
-	public void cadastrarChamado(Chamado chamado) throws RemoteException {
+	public void cadastrarChamado(Chamado chamado) throws RemoteException, BusinessException {
 
 		// TODO: adicionar no banco.
 		
@@ -101,7 +103,7 @@ public class ServiceChamadoImpl implements ServiceChamado
 	}
 
 	@Override
-	public void atualizarChamado(Chamado chamado) throws RemoteException {
+	public void atualizarChamado(Chamado chamado) throws RemoteException, BusinessException {
 		// TODO - Esperar Denis fazer cadastrar se não dá pau
 		/*HistoricoChamado historicoChamado = FacadeChamado.buscarChamado(chamado);
 		boolean criou = FacadeHistoricoChamado.criarHistoricoChamado(historicoChamado);
@@ -128,7 +130,7 @@ public class ServiceChamadoImpl implements ServiceChamado
 	}
 	
 	@Override
-	public void verificarStatus(ObservadorFila obs) throws RemoteException{
+	public void verificarStatus(ObservadorFila obs) throws RemoteException, BusinessException{
 		if(!observadoresFila.contains(obs)){
 			observadoresFila.add(obs);
 			obs.atualizarFila(FilaChamado.getInstance().getFila());

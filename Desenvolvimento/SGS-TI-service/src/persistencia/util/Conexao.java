@@ -8,6 +8,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import common.exception.BusinessException;
+import common.util.SystemConstant;
+
 /**
  * 
  * Classe que é responsável por realizar e fechar a conexão com um banco de
@@ -48,8 +51,9 @@ public class Conexao {
 	/**
 	 * Recupera uma nova conexão
 	 * @return Connection
+	 * @throws BusinessException 
 	 */
-	public static Connection obterConexao() {
+	public static Connection obterConexao() throws BusinessException {
 
 		String origem  = configuracoes.getProperty("jdbc.origem");
 		
@@ -70,7 +74,7 @@ public class Conexao {
 			return con;
 			
 		} catch (Exception e) {
-			throw new RuntimeException("Erro ao obter conexão",e);
+			throw new BusinessException(SystemConstant.MSG_AM_ERRO_CONEXAO);
 		}
 
 	}

@@ -10,7 +10,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,13 +20,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
-
 import common.entity.Usuario;
 import common.exception.BusinessException;
 import common.util.MD5Encryption;
 import common.util.SystemConstant;
 import common.util.Utils;
-
 import client.controller.ClientController;
 import client.util.SpringUtilities;
 
@@ -160,9 +157,9 @@ public class Login extends JFrame {
 					JOptionPane.showMessageDialog(null, SystemConstant.MSG_AM_SEM_CONEXAO_REMOTA);
 				} catch (NullPointerException ex){
 					JOptionPane.showMessageDialog(null, SystemConstant.MSG_AM_SEM_CONEXAO_REMOTA);
-				} catch (BusinessException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage());
-				}
+				} catch (BusinessException be) {
+					JOptionPane.showMessageDialog(null, be.getMessage());
+				} 
 				
 			}
 	
