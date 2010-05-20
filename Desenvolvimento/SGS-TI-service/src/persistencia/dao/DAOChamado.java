@@ -50,4 +50,14 @@ public interface DAOChamado {
 	 * 		Chamado
 	 */
 	abstract List<Chamado> buscarChamadosAbertos();
+
+	/**
+	 * Método que busca o chamado agendado.
+	 * 
+	 * @param user
+	 * 		Objeto Chamado.
+	 * @return
+	 * 		Chamado
+	 */
+	abstract List<Chamado> buscarChamadosAgendado();
 }

@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Set;
 
-import common.entity.Cliente;
 import common.entity.PessoaJuridica;
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
