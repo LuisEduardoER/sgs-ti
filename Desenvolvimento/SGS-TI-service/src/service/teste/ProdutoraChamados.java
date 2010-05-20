@@ -111,6 +111,9 @@ public class ProdutoraChamados extends Thread {
 			} catch (RemoteException e) {
 				// TODO criar exception de infra
 				Utils.printMsg(this.getClass().getName(), "Erro no objeto remoto, " + e);
+			} catch (BusinessException e) {
+				// TODO Auto-generated catch block
+				Utils.printMsg(this.getClass().getName(),e.getMessage());
 			}
 		}
 	}

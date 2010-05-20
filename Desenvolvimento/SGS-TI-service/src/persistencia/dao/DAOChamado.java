@@ -59,6 +59,7 @@ public interface DAOChamado {
 	 * 		Objeto Chamado.
 	 * @return
 	 * 		Chamado
+	 * @throws BusinessException 
 	 */
-	abstract List<Chamado> buscarChamadosAgendado();
+	abstract List<Chamado> buscarChamadosAgendado() throws BusinessException;
 }
