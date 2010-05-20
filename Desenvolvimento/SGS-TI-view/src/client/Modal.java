@@ -8,9 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 
-import org.jdesktop.swingx.JXTable;
-
-import client.model.internalContent.JXTableModel;
 import client.util.ViewUtils;
 
 public class Modal extends JDialog {

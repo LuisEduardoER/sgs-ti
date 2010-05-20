@@ -118,7 +118,7 @@ public class EditarChamados extends Observable implements InternalContent
 
 		JLabel dataAgendamentoL = new JLabel("Data: ");		
 		dataAgentamentoDateChooser = new JDateChooser();
-
+		
 		JLabel horaAgendamentoL = new JLabel("Hora: ");		
 		horaAgendamentoTextField = new JTextField();
 
@@ -213,6 +213,8 @@ public class EditarChamados extends Observable implements InternalContent
 					statusComboBox.setSelectedIndex(i);
 			}
 
+			dataAgentamentoDateChooser.setDateFormatString("dd/MM/yyyy");
+			
 		} catch (RemoteException e) {
 			// TODO Vanessa - Colocar Exception
 			e.printStackTrace();
@@ -264,6 +266,10 @@ public class EditarChamados extends Observable implements InternalContent
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			if (evt.getActionCommand().equals("SALVAR")) {
+				
+				System.out.println("TRGFFFF = " + dataAgentamentoDateChooser.getDate());
+	
+				
 				Chamado newChamado = new Chamado(chamado.getNumeroChamado(), 
 						(Date) chamado.getDataHoraAbertura(),
 						(Date) chamado.getDataHoraFechamento(),
@@ -274,7 +280,8 @@ public class EditarChamados extends Observable implements InternalContent
 						chamado.getReclamante(),
 						new TipoFalha(tipoFalhaComboBox.getSelectedItem().toString()), 
 						chamado.getResponsavel(),
-						chamado.getUsuarioResgistro());
+						chamado.getUsuarioResgistro(),
+						(Date) dataAgentamentoDateChooser.getDate());
 				ClientController.getInstance().atualizarChamado(newChamado);
 			}
 

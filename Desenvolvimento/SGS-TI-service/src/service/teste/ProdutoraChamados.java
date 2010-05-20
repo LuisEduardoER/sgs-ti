@@ -97,7 +97,7 @@ public class ProdutoraChamados extends Thread {
 				
 				Chamado chamado = new Chamado(indiceChamado, new Date(), null, descricao, tempStatusChamado, 
 						new Prioridade(2, 1, new Date()), tempTipoChamado, cliente, tempTipoFalha,
-						"Nome do Responsavel", usuario);
+						"Nome do Responsavel", usuario, null);
 								
 				serviceChamado.cadastrarChamado(chamado);
 				Utils.printMsg(this.getClass().getName(), "Cadastrando novo chamado.");

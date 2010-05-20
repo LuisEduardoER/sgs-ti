@@ -37,7 +37,7 @@ public class ServiceChamadoProperts implements ServiceChamadoItens
 		StatusChamado s1 = new StatusChamado(StatusChamado.ABERTO);
 		StatusChamado s2 = new StatusChamado(StatusChamado.AGENDADO);
 		StatusChamado s3 = new StatusChamado(StatusChamado.AGUARDANDO_CLIENTE);
-		StatusChamado s4 = new StatusChamado(StatusChamado.FECHADO);
+		StatusChamado s4 = new StatusChamado(StatusChamado.FINALIZADO);
 		StatusChamado s5 = new StatusChamado(StatusChamado.PENDENTE);
 		
 		listStatus.add(s1);
