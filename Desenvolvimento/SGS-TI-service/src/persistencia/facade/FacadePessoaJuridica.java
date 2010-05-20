@@ -24,8 +24,7 @@ public class FacadePessoaJuridica
 	public static List<PessoaJuridica> pesquisarPessoaJuridicaPorDesc(String descricao)
 	{	
 		DAOPessoaJuridica dao = new SQLPessoaJuridica();
-		dao.pesquisarPorDescricao(descricao);
-		return null;
+		return dao.pesquisarPorDescricao(descricao);
 	}
 	
 	/**

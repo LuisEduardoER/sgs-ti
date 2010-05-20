@@ -25,7 +25,7 @@ public class ThreadUserMonitor extends Thread{
 			try{
 				// TODO : DENIS - VER EXCEPTIONS
 				// Se tiver algum usuario, verifica o tempo de atividade
-				Utils.printMsg(this.getClass().getSimpleName(), "Qtde Usuários:" + servicoUsuario.getUsuarioAutenticado().size());
+				//Utils.printMsg(this.getClass().getSimpleName(), "Qtde Usuários:" + servicoUsuario.getUsuarioAutenticado().size());
 				if(servicoUsuario.getUsuarioAutenticado().size()>0){
 					// Se o tempo de atividade for maior que o máximo, manda extermina-lo
 					Iterator<UsuarioAutenticado> ua = servicoUsuario.getUsuarioAutenticado().iterator();
