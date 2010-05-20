@@ -1,5 +1,7 @@
 package persistencia.facade;
 
+import java.util.List;
+
 import common.entity.Chamado;
 import common.entity.HistoricoChamado;
 
@@ -51,5 +53,14 @@ public class FacadeChamado
 		DAOChamado dao = new SQLChamado();		
 		HistoricoChamado chamadoNovo = dao.buscarChamado(chamado);	
 		return chamadoNovo;
+	}
+	
+	/**
+	 * Método que busca todos os chamados abertos.
+	 * @return
+	 */
+	public static List<Chamado> buscarChamadosAbertos(){
+		DAOChamado dao = new SQLChamado();
+		return dao.buscarChamadosAbertos();
 	}
 }

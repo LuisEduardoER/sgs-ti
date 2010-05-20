@@ -26,5 +26,14 @@ public interface DAOTipoFalha {
 	 * 		int
 	 */
 	abstract int procurarTipoFalha(TipoFalha tipoFalha);
+	
+	
+	/**
+	 * Procura um objeto pelo id.
+	 * @param codigo
+	 * @return
+	 */
+	abstract TipoFalha getById(int codigo);
+	
 
 }

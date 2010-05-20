@@ -37,4 +37,14 @@ public class FacadeTipoChamado
 		int codigo = dao.procurarTipoChamado(tipoChamado);	
 		return codigo;
 	}
+	
+	/**
+	 * Procura um tipo de chamado pelo id.
+	 * @param codigo
+	 * @return
+	 */
+	public static TipoChamado getById(int codigo){
+		DAOTipoChamado dao = new SQLTipoChamado();
+		return dao.getById(codigo);
+	}
 }

@@ -281,7 +281,8 @@ public class EditarChamados extends Observable implements InternalContent
 						new TipoFalha(tipoFalhaComboBox.getSelectedItem().toString()), 
 						chamado.getResponsavel(),
 						chamado.getUsuarioResgistro(),
-						(Date) dataAgentamentoDateChooser.getDate());
+						(Date) dataAgentamentoDateChooser.getDate(),
+						chamado.getContato());
 				ClientController.getInstance().atualizarChamado(newChamado);
 			}
 

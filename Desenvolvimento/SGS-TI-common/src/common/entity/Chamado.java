@@ -18,9 +18,15 @@ public class Chamado implements Serializable
 	private TipoChamado tipoChamado;
 	private TipoFalha tipoFalha;
 	private String responsavel;
+	private String contato;
 	private Cliente reclamante;
 	private Usuario usuarioResgistro;
 
+	/**
+	 * Construtor vazio
+	 */
+	public Chamado(){};
+	
 	/**
 	 * Construtor.
 	 * 
@@ -74,7 +80,7 @@ public class Chamado implements Serializable
 	public Chamado(long numeroChamado, Date dataHoraAbertura, Date dataHoraFechamento,
 			String detalhes, StatusChamado status, Prioridade prioridade,
 			TipoChamado tipoChamado, Cliente reclamante, TipoFalha tipoFalha,
-			String responsavel, Usuario usuarioRegistro, Date dataHoraAgendamento)
+			String responsavel, Usuario usuarioRegistro, Date dataHoraAgendamento,String contato)
 	{
 		this.numeroChamado = numeroChamado;
 		this.dataHoraAbertura = dataHoraAbertura;
@@ -88,6 +94,7 @@ public class Chamado implements Serializable
 		this.usuarioResgistro = usuarioRegistro;
 		this.dataHoraAgendamento = dataHoraAgendamento;
 		this.prioridade = new Prioridade(getTipoChamado().getValor(), getReclamante().getPorte().getValor(), new Date());
+		this.contato = contato;
 	}
 
 	/*
@@ -164,6 +171,12 @@ public class Chamado implements Serializable
 	}
 	public void setDataHoraAgendamento(Date dataHoraAgendamento) {
 		this.dataHoraAgendamento = dataHoraAgendamento;
+	}
+	public String getContato() {
+		return contato;
+	}
+	public void setContato(String contato) {
+		this.contato = contato;
 	}
 
 	/**
