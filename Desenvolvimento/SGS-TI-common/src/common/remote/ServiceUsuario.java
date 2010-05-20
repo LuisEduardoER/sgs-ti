@@ -27,7 +27,7 @@ public interface ServiceUsuario extends Remote
 	 * @param usuario
 	 * @throws RemoteException
 	 */
-	public void atualizarClient(Usuario usuario) throws RemoteException;
+	public void atualizarClient(Usuario usuario) throws RemoteException, BusinessException;
 	
 	/**
 	 * Necessario para que o Service tenha controle sobre os clientController dos usuarios logados
@@ -35,28 +35,28 @@ public interface ServiceUsuario extends Remote
 	 * @param usuario
 	 * @throws RemoteException
 	 */
-	public void adicionarObservador(ObserverUsuario observador, Usuario usuario) throws RemoteException;
+	public void adicionarObservador(ObserverUsuario observador, Usuario usuario)  throws RemoteException, BusinessException;
 	
 	/**
 	 * Remove um usuario da lista de usuarios autenticados, quando faz logoff ou encerra a aplicacao
 	 * @param usuario
 	 * @throws RemoteException
 	 */
-	public void removerObservador(Usuario usuario) throws RemoteException;
+	public void removerObservador(Usuario usuario) throws RemoteException, BusinessException;
 	
 	/**
 	 * Notifica um usuário que o tempo de uso esta prestes a exceder
 	 * @param usuarioAutenticado
 	 * @throws RemoteException
 	 */
-	public void notificarTempoExcedido(UsuarioAutenticado usuarioAutenticado) throws RemoteException;
+	public void notificarTempoExcedido(UsuarioAutenticado usuarioAutenticado) throws RemoteException, BusinessException;
 	
 	/**
 	 * Retorna a lista com todos os usuario conectados
 	 * @return
 	 * @throws RemoteException
 	 */
-	public Set<UsuarioAutenticado> getUsuarioAutenticado() throws RemoteException;
+	public Set<UsuarioAutenticado> getUsuarioAutenticado() throws RemoteException, BusinessException;
 	
 	/**
 	 * Um metodo simples para verificar conexao com o serviceUsuario
@@ -70,7 +70,8 @@ public interface ServiceUsuario extends Remote
 	 * @param pj
 	 * @return
 	 * @throws RemoteException
+	 * @throws BusinessException 
 	 */
-	public List<PessoaJuridica> pesquisarPJ(String desc) throws RemoteException;
+	public List<PessoaJuridica> pesquisarPJ(String desc) throws RemoteException, BusinessException;
 
 }

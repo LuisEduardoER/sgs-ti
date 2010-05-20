@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
+import persistencia.facade.FacadeChamado;
+
 import common.entity.Chamado;
 import common.exception.BusinessException;
 
@@ -18,8 +20,8 @@ public class FilaChamado extends Observable
 	 * Construtor
 	 */
 	private FilaChamado() throws BusinessException{
-		//fila = FacadeChamado.buscarChamadosAbertos();
-		fila = new LinkedList<Chamado>();
+		fila = FacadeChamado.buscarChamadosAbertos();
+		//fila = new LinkedList<Chamado>();
 		//filaAgendamento = FacadeChamado.buscarChamadosAgendados();
 		filaAgendamento = new LinkedList<Chamado>();
 	}

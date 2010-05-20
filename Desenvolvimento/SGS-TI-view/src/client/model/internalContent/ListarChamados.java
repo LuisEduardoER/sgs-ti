@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +27,6 @@ import org.jdesktop.swingx.decorator.PatternFilter;
 import common.entity.Chamado;
 import common.remote.ObservadorFila;
 import common.util.Utils;
-import client.Modal;
 import client.controller.ClientController;
 import client.util.ClientConstraint;
 import client.util.SpringUtilities;
@@ -142,19 +139,6 @@ public class ListarChamados implements InternalContent, Observer{
 		// ativa o observadorFila e se add como interessado em receber notify
 		ClientController.getInstance().desativarObservadorFila(ListarChamados.this);
 
-		Modal modal = new Modal();
-		modal.setModal(true);
-
-		modal.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				List<String> form = ((Modal)e.getSource()).pegarDados();
-				for(String s : form)
-					System.out.println(s);
-			}	
-		});
-
-		modal.setVisible(true);
 	}
 	
 	public void atualizarFila(List<Chamado> listaChamados){

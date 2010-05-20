@@ -26,6 +26,7 @@ public interface ObservadorAgendamento extends Remote
 	/**
 	 * 
 	 * @throws RemoteException
+	 * @throws BusinessException 
 	 */
 	public void removerObservador() throws RemoteException, BusinessException;
 	

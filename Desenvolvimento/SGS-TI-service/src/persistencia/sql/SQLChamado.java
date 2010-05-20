@@ -233,7 +233,7 @@ public class SQLChamado implements DAOChamado{
 	}
 
 	@Override
-	public List<Chamado> buscarChamadosAgendado() {
+	public List<Chamado> buscarChamadosAgendado() throws BusinessException {
 		Connection con = null;
 		String sql = null;
 		

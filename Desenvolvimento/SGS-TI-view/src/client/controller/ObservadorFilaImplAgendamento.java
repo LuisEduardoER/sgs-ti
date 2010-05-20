@@ -40,7 +40,7 @@ public class ObservadorFilaImplAgendamento extends Observable implements Observa
 	}
 
 	@Override
-	public void removerObservador() throws RemoteException, BusinessException {	
+	public void removerObservador() throws RemoteException, BusinessException{	
 		serviceChamado.removerObservadorAgendamento(myStub);
 	}
 

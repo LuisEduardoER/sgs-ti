@@ -68,8 +68,9 @@ public class FacadeChamado
 	/**
 	 * Método que busca todos os chamados agendados.
 	 * @return
+	 * @throws BusinessException 
 	 */
-	public static List<Chamado> buscarChamadosAgendados(){
+	public static List<Chamado> buscarChamadosAgendados() throws BusinessException{
 		DAOChamado dao = new SQLChamado();
 		return dao.buscarChamadosAgendado();
 	}
