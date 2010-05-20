@@ -4,11 +4,15 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import persistencia.facade.FacadeChamado;
+import persistencia.sql.FabricaSql;
+
 import service.base.FilaChamado;
 import common.entity.Chamado;
 import common.remote.ObservadorAgendamento;
 import common.remote.ObservadorFila;
 import common.remote.ServiceChamado;
+import common.util.Utils;
 
 public class ServiceChamadoImpl implements ServiceChamado 
 {
@@ -87,7 +91,9 @@ public class ServiceChamadoImpl implements ServiceChamado
 	public void cadastrarChamado(Chamado chamado) throws RemoteException {
 
 		// TODO: adicionar no banco.
-		
+		Utils.printMsg(this.getClass().getName(), "Cadastrando chamado");
+		boolean inseriu = FacadeChamado.criarChamado(chamado);
+		System.out.println(inseriu);
 		// adicionar o chamado na fila e notificar.
 		FilaChamado.getInstance().adicionaChamado(chamado);
 		notificarObservadorFila();
