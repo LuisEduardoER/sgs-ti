@@ -85,8 +85,8 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 				System.out.println("SQL - " + sql);
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, descricao);
-			stmt.setString(2, descricao);
+			stmt.setString(1, '%'+descricao+'%');
+			stmt.setString(2, '%'+descricao+'%');
 			
 			ResultSet rs = stmt.executeQuery();
 			
@@ -95,8 +95,8 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 				String razaoSocial = rs.getString("RAZAO_SOCIAL");
 				String nomeFantasia = rs.getString("NOME_FANTASIA");
 				long cnpj = rs.getLong("CNPJ");
-				String contato = rs.getString("CONTATO");
-				String endereco = rs.getString("ENDERECO");
+				// TODO: Ç
+				String endereco = "RUA";
 				
 				int codPorte = rs.getInt("CODIGO_PORTE");
 				Porte porte = FacadePorte.getById(codPorte);
@@ -105,7 +105,7 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 				pjs.add(pj);
 			}
 			stmt.close();
-			return null;
+			return pjs;
 			
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro SQL", e);

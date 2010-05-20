@@ -34,10 +34,12 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 	}
 	
 	@Override
-	public boolean autenticar(ObserverUsuario observador, Usuario usuario) throws RemoteException, BusinessException {
-		FacadeUsuario.autenticarUser(usuario);
-		adicionarObservador(observador, usuario);
-		return true;
+	public Usuario autenticar(ObserverUsuario observador, Usuario usuario) throws RemoteException, BusinessException {
+		Usuario logado = FacadeUsuario.autenticarUser(usuario);
+		// Valida, mas se deu erro na autenticacao vai jogar exception, nem vira aqui
+		if(!Utils.isNullOrEmpty(logado))
+			adicionarObservador(observador, logado);
+		return logado;
 	}
 
 	@Override
@@ -90,8 +92,7 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 	}
 	
 	public List<PessoaJuridica> pesquisarPJ(String desc) throws RemoteException{
-		FacadePessoaJuridica.pesquisarPessoaJuridicaPorDesc(desc);
-		return null;
+		return FacadePessoaJuridica.pesquisarPessoaJuridicaPorDesc(desc);
 	}
 
 	public void setUsuarioAutenticado(HashSet<UsuarioAutenticado> usuarioAutenticado) {

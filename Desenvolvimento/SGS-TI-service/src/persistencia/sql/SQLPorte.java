@@ -37,11 +37,11 @@ public class SQLPorte implements DAOPorte{
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, codigo);
 			
-			
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()){
 				String nome = rs.getString("NOME");
+				
 				Porte porte = new Porte(nome);
 				return porte;
 			}					
@@ -55,8 +55,5 @@ public class SQLPorte implements DAOPorte{
 			Conexao.fecharConexao(con);
 		}
 	}
-
-
-
 
 }
