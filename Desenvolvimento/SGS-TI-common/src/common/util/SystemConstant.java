@@ -2,6 +2,7 @@ package common.util;
 
 public class SystemConstant {
 
+	//TODO EH  CACHE
 	// Constantes do Sistema
 	public static final boolean DEBUG_MODE 					= true;
 	public static final double 	MAX_SESSION_TIME_MIN		= 2d; 

@@ -44,6 +44,24 @@ public class SQLChamado implements DAOChamado{
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
 			//TODO -colocar os parametros
+			//insert into CHAMADO values(chamadoSeq.nextVal,?,null,?,?,?,?,?,?,?,?,?,?) 
+			//,1data_aber,NULLdata_fech,2detalhes,3responsavel,4contato,5data_agendamento,
+			//6codigo_status,7codigo_tipo_chamado,8codigo_tipo_falah,9codigo_usu_registro,10codigo_pf,11codigo_pj
+			chamado = new Chamado();
+			chamado.setResponsavel("denis");
+			chamado.setDetalhes("lixo");
+			
+			stmt.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+			stmt.setDate(2, null);
+			stmt.setString(3,chamado.getDetalhes());
+			stmt.setString(4,chamado.getResponsavel());
+			stmt.setString(5,null);
+			stmt.setInt(6,1);
+			stmt.setInt(7,1);
+			stmt.setInt(8,1);
+			stmt.setInt(9,1);
+			stmt.setNull(10,1);
+			stmt.setNull(11,1);
 			
 			int qtd = stmt.executeUpdate();
 			

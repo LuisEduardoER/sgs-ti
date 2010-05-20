@@ -5,8 +5,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -57,7 +57,7 @@ public class StatusSistema  implements InternalContent
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+					Set<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
 					if(!Utils.isEmptyCollection(ua)){
 						numUser.setText(String.valueOf(ua.size()));
 					}
@@ -76,7 +76,7 @@ public class StatusSistema  implements InternalContent
 				try{
 					// Mata todos os usuários menos ele mesmo
 					Usuario user = ClientController.getInstance().getUsuario();
-					HashSet<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+					Set<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
 					Iterator<UsuarioAutenticado> it = ua.iterator();
 					while(it.hasNext()){
 						UsuarioAutenticado usuario = it.next();

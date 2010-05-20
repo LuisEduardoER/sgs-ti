@@ -1,5 +1,7 @@
 package persistencia.dao;
 
+import java.util.List;
+
 import common.entity.PessoaJuridica;
 
 public interface DAOPessoaJuridica 
@@ -16,4 +18,6 @@ public interface DAOPessoaJuridica
 	 * @return
 	 */
 	abstract PessoaJuridica getById(int codigo);
+
+	abstract List<PessoaJuridica> pesquisarPorDescricao(String descricao);
 }

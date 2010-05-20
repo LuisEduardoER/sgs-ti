@@ -5,11 +5,18 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
+import persistencia.facade.FacadePessoaJuridica;
+import persistencia.facade.FacadeUsuario;
+
 import service.task.ThreadUserMonitor;
+import common.entity.Cliente;
+import common.entity.PessoaJuridica;
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
+import common.exception.BusinessException;
 import common.remote.ObserverUsuario;
 import common.remote.ServiceUsuario;
 import common.util.Utils;
@@ -27,7 +34,8 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 	}
 	
 	@Override
-	public boolean autenticar(ObserverUsuario observador, Usuario usuario) throws RemoteException {
+	public boolean autenticar(ObserverUsuario observador, Usuario usuario) throws RemoteException, BusinessException {
+		FacadeUsuario.autenticarUser(usuario);
 		adicionarObservador(observador, usuario);
 		return true;
 	}
@@ -77,8 +85,13 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 	}
 	
 	@Override
-	public Set<UsuarioAutenticado> getUsuarioAutenticado() {
+	public Set<UsuarioAutenticado> getUsuarioAutenticado() throws RemoteException {
 		return usuarioAutenticado;
+	}
+	
+	public List<PessoaJuridica> pesquisarPJ(String desc) throws RemoteException{
+		FacadePessoaJuridica.pesquisarPessoaJuridicaPorDesc(desc);
+		return null;
 	}
 
 	public void setUsuarioAutenticado(HashSet<UsuarioAutenticado> usuarioAutenticado) {

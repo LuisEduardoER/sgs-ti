@@ -1,5 +1,6 @@
 package service.task;
 
+import java.rmi.RemoteException;
 import java.util.Iterator;
 import service.remote.ServiceUsuarioImpl;
 import common.entity.UsuarioAutenticado;
@@ -22,6 +23,7 @@ public class ThreadUserMonitor extends Thread{
 		while(true)
 		{
 			try{
+				// TODO : DENIS - VER EXCEPTIONS
 				// Se tiver algum usuario, verifica o tempo de atividade
 				Utils.printMsg(this.getClass().getSimpleName(), "Qtde Usuários:" + servicoUsuario.getUsuarioAutenticado().size());
 				if(servicoUsuario.getUsuarioAutenticado().size()>0){
@@ -52,6 +54,8 @@ public class ThreadUserMonitor extends Thread{
 				}
 				sleep(SystemConstant.USER_MONITOR_SLEEP_TIME);
 			}catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
 		}
