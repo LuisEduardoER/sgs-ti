@@ -8,7 +8,6 @@ public abstract class Cliente extends Pessoa
 	protected Porte porte;
 	private List<Usuario> usuarios;
 	private String nome;
-	private String contato;
 	
 	/**
 	 * Construtor
@@ -20,13 +19,11 @@ public abstract class Cliente extends Pessoa
 	public Cliente(String endereco, 
 			Porte porte, 
 			List<Usuario> usuarios, 
-			String nome,
-			String contato) {
+			String nome) {
 		super(endereco);
 		setPorte(porte);
 		setUsuarios(usuarios);
 		setNome(nome);
-		setContato(contato);
 	}
 	
 	/*
@@ -49,12 +46,5 @@ public abstract class Cliente extends Pessoa
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	public String getContato() {
-		return contato;
-	}
-
-	public void setContato(String contato) {
-		this.contato = contato;
 	}
 }

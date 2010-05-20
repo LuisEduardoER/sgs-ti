@@ -4,9 +4,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
-
-import persistencia.facade.FacadeChamado;
-
 import common.entity.Chamado;
 
 public class FilaChamado extends Observable{
@@ -74,9 +71,9 @@ public class FilaChamado extends Observable{
 	 * 		Retorna um lista de chamados somente leitura.
 	 */
 	public List<Chamado> getFila(){
-		// List<Chamado> lista = Collections.unmodifiableList(fila);
+		List<Chamado> lista = Collections.unmodifiableList(fila);
 		
-		List<Chamado> lista = FacadeChamado.buscarChamadosAbertos();
+		// pegando do banco // List<Chamado> lista = FacadeChamado.buscarChamadosAbertos();
 		return lista;
 	}
 	

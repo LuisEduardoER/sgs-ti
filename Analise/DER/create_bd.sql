@@ -81,7 +81,7 @@ create table PESSOA_FISICA
 	data_nascimento Date,
 	cpf LONG,
         sexo varchar(20),
-        endereço varchar(140),
+        endereco varchar(140),
 	codigo_porte int null constraint FK_CODIGO_PORTE_PF references PORTE (codigo)
 );
 
@@ -96,7 +96,7 @@ create table PESSOA_JURIDICA
 	razao_social varchar(140),
 	nome_fantasia varchar(140),
 	cnpj LONG,
-        endereço varchar(140),
+        endereco varchar(140),
 	codigo_porte int null constraint FK_CODIGO_PORTE_PJ references PORTE (codigo)
 );
 

@@ -1,34 +1,40 @@
 package persistencia.sql;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
-import persistencia.util.Conexao;
-
 public class FabricaSql {
 	private static final String ARQUIVO_COMANDOS = "resources/properties/sql.properties";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	private static Properties sqlProperties;
 	private static HashMap<String, String> cache;
 	
 	/**
 	 * Carrega o arquivo de properties.
 	 */
-	static{
-		try{
-			sqlProperties = new Properties();
-			cache = new HashMap<String, String>();
-			
-			InputStream fis = Conexao.class.getClassLoader().getResourceAsStream(ARQUIVO_COMANDOS);
-			sqlProperties.load(fis);
+	static
+	{	
+		cache = new HashMap<String, String>();
+		
+		File f = new File(ARQUIVO_COMANDOS);
 
+		if (!f.exists())
+			throw new IllegalArgumentException("Arquivo de configurações não "
+					+ "encontrado " + ARQUIVO_COMANDOS);
+
+		try {
+			FileInputStream fis = new FileInputStream(f);
+			sqlProperties = new Properties();
+			sqlProperties.load(fis);
+			fis.close();
 		} catch (IOException e) {
-			throw new RuntimeException("Erro ao ler arquivo de comandos, " + e.getMessage());
+			throw new RuntimeException("Erro de I/O", e);
 		}
+
 	}
-	
 	
 	/**
 	 * Retorna o sql associado a ação

@@ -196,16 +196,18 @@ public class SQLChamado implements DAOChamado{
 				//int codPF = rs.getInt("CODIGO_PF");
 				int codPJ = rs.getInt("CODIGO_PJ");
 				chamado.setReclamante(FacadePessoaJuridica.getById(codPJ));
-				
+
+				chamado.atualizaPrioridade();
 				chamados.add(chamado);
-			}					
+			}	
+			
 			stmt.close();
+			return chamados;
 			
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro SQL",e);
 		} finally {
 			Conexao.fecharConexao(con);
 		}
-		return null;
 	}
 }
