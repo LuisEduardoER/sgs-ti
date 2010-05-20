@@ -135,7 +135,7 @@ public class ListarAgenda implements InternalContent, Observer
 				while (true) {
 					for(Chamado c : listaChamados)
 					{
-						
+						// VERIFICAR
 					}
 				}
 			};
@@ -186,7 +186,7 @@ public class ListarAgenda implements InternalContent, Observer
 			matriz[linha][1] = chamado.getReclamante().getNome();
 			matriz[linha][2] = String.valueOf(chamado.getPrioridade().getValorPrioridade());
 			matriz[linha][3] = chamado.getReclamante().getEndereco().toString();
-			matriz[linha][4] = chamado.getReclamante().getContato().toString();
+			matriz[linha][4] = chamado.getContato().toString();
 		}
 
 		return matriz;

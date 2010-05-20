@@ -46,7 +46,7 @@ public class ProdutoraChamados extends Thread {
 			try {
 				
 				Cliente cliente = new PessoaFisica("Rua x", new Porte(Porte.PF), null, "André", "Macho",
-						new Date(), new Long("0123456789"), "4121212121");
+						new Date(), new Long("0123456789"));
 				Usuario usuario = new Usuario("Vane Iwa", "senha");
 				
 				//Chamado chamado = new Chamado(new Date(), new TipoChamado(TipoChamado.URGENTE),cliente);

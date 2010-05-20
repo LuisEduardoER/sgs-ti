@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SGS-TI-common"/>
+	<classpathentry kind="lib" path="resources/driver/ojdbc14_g.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

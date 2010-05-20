@@ -97,6 +97,10 @@ public class Chamado implements Serializable
 		this.contato = contato;
 	}
 
+	public void atualizaPrioridade(){
+		this.prioridade = new Prioridade(getTipoChamado().getValor(), getReclamante().getPorte().getValor(), getDataHoraAbertura());
+	}
+	
 	/*
 	 * GETTERs AND SETTERs
 	 */

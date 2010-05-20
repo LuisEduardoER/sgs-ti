@@ -32,15 +32,16 @@ public class SQLPorte implements DAOPorte{
 			sql = FabricaSql.getSql(origem + PROCURAR_PORTE_BY_ID);
 			
 			if(DEBUG)
-				System.out.println("SQL - " + sql);
+				System.out.println("SQL - " + sql + ", " + codigo);
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, codigo);
 			
+			
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()){
-				String nome = rs.getNString("NOME");
+				String nome = rs.getString("NOME");
 				Porte porte = new Porte(nome);
 				return porte;
 			}					

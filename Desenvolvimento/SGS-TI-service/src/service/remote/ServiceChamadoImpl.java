@@ -3,10 +3,7 @@ package service.remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-
 import persistencia.facade.FacadeChamado;
-import persistencia.sql.FabricaSql;
-
 import service.base.FilaChamado;
 import common.entity.Chamado;
 import common.remote.ObservadorAgendamento;
@@ -33,6 +30,7 @@ public class ServiceChamadoImpl implements ServiceChamado
 			throws RemoteException {
 
 		observadoresFila.add(obs);
+		obs.atualizarFila(FilaChamado.getInstance().getFila());
 	}
 	
 	@Override
