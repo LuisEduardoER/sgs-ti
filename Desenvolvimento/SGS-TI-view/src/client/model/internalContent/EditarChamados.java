@@ -2,11 +2,14 @@ package client.model.internalContent;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-import com.toedter.calendar.JDateChooser;
 import common.entity.Chamado;
 import common.entity.StatusChamado;
 import common.entity.TipoFalha;
@@ -52,7 +54,8 @@ public class EditarChamados extends Observable implements InternalContent
 	private JTextField responsavelTextField;
 	private JComboBox tipoFalhaComboBox;
 	private	JComboBox statusComboBox;
-	private JDateChooser dataAgentamentoDateChooser;
+	//private JDateChooser dataAgentamentoDateChooser;
+	private JTextField dataAgentamentoDateChooser;
 	private JTextField horaAgendamentoTextField;
 	private JTextArea descricaoTextArea;
 	private JButton btSalvar;
@@ -81,8 +84,8 @@ public class EditarChamados extends Observable implements InternalContent
 
 		jif.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		jif.setBackground(Color.WHITE);
-		jif.setSize(600, 600);
-		jif.setLocation(30, 30);
+		jif.setLocation(10, 10);
+		jif.setSize(new Dimension(800, 450));
 		jif.setClosable(true);
 		jif.setResizable(true);	
 		jif.setLayout(new BorderLayout());
@@ -117,8 +120,8 @@ public class EditarChamados extends Observable implements InternalContent
 		statusComboBox = new JComboBox();
 
 		JLabel dataAgendamentoL = new JLabel("Data: ");		
-		dataAgentamentoDateChooser = new JDateChooser();
-		
+		dataAgentamentoDateChooser = new JTextField();
+
 		JLabel horaAgendamentoL = new JLabel("Hora: ");		
 		horaAgendamentoTextField = new JTextField();
 
@@ -211,10 +214,7 @@ public class EditarChamados extends Observable implements InternalContent
 			for (int i = 0; i < listStatus.size(); i++) {
 				if(chamado.getStatus().getNome().toString().equals(listStatus.get(i).getNome().toString()))
 					statusComboBox.setSelectedIndex(i);
-			}
-
-			dataAgentamentoDateChooser.setDateFormatString("dd/MM/yyyy");
-			
+			}			
 		} catch (RemoteException e) {
 			// TODO Vanessa - Colocar Exception
 			e.printStackTrace();
@@ -226,7 +226,7 @@ public class EditarChamados extends Observable implements InternalContent
 		public void internalFrameOpened(InternalFrameEvent e) {
 			inicializar();
 		}
-		
+
 		@Override
 		public void internalFrameClosed(InternalFrameEvent e) {
 			Modal modal = new Modal();
@@ -243,7 +243,7 @@ public class EditarChamados extends Observable implements InternalContent
 
 			modal.setVisible(true);
 		}
-		
+
 		@Override
 		public void internalFrameClosing(InternalFrameEvent e) {
 		}			
@@ -263,27 +263,32 @@ public class EditarChamados extends Observable implements InternalContent
 
 	class OuvinteEditarChamado implements ActionListener 
 	{
+
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			if (evt.getActionCommand().equals("SALVAR")) {
-				
-				System.out.println("TRGFFFF = " + dataAgentamentoDateChooser.getDate());
-	
-				
-				Chamado newChamado = new Chamado(chamado.getNumeroChamado(), 
-						(Date) chamado.getDataHoraAbertura(),
-						(Date) chamado.getDataHoraFechamento(),
-						descricaoTextArea.getText().toString(),
-						new StatusChamado(statusComboBox.getSelectedItem().toString()),
-						chamado.getPrioridade(),
-						chamado.getTipoChamado(),
-						chamado.getReclamante(),
-						new TipoFalha(tipoFalhaComboBox.getSelectedItem().toString()), 
-						chamado.getResponsavel(),
-						chamado.getUsuarioResgistro(),
-						(Date) dataAgentamentoDateChooser.getDate(),
-						chamado.getContato());
-				ClientController.getInstance().atualizarChamado(newChamado);
+				try {
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+					Date data = sdf.parse(dataAgentamentoDateChooser.getText() + " " +  horaAgendamentoTextField.getText());
+
+					Chamado newChamado = new Chamado(chamado.getNumeroChamado(), 
+							(Date) chamado.getDataHoraAbertura(),
+							(Date) chamado.getDataHoraFechamento(),
+							descricaoTextArea.getText().toString(),
+							new StatusChamado(statusComboBox.getSelectedItem().toString()),
+							chamado.getPrioridade(),
+							chamado.getTipoChamado(),
+							chamado.getReclamante(),
+							new TipoFalha(tipoFalhaComboBox.getSelectedItem().toString()), 
+							chamado.getResponsavel(),
+							chamado.getUsuarioResgistro(),
+							data,
+							chamado.getContato());
+					ClientController.getInstance().atualizarChamado(newChamado);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 			if(evt.getActionCommand().equals("CANCELAR"))
