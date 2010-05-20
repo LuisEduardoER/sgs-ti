@@ -30,18 +30,16 @@ public interface ServiceChamado extends Remote{
 	public void notificarObservadorFila() throws RemoteException;
 	
 	/**
-	 * Método para obter os chamados da fila.
-	 * @return
-	 * 		Lista de Chamados da fila.
-	 * @throws RemoteException
-	 */
-	//public List<Chamado> obterFila() throws RemoteException;
-	
-	
-	/**
 	 * Método para cadastrar um novo chamado.
 	 */
 	public void cadastrarChamado(Chamado chamado) throws RemoteException;
+	
+	/**
+	 * Metodo para verificar se o server está ok, e se o observador
+	 * da fila está devidamente cadastrado.
+	 * @param obs
+	 */
+	public void verificarStatus(ObservadorFila obs) throws RemoteException;
 	
 	/**
 	 * Método para atualizar um chamado.

@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import common.entity.Chamado;
 import common.entity.HistoricoChamado;
@@ -43,6 +43,7 @@ public class SQLChamado implements DAOChamado{
 				System.out.println(sql);
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
+			
 			//TODO -colocar os parametros
 			//insert into CHAMADO values(chamadoSeq.nextVal,?,null,?,?,?,?,?,?,?,?,?,?) 
 			//,1data_aber,NULLdata_fech,2detalhes,3responsavel,4contato,5data_agendamento,
@@ -188,7 +189,7 @@ public class SQLChamado implements DAOChamado{
 			PreparedStatement stmt = con.prepareStatement(sql);			
 			ResultSet rs = stmt.executeQuery();
 		
-			List<Chamado> chamados = new ArrayList<Chamado>();
+			List<Chamado> chamados = new LinkedList<Chamado>();
 			
 			while(rs.next()){
 				Chamado chamado = new Chamado();

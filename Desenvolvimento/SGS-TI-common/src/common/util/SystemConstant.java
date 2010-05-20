@@ -11,6 +11,9 @@ public class SystemConstant {
 	public static final int		USER_MONITOR_SLEEP_TIME 	= 2000;
 	public static final int 	SERVER_CHECK_STATUS_TIME	= 1000;
 	public static final int 	SERVER_CHECK_RECONECT_TIME	= 1000;
+	public static final int		MAX_TENTATIVAS_RECONEXAO	= 5;
+	public static final int		TEMPO_ESPERA_MONITOR_CONEXAO	= 10000;
+	
 	
 	// Constantes
 	public static final String SERVER_STATUS = "Server status:";
