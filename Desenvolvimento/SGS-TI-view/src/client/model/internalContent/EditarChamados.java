@@ -165,6 +165,10 @@ public class EditarChamados extends Observable implements InternalContent
 	public void inicializacaoComponentes()
 	{
 		try {
+			if (statusComboBox != null && tipoFalhaComboBox != null) {
+				statusComboBox.removeAll();
+				tipoFalhaComboBox.removeAll();
+			}
 			dataAberturaTextField.setText(chamado.getDataHoraAbertura().toString());
 			dataAberturaTextField.setEditable(false);
 
@@ -260,7 +264,7 @@ public class EditarChamados extends Observable implements InternalContent
 				try {
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 					Date data = sdf.parse(dataAgentamentoDateChooser.getText() + " " +  horaAgendamentoTextField.getText());
-
+					
 					Chamado newChamado = new Chamado(chamado.getNumeroChamado(), 
 							(Date) chamado.getDataHoraAbertura(),
 							(Date) chamado.getDataHoraFechamento(),
