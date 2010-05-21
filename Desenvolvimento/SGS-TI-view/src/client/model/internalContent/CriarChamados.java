@@ -307,14 +307,14 @@ public class CriarChamados implements InternalContent
 					
 					System.out.println(clienteEscolhido.getCodigo());
 					// Status null?
-					
+					StatusChamado st = new StatusChamado(1,StatusChamado.ABERTO);
 					
 					// Cliente e descricao eh obrigatorio
 					if(Utils.isNullOrEmpty(descricao) || Utils.isNullOrEmpty(clienteEscolhido)){
 						JOptionPane.showMessageDialog(null, "Os campos cliente e descrição são obrigatórios.");
 					}else{
 						Chamado novoChamado = new Chamado(dataAbertura,dataFechamento,descricao,resp,dataAgenda,
-								tc,tf,pj,null);
+								tc,tf,pj,st);
 						ClientController.getInstance().criarChamado(novoChamado);
 						JOptionPane.showMessageDialog(null, "Inserido com sucesso!");
 						fecharJanela();
