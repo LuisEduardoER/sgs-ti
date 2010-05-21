@@ -1,8 +1,7 @@
 package persistencia.util;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,8 +18,8 @@ import common.util.SystemConstant;
  */
 public class Conexao {
 
-	private static final String ARQUIVO_CONF = "resources/properties/conexao.properties";
-
+	private static final String ARQUIVO_CONF = "META-INF/conexao.properties";
+	
 	private static final Properties configuracoes;
 
 	/*
@@ -28,24 +27,20 @@ public class Conexao {
 	 * classe na memória. Assim o atributo de configurações é carregado apenas
 	 * uma vez, não precisando ser carregado diversas vezes desnecessariamente.
 	 */
-
+	
 	static 
 	{	
-		File f = new File(ARQUIVO_CONF);
-
-		if (!f.exists())
-			throw new IllegalArgumentException("Arquivo de configurações não "
-					+ "encontrado " + ARQUIVO_CONF);
-
 		try {
-			FileInputStream fis = new FileInputStream(f);
+			InputStream is = Conexao.class.getClassLoader().getResourceAsStream(ARQUIVO_CONF);
 			configuracoes = new Properties();
-			configuracoes.load(fis);
-			fis.close();
+			configuracoes.load(is);
+		
+			/**
+			 * TODO - Arrumar Exceptio
+			 */
 		} catch (IOException e) {
 			throw new RuntimeException("Erro de I/O", e);
 		}
-
 	}
 	
 	/**

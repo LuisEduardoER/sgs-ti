@@ -1,5 +1,7 @@
 package persistencia.dao;
 
+import java.util.List;
+
 import common.entity.TipoFalha;
 import common.exception.BusinessException;
 
@@ -35,6 +37,9 @@ public interface DAOTipoFalha {
 	 * @return
 	 */
 	abstract TipoFalha getById(int codigo) throws BusinessException;
+	
+	
+	abstract List<TipoFalha> listarTodos() throws BusinessException;
 	
 
 }

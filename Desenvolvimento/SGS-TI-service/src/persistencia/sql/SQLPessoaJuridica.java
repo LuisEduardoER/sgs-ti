@@ -52,11 +52,10 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 				String nomeFantasia = rs.getString("NOME_FANTASIA");
 				long cnpj = rs.getLong("CNPJ");
 				String endereco = rs.getString("ENDERECO");
-				
 				int codPorte = rs.getInt("CODIGO_PORTE");
 				Porte porte = FacadePorte.getById(codPorte);
 				
-				PessoaJuridica pj = new PessoaJuridica(endereco, porte, null, razaoSocial, nomeFantasia, cnpj);
+				PessoaJuridica pj = new PessoaJuridica(codigo,endereco, porte, null, razaoSocial, nomeFantasia, cnpj);
 				return pj;		
 			}					
 			stmt.close();
@@ -96,13 +95,13 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 				String razaoSocial = rs.getString("RAZAO_SOCIAL");
 				String nomeFantasia = rs.getString("NOME_FANTASIA");
 				long cnpj = rs.getLong("CNPJ");
-				// TODO: Ç
+				int codigo = rs.getInt("CODIGO");
 				String endereco = "RUA";
 				
 				int codPorte = rs.getInt("CODIGO_PORTE");
 				Porte porte = FacadePorte.getById(codPorte);
 				
-				PessoaJuridica pj = new PessoaJuridica(endereco, porte, null, razaoSocial, nomeFantasia, cnpj);
+				PessoaJuridica pj = new PessoaJuridica(codigo,endereco, porte, null, razaoSocial, nomeFantasia, cnpj);
 				pjs.add(pj);
 			}
 			stmt.close();

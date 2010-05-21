@@ -1,5 +1,7 @@
 package persistencia.dao;
 
+import java.util.List;
+
 import common.entity.TipoChamado;
 import common.exception.BusinessException;
 
@@ -25,7 +27,9 @@ public interface DAOTipoChamado {
 	 * 		Objeto TipoChamado.
 	 * @return
 	 * 		int
+	 * @throws BusinessException 
 	 */
+	abstract List<TipoChamado> listarTodos() throws BusinessException;
 	abstract int procurarTipoChamado(TipoChamado tipoChamado) throws BusinessException;
 	
 	/**

@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
 import common.entity.TipoFalha;
 import common.exception.BusinessException;
-
+import common.util.Utils;
 import persistencia.dao.DAOTipoFalha;
 import persistencia.util.Conexao;
 
@@ -16,6 +17,8 @@ public class SQLTipoFalha implements DAOTipoFalha{
 	private static String INSERIR_TIPO_FALHA = ".jdbc.INSERIR_TIPO_FALHA";
 	private static String PROCURAR_TIPO_FALHA = ".jdbc.PROCURAR_TIPO_FALHA";
 	private static String PROCURAR_TIPO_FALHA_BY_ID = ".jdbc.PROCURAR_TIPO_FALHA_BY_ID";
+	
+	private static String LISTAR_TODOS = ".jdbc.LISTAR_TODOS_TIPO_FALHA";
 	
 	/**
 	 * TODO - Descrever melhor os campos
@@ -90,6 +93,42 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			stmt.close();
 			return -1;
 			
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro SQL", e);
+			
+		} finally {
+			Conexao.fecharConexao(con);
+		}
+	}
+	
+	public List<TipoFalha> listarTodos() throws BusinessException {
+		Connection con = null;
+		String sql = null;
+			
+		try {
+			// Obtem a conexão
+			con = Conexao.obterConexao();
+			
+			String origem = Conexao.obterOrigem();
+			sql = FabricaSql.getSql(origem + LISTAR_TODOS);
+			
+			if(DEBUG)
+				System.out.println("SQL - " + sql);
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			
+			ResultSet rs = stmt.executeQuery();
+		
+			List<TipoFalha> tipoFalha = new ArrayList<TipoFalha>();
+			while(rs.next()){
+				TipoFalha tf = new TipoFalha(rs.getInt("CODIGO"),rs.getString("NOME"));
+				tipoFalha.add(tf);
+			}					
+			stmt.close();
+			if(Utils.isEmptyCollection(tipoFalha)){
+				throw new BusinessException("Não foi possível carregar os Tipos de falhas");
+			}else
+				return tipoFalha;
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro SQL", e);
 			

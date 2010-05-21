@@ -1,5 +1,7 @@
 package persistencia.facade;
 
+import java.util.List;
+
 import common.entity.TipoChamado;
 import common.exception.BusinessException;
 
@@ -31,12 +33,12 @@ public class FacadeTipoChamado
 	 * 
 	 * @param tipoChamado
 	 * @return
+	 * @throws BusinessException 
 	 */
-	public static int procurarTipoChamado(TipoChamado tipoChamado) throws BusinessException
+	public static List<TipoChamado> listarTodos() throws BusinessException
 	{
 		DAOTipoChamado dao = new SQLTipoChamado();
-		int codigo = dao.procurarTipoChamado(tipoChamado);	
-		return codigo;
+		return dao.listarTodos();	
 	}
 	
 	/**
