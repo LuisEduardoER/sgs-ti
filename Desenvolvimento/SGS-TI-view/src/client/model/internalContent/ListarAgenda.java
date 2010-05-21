@@ -133,22 +133,22 @@ public class ListarAgenda implements InternalContent, Observer
 					for(Chamado c : listaChamados)
 					{
 						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-						System.out.println("@  Data agendamento = " + c.getDataHoraAbertura());
+						System.out.println("@  Data agendamento = " + c.getDataAgendamento());
 						System.out.println("@  Data atual = " + new Date());
-						System.out.println("@  Data agendamento string = " + c.getDataHoraAbertura().toString());
+						System.out.println("@  Data agendamento string = " + c.getDataAgendamento().toString());
 						System.out.println("@  Data atual string = " + new Date().toString());
 						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 						
-						long d = c.getDataHoraAgendamento().getTime();
+						long d = c.getDataAgendamento().getTime();
 						long dd = new Date().getTime();
 						
 						//if(c.getDataHoraAgendamento().after(new Date()))
 						if(d < dd)
-							System.out.println("Agendamento " + c.getDataHoraAbertura() + "já passou");
+							System.out.println("Agendamento " + c.getDataAbertura() + "já passou");
 						if(d == dd)
-							System.out.println("Agendamento " + c.getDataHoraAbertura() + "AGORA");
+							System.out.println("Agendamento " + c.getDataAbertura() + "AGORA");
 						if(d > dd)
-							System.out.println("Agendamento " + c.getDataHoraAbertura() + "ira vir");
+							System.out.println("Agendamento " + c.getDataAbertura() + "ira vir");
 							
 						
 						try {
@@ -203,10 +203,10 @@ public class ListarAgenda implements InternalContent, Observer
 		// "Codigo", "Cliente", "Prioridade", "Reclamante", "Contato"
 		for(int linha=0; linha<chamados.size(); linha++){
 			Chamado chamado = chamados.get(linha);
-			matriz[linha][0] = String.valueOf(chamado.getNumeroChamado());
-			matriz[linha][1] = chamado.getReclamante().getNome();
+			matriz[linha][0] = String.valueOf(chamado.getCodigo());
+			matriz[linha][1] = chamado.getPj().getNome();
 			matriz[linha][2] = String.valueOf(chamado.getPrioridade().getValorPrioridade());
-			matriz[linha][3] = chamado.getReclamante().getEndereco().toString();
+			matriz[linha][3] = chamado.getPj().getEndereco().toString();
 			matriz[linha][4] = chamado.getContato().toString();
 		}
 
@@ -215,7 +215,7 @@ public class ListarAgenda implements InternalContent, Observer
 
 	public Chamado buscarChamadobyCodigo(int codigo){
 		for(Chamado c: listaChamados){
-			if(c.getNumeroChamado() == codigo)
+			if(c.getCodigo() == codigo)
 				return c;
 		}
 		return null;

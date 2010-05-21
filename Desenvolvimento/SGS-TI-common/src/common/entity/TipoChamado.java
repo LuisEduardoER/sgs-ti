@@ -9,6 +9,7 @@ public class TipoChamado implements Serializable
 	public static final String PROGRAMADO = "PROGRAMADO";
 	public static final String NORMAL = "NORMAL";
 	public static final String INFORMATIVO = "INFORMATIVO";
+	public static final String PREVENTIVO = "PREVENTIVO";
 	
 	private int codigo;
 	private String nome;

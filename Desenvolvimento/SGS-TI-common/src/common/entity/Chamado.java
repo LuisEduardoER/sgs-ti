@@ -151,6 +151,21 @@ public class Chamado implements Serializable
 		this.pj = pj;
 	}
 	
-
+	public void pritChamado(){
+		System.out.println("\n*********************************");
+		System.out.println("\t codigo: " + codigo);
+		System.out.println("\t data abertura: " + dataAbertura);
+		System.out.println("\t data fechamento: " + dataFechamento);
+		System.out.println("\t detalhes: " + detalhes);
+		System.out.println("\t responsavel: " + responsavel);
+		System.out.println("\t contato: " + contato);
+		System.out.println("\t data agendamento: " + dataAgendamento);
+		System.out.println("\t status: " + status.getNome());
+		System.out.println("\t tipo chamado: " + tipoChamado);
+		System.out.println("\t tipo falha: " + tipoFalha);
+		System.out.println("\t usuario: " + usuario.getNome());
+		System.out.println("\t pj: " + pj.getNomeFantasia());		
+		System.out.println("*********************************\n");
+	}
 	
 }

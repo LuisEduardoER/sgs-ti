@@ -7,6 +7,7 @@ public class TipoFalha implements Serializable
 	private static final long serialVersionUID = 1L;
 	public static final String HARDWARE = "HARDWARE";
 	public static final String SOFTWARE = "SOFTWARE";
+	public static final String INFORMATIVO = "INFORMATIVO";
 	public static final String DUVIDA = "DUVIDA";
 	
 	private int codigo;
