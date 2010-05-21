@@ -25,7 +25,6 @@ import org.jdesktop.swingx.decorator.Filter;
 import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.PatternFilter;
 import common.entity.Chamado;
-import common.entity.Prioridade;
 import common.remote.ObservadorFila;
 import common.util.Utils;
 import client.controller.ClientController;
@@ -71,7 +70,7 @@ public class ListarChamados implements InternalContent, Observer{
 	}
 
 	private void inicializar(){
-		colunas = new String[]{"Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"};
+		colunas = new String[]{"Codigo", "Cliente", "Descrição", "Data Abertura", "Status"};
 		listaChamados = new ArrayList<Chamado>();
 		modeloFila = new JXTableModel(converterListEmMatriz(listaChamados), colunas);
 		tabelaChamados = new JXTable(modeloFila);	
@@ -181,13 +180,13 @@ public class ListarChamados implements InternalContent, Observer{
 		String [][]matriz = new String [chamados.size()][5];
 		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 
-		// "Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"
+		// "Codigo", "Cliente", "Descrição", "Data Abertura", "Status"
 		for(int linha=0; linha<chamados.size(); linha++){
 			Chamado chamado = chamados.get(linha);
-			Prioridade pri = new Prioridade(chamado.getTipoChamado().getValor(), chamado.getPj().getPorte().getValor(), new Date());
+			//Prioridade pri = new Prioridade(chamado.getTipoChamado().getValor(), chamado.getPj().getPorte().getValor(), new Date());
 			matriz[linha][0] = String.valueOf(chamado.getCodigo());
 			matriz[linha][1] = chamado.getPj().getNome();
-			matriz[linha][2] = String.valueOf(pri.getValorPrioridade());
+			matriz[linha][2] = limitadorCaracteres(chamado.getDetalhes(),40);
 			matriz[linha][3] = formatador.format(chamado.getDataAbertura()).toString();
 			matriz[linha][4] = chamado.getStatus().getNome();
 
@@ -203,6 +202,14 @@ public class ListarChamados implements InternalContent, Observer{
 		}
 		return null;
 	}
+	
+	public String limitadorCaracteres(String input, int maxLength){
+		if(input.length() > maxLength)
+			return (input.substring(0, maxLength-3)+"...");
+			
+		return input;	
+	}
+	
 
 	/*
 	 * GETTERs AND SETTERs
