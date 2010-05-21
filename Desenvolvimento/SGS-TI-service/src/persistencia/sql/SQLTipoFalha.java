@@ -11,6 +11,7 @@ import common.exception.BusinessException;
 import common.util.Utils;
 import persistencia.dao.DAOTipoFalha;
 import persistencia.util.Conexao;
+import persistencia.util.SQLExceptionHandler;
 
 public class SQLTipoFalha implements DAOTipoFalha{
 	private static final boolean DEBUG = true;
@@ -48,12 +49,13 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			
 			if (qtd != 1) {
 				con.rollback();
-				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
+				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
 
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return false;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -94,7 +96,8 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			return -1;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return -1;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -130,7 +133,8 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			}else
 				return tipoFalha;
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -167,7 +171,8 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			return null;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 			
 		} finally {
 			Conexao.fecharConexao(con);

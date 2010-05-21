@@ -11,6 +11,7 @@ import common.entity.StatusChamado;
 import common.exception.BusinessException;
 import persistencia.dao.DAOStatus;
 import persistencia.util.Conexao;
+import persistencia.util.SQLExceptionHandler;
 
 public class SQLStatus implements DAOStatus{
 	private static final boolean DEBUG = true;
@@ -46,12 +47,13 @@ public class SQLStatus implements DAOStatus{
 			
 			if (qtd != 1) {
 				con.rollback();
-				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
+				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
 
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return false;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -91,7 +93,8 @@ public class SQLStatus implements DAOStatus{
 			return -1;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return -1;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -127,7 +130,8 @@ public class SQLStatus implements DAOStatus{
 			return null;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -164,7 +168,8 @@ public class SQLStatus implements DAOStatus{
 			return listaStatus;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 			
 		} finally {
 			Conexao.fecharConexao(con);

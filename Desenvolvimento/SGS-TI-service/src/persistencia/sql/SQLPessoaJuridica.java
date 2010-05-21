@@ -13,6 +13,7 @@ import common.exception.BusinessException;
 import persistencia.dao.DAOPessoaJuridica;
 import persistencia.facade.FacadePorte;
 import persistencia.util.Conexao;
+import persistencia.util.SQLExceptionHandler;
 
 public class SQLPessoaJuridica implements DAOPessoaJuridica{
 	private static final boolean DEBUG = true;
@@ -62,7 +63,8 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 			return null;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -108,7 +110,8 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 			return pjs;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 			
 		} finally {
 			Conexao.fecharConexao(con);

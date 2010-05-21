@@ -10,6 +10,7 @@ import common.exception.BusinessException;
 
 import persistencia.dao.DAOHistoricoChamado;
 import persistencia.util.Conexao;
+import persistencia.util.SQLExceptionHandler;
 
 public class SQLHistoricoChamado implements DAOHistoricoChamado
 {
@@ -52,12 +53,13 @@ public class SQLHistoricoChamado implements DAOHistoricoChamado
 			
 			if (qtd != 1) {
 				con.rollback();
-				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
+				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
 
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return false;
 			
 		} finally {
 			Conexao.fecharConexao(con);
