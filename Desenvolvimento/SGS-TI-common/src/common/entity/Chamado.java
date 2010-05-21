@@ -21,7 +21,41 @@ public class Chamado implements Serializable
 	private String contato;
 	private Cliente reclamante;
 	private Usuario usuarioResgistro;
+	private PessoaJuridica pj;
 
+	
+	public Chamado(Date dataAbertura, Date dataFechamento, String descricao,
+			Usuario usuarioLogado, Date dataAgenda, TipoChamado tc, TipoFalha tf,
+			PessoaJuridica pj, StatusChamado status){
+		this.dataHoraAbertura = dataAbertura;
+		this.dataHoraFechamento = dataFechamento;
+		this.detalhes = descricao;
+		this.dataHoraAgendamento = dataAgenda;
+		this.tipoChamado= tc;
+		this.tipoFalha = tf;
+		this.pj = pj;
+		this.status = new StatusChamado();
+		this.usuarioResgistro = usuarioLogado;
+	}
+	
+	public Chamado(Usuario user,String detalhes, Date dataHoraAbertura,TipoFalha tipoFalha,TipoChamado tipoChamado, PessoaJuridica pj) 
+	{
+		setNumeroChamado(new Random().nextInt(999999999));
+		this.dataHoraAbertura = dataHoraAbertura;
+		this.dataHoraFechamento = null;
+		this.detalhes = detalhes;
+		this.status = new StatusChamado(StatusChamado.ABERTO);
+		this.contato = pj.getNome();
+		this.responsavel = pj.getNome();
+		this.dataHoraAgendamento = null;
+		this.tipoChamado = tipoChamado;
+		this.tipoFalha = tipoFalha;
+		this.usuarioResgistro=user;
+		this.reclamante = pj;
+		this.tipoFalha = tipoFalha;
+		this.pj = pj;
+		this.prioridade = new Prioridade(tipoChamado.getValor(), pj.getPorte().getValor(),new Date());
+	}
 	/**
 	 * Construtor vazio
 	 */
@@ -100,7 +134,12 @@ public class Chamado implements Serializable
 	public void atualizaPrioridade(){
 		this.prioridade = new Prioridade(getTipoChamado().getValor(), getReclamante().getPorte().getValor(), getDataHoraAbertura());
 	}
-	
+	public PessoaJuridica getPj() {
+		return pj;
+	}
+	public void setPj(PessoaJuridica pj) {
+		this.pj = pj;
+	}
 	/*
 	 * GETTERs AND SETTERs
 	 */

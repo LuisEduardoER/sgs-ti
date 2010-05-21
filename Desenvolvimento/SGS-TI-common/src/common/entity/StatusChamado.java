@@ -14,6 +14,9 @@ public class StatusChamado implements Serializable
 	private String nome;
 	private int codigo;
 
+	
+	public StatusChamado(){
+	}
 	/**
 	 * Construtor
 	 * @param nome
