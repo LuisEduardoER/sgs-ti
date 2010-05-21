@@ -98,7 +98,7 @@ public class ServiceChamadoImpl implements ServiceChamado
 
 		if(inseriu){
 			// adicionar o chamado na fila e notificar.
-			FilaChamado.getInstance().adicionaChamado(chamado);
+			//FilaChamado.getInstance().adicionaChamado(chamado);
 			notificarObservadorFila();
 		}
 	}

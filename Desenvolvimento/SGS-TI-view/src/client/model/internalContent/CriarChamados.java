@@ -305,7 +305,7 @@ public class CriarChamados implements InternalContent
 					// PJ
 					PessoaJuridica pj = clienteEscolhido;
 					
-					System.out.println(clienteEscolhido.getCodigo());
+					//System.out.println(clienteEscolhido.getCodigo());
 					// Status null?
 					StatusChamado st = new StatusChamado(1,StatusChamado.ABERTO);
 					
