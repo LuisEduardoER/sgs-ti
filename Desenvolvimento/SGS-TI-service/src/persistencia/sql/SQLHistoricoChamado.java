@@ -1,6 +1,7 @@
 package persistencia.sql;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -35,7 +36,14 @@ public class SQLHistoricoChamado implements DAOHistoricoChamado
 				System.out.println(sql);
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			//TODO -colocar os parametros
+			chamado = new HistoricoChamado();
+			
+			stmt.setDate(1, (Date) chamado.getDataAtualizacao());
+			stmt.setString(2, chamado.getDescricao());
+			stmt.setDate(3, (Date) chamado.getDataAgentamento());
+			stmt.setInt(4, chamado.getCod_status());
+			stmt.setInt(5, chamado.getCod_usuario_registro());
+			stmt.setInt(6, chamado.getCod_chamado());
 			
 			int qtd = stmt.executeUpdate();
 			

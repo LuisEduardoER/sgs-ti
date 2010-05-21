@@ -147,10 +147,10 @@ public class SQLChamado implements DAOChamado{
 				System.out.println("SQL - " + sql);
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setFloat(1, chamado.getNumeroChamado());
+			stmt.setFloat(1, 1); //chamado.getNumeroChamado());
 			
 			ResultSet rs = stmt.executeQuery();
-		
+			
 			while(rs.next()){
 				String descricao = rs.getString("detalhes");
 				Date dataAgendamento = rs.getDate("data_agendamento");
