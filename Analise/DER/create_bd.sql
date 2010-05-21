@@ -151,3 +151,6 @@ create table CLIENTE_USUARIO
     codigo_pf integer null constraint FK_CODIGO_PF_2 references PESSOA_FISICA (codigo)
 );
 
+select * from USUARIO
+select * from CHAMADO
+delete fro CHAMADO WHERE CODIGO!= 1 
