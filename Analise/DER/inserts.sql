@@ -34,7 +34,7 @@ insert into PESSOA_JURIDICA values(pessoaJuridicaSeq.nextVal,'Japonese Food LTDA
 insert into PESSOA_JURIDICA values(pessoaJuridicaSeq.nextVal,'PUCPR','PUCPR',123456789,'Rua Imaculada Conceiçao, 2222',4);
 
 insert into CLIENTE_USUARIO values(1,4,null);
+insert into CLIENTE_USUARIO values(2,3,null);
 insert into CLIENTE_USUARIO values(3,2,null);
 
 insert into CHAMADO values(chamadoSeq.nextVal,to_date('20100519','yyyy-mm-dd'),null,'wi-fi não funciona','Marcio Fuckner','4133332121',null,2,3,1,2,null,4);
-
