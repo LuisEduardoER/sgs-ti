@@ -15,6 +15,9 @@ public class HistoricoChamado implements Serializable
 	private int cod_usuario_registro;
 	private int cod_chamado;
 	
+	public HistoricoChamado(){
+	}
+	
 	public HistoricoChamado(Date dataAtualizacao, String descricao, Date dataAgentamento,
 			int cod_status,int cod_usuario_registro, int cod_chamado)
 	{
