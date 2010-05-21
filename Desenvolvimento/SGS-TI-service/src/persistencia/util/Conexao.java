@@ -19,7 +19,7 @@ import common.util.SystemConstant;
 public class Conexao {
 
 	private static final String ARQUIVO_CONF = "META-INF/conexao.properties";
-	
+	private static Connection con;
 	private static final Properties configuracoes;
 
 	/*
@@ -50,28 +50,30 @@ public class Conexao {
 	 */
 	public static Connection obterConexao() throws BusinessException {
 
-		String origem  = configuracoes.getProperty("jdbc.origem");
-		
-		String driver = configuracoes.getProperty(
-							origem+".jdbc.driver");
-		String url = configuracoes.getProperty(
-							origem+".jdbc.url");
-		String usuario = configuracoes.getProperty(
-							origem+".jdbc.usuario");
-		String senha = configuracoes.getProperty(
-							origem+".jdbc.senha");
-		
-		try {
-			Class.forName(driver);
-			
-			Connection con = DriverManager.getConnection(url,usuario,senha);
-			
-			return con;
-			
-		} catch (Exception e) {
-			throw new BusinessException(SystemConstant.MSG_AM_ERRO_CONEXAO);
-		}
+		if(con==null){
+			String origem  = configuracoes.getProperty("jdbc.origem");
 
+			String driver = configuracoes.getProperty(
+					origem+".jdbc.driver");
+			String url = configuracoes.getProperty(
+					origem+".jdbc.url");
+			String usuario = configuracoes.getProperty(
+					origem+".jdbc.usuario");
+			String senha = configuracoes.getProperty(
+					origem+".jdbc.senha");
+
+			try {
+				Class.forName(driver);
+
+				Connection con = DriverManager.getConnection(url,usuario,senha);
+
+				return con;
+
+			} catch (Exception e) {
+				throw new BusinessException(SystemConstant.MSG_AM_ERRO_CONEXAO);
+			}
+		}else
+			return con;
 	}
 
 	/**
