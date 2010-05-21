@@ -57,7 +57,7 @@ public class SQLChamado implements DAOChamado{
 			stmt.setString(3,chamado.getUsuarioResgistro().getNome());//resposnavel
 			stmt.setString(4,"0033334444");//contato
 			stmt.setNull(5,Types.DATE);//data_agendamento
-			stmt.setInt(6,0);//codigo_status
+			stmt.setInt(6,1);//codigo_status
 			stmt.setInt(7,chamado.getTipoChamado().getCodigo());//codigo_tipo_chamado
 			stmt.setInt(8,chamado.getTipoFalha().getCodigo());//codigo_tipo_falha
 			stmt.setInt(9,chamado.getUsuarioResgistro().getCodigo());//codigo_usu_registro
