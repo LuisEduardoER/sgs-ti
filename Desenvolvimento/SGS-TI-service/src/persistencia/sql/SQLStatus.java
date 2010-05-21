@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import common.entity.StatusChamado;
 import common.exception.BusinessException;
 import persistencia.dao.DAOStatus;
@@ -14,6 +17,7 @@ public class SQLStatus implements DAOStatus{
 	private static String INSERIR_STATUS = ".jdbc.INSERIR_STATUS";
 	private static String PROCURAR_STATUS = ".jdbc.PROCURAR_STATUS";
 	private static String PROCURAR_STATUS_BY_ID = ".jdbc.PROCURAR_STATUS_BY_ID";
+	private static String LISTAR_TODOS_STATUS = ".jdbc.LISTAR_TODOS_STATUS";
 	
 	/**
 	 * TODO - Descrever melhor os campos
@@ -121,6 +125,43 @@ public class SQLStatus implements DAOStatus{
 			}					
 			stmt.close();
 			return null;
+			
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro SQL", e);
+			
+		} finally {
+			Conexao.fecharConexao(con);
+		}
+	}
+	
+	@Override
+	public List<StatusChamado> listarTodos() throws BusinessException {
+		Connection con = null;
+		String sql = null;
+			
+		try {
+			// Obtem a conexão
+			con = Conexao.obterConexao();
+			
+			String origem = Conexao.obterOrigem();
+			sql = FabricaSql.getSql(origem + LISTAR_TODOS_STATUS);
+			
+			if(DEBUG)
+				System.out.println("SQL - " + sql);
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			List<StatusChamado> listaStatus = new ArrayList<StatusChamado>();
+			while(rs.next()){
+				String nome = rs.getString("NOME");
+				StatusChamado status = new StatusChamado(nome);
+				int codigo = rs.getInt("CODIGO");
+				status.setCodigo(codigo);
+				listaStatus.add(status);		
+			}					
+			stmt.close();
+			return listaStatus;
 			
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro SQL", e);

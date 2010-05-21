@@ -1,5 +1,7 @@
 package persistencia.dao;
 
+import java.util.List;
+
 import common.entity.StatusChamado;
 import common.exception.BusinessException;
 
@@ -24,4 +26,11 @@ public interface DAOStatus
 	 * @return
 	 */
 	abstract StatusChamado getById(int codigo) throws BusinessException;
+	
+	/**
+	 * Lista todos status
+	 * @return
+	 * @throws BusinessException
+	 */
+	abstract List<StatusChamado> listarTodos() throws BusinessException;
 }

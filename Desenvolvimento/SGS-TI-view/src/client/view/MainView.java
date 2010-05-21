@@ -355,7 +355,9 @@ public class MainView extends JFrame {
 			}
 	}
 
-	/*Funções do TrayIcon*/
+	/**
+	 * Mostra o TrayIcon
+	 */
 	public void showTrayIcon(){
 		if(SystemTray.isSupported() && icon != null){
 			this.setVisible(false);
@@ -371,6 +373,10 @@ public class MainView extends JFrame {
 			icon.displayMessage("SGS-TI", "Aplicativo continua rodando...",TrayIcon.MessageType.INFO);
 		}
 	}
+	
+	/**
+	 * Remove o TrayIcon
+	 */
 	public void removeIcon(){
 		if(SystemTray.isSupported() && icon != null){
 			ClientController.getInstance().removeObserverNotificacoesFila(icon);
@@ -379,7 +385,12 @@ public class MainView extends JFrame {
 			this.setVisible(true);
 			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		}
-	}
+	}	
+	
+	
+	/**
+	 * Cria o objeto do JTrayIcon
+	 */
 	public void criarTrayIcon(){
 		if(SystemTray.isSupported()){			
 			
@@ -392,9 +403,20 @@ public class MainView extends JFrame {
 			});
 		}
 	}	
+	
+	/**
+	 * Pega a imagem para o TrayIcon
+	 * @return
+	 */
 	private Image getImage(){
 		return Toolkit.getDefaultToolkit().getImage(ICON_PATH);
 	}
+	
+	/**
+	 * Cria o menu de contexto (botão direito) do TrayIcon.
+	 * @return
+	 * 		PopupMenu
+	 */
 	private PopupMenu createPopupMenu(){
 
 		PopupMenu menu = new PopupMenu();
@@ -446,5 +468,4 @@ public class MainView extends JFrame {
 		this.welcomeMsg = welcomeMsg;
 	}
 
-	
 }
