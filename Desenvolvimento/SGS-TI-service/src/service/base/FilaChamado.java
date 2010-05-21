@@ -1,7 +1,6 @@
 package service.base;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
@@ -22,8 +21,8 @@ public class FilaChamado extends Observable
 	private FilaChamado() throws BusinessException{
 		fila = FacadeChamado.buscarChamadosAbertos();
 		//fila = new LinkedList<Chamado>();
-		//filaAgendamento = FacadeChamado.buscarChamadosAgendados();
-		filaAgendamento = new LinkedList<Chamado>();
+		filaAgendamento = FacadeChamado.buscarChamadosAgendados();
+		//filaAgendamento = new LinkedList<Chamado>();
 	}
 	
 	/**

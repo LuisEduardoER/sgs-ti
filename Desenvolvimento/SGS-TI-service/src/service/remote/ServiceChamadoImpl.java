@@ -4,8 +4,10 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import persistencia.facade.FacadeChamado;
+import persistencia.facade.FacadeHistoricoChamado;
 import service.base.FilaChamado;
 import common.entity.Chamado;
+import common.entity.HistoricoChamado;
 import common.exception.BusinessException;
 import common.remote.ObservadorAgendamento;
 import common.remote.ObservadorFila;
@@ -106,13 +108,13 @@ public class ServiceChamadoImpl implements ServiceChamado
 	@Override
 	public void atualizarChamado(Chamado chamado) throws RemoteException, BusinessException {
 		// TODO - Esperar Denis fazer cadastrar se não dá pau
-		/*HistoricoChamado historicoChamado = FacadeChamado.buscarChamado(chamado);
+		HistoricoChamado historicoChamado = FacadeChamado.buscarChamado(chamado);
 		boolean criou = FacadeHistoricoChamado.criarHistoricoChamado(historicoChamado);
 		if(criou)
 		{
 			boolean salvou = FacadeChamado.atualizarChamado(chamado);
 			if(salvou)
-			{*/	
+			{
 				//TODO - Tentar colocar constraint
 				if(chamado.getStatus().getNome().toUpperCase().equals("AGENDADO"))
 				{
@@ -120,8 +122,9 @@ public class ServiceChamadoImpl implements ServiceChamado
 					FilaChamado.getInstance().adicionaAgendamento(chamado);
 					notificarObservadorAgendamento();
 				}
-			/*}
-		}*/
+			}
+			
+		}
 		
 		
 		// atualiza o chamado na fila e notificar.

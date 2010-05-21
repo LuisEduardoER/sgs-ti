@@ -10,9 +10,6 @@ import persistencia.sql.SQLTipoFalha;
 public class FacadeTipoFalha 
 {	
 	/**
-	 * TODO - Descrever melhor os campos
-	 */
-	/**
 	 * 
 	 * @param tipoFalha
 	 * @return
@@ -23,10 +20,7 @@ public class FacadeTipoFalha
 		boolean inserido = dao.adicionaTipoFalha(tipoFalha);
 		return inserido;
 	}
-	
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
+
 	/**
 	 * 
 	 * @param tipoFalha
@@ -49,6 +43,11 @@ public class FacadeTipoFalha
 		return dao.getById(codigo);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @throws BusinessException
+	 */
 	public static List<TipoFalha> listarTodos() throws BusinessException
 	{
 		DAOTipoFalha dao = new SQLTipoFalha();

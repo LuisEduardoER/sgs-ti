@@ -30,6 +30,13 @@ public interface DAOTipoChamado {
 	 * @throws BusinessException 
 	 */
 	abstract List<TipoChamado> listarTodos() throws BusinessException;
+	
+	/**
+	 * 
+	 * @param tipoChamado
+	 * @return
+	 * @throws BusinessException
+	 */
 	abstract int procurarTipoChamado(TipoChamado tipoChamado) throws BusinessException;
 	
 	/**

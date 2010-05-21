@@ -188,6 +188,12 @@ public class EditarChamados extends Observable implements InternalContent
 			descricaoTextArea.setRows(10);
 			descricaoTextArea.setText(chamado.getDetalhes());
 
+			if(chamado.getDataAgendamento() != null)
+			{
+				dataAgentamentoDateChooser.setText(chamado.getDataAgendamento().toString());
+				horaAgendamentoTextField.setText(chamado.getDataAgendamento().toString());
+			}
+			
 			btSalvar.setText("Salvar");
 			btSalvar.addActionListener(oec);
 			btSalvar.setToolTipText("Salvar alterações");
@@ -262,13 +268,26 @@ public class EditarChamados extends Observable implements InternalContent
 		public void actionPerformed(ActionEvent evt) {
 			if (evt.getActionCommand().equals("SALVAR")) {
 				try {
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-					Date data = sdf.parse(dataAgentamentoDateChooser.getText() + " " +  horaAgendamentoTextField.getText());
-					
-					
-					Chamado c = new Chamado(chamado.getDataAbertura(), chamado.getDataFechamento(), chamado.getDetalhes(),
-							chamado.getUsuario(),chamado.getDataAgendamento(),chamado.getTipoChamado(), chamado.getTipoFalha(),
-							chamado.getPj(), chamado.getStatus());
+					Date data;
+					if (!dataAgentamentoDateChooser.getText().equals("") &&  !horaAgendamentoTextField.getText().equals("")) {
+						SimpleDateFormat sdf = new SimpleDateFormat(
+								"dd/MM/yyyy HH:mm");
+						data = sdf.parse(dataAgentamentoDateChooser.getText()
+								+ " " + horaAgendamentoTextField.getText());
+					}
+					else
+						data = null;
+						
+
+					Chamado c = new Chamado(chamado.getDataAbertura(), 
+							chamado.getDataFechamento(), 
+							descricaoTextArea.getText(),
+							chamado.getUsuario(),
+							data,
+							chamado.getTipoChamado(), 
+							new TipoFalha(tipoFalhaComboBox.getSelectedItem().toString()),
+							chamado.getPj(), 
+							new StatusChamado(statusComboBox.getSelectedItem().toString()));
 							
 					ClientController.getInstance().atualizarChamado(c);
 				} catch (ParseException e) {
@@ -292,7 +311,9 @@ public class EditarChamados extends Observable implements InternalContent
 				else
 				{
 					dataAgentamentoDateChooser.setEnabled(false);
+					dataAgentamentoDateChooser.setText("");
 					horaAgendamentoTextField.setEnabled(false);
+					horaAgendamentoTextField.setText("");
 				}
 			}
 		}

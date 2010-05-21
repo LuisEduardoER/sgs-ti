@@ -8,9 +8,6 @@ import persistencia.sql.SQLStatus;
 public class FacadeStatus 
 {	
 	/**
-	 * TODO - Descrever melhor os campos
-	 */
-	/**
 	 * 
 	 * @param tipoFalha
 	 * @return
@@ -21,10 +18,7 @@ public class FacadeStatus
 		boolean inserido = dao.adicionaStatus(status);
 		return inserido;
 	}
-	
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
+
 	/**
 	 * 
 	 * @param tipoFalha

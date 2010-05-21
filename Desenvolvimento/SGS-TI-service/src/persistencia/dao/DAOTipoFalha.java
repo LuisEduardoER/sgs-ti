@@ -38,7 +38,11 @@ public interface DAOTipoFalha {
 	 */
 	abstract TipoFalha getById(int codigo) throws BusinessException;
 	
-	
+	/**
+	 * 
+	 * @return
+	 * @throws BusinessException
+	 */
 	abstract List<TipoFalha> listarTodos() throws BusinessException;
 	
 
