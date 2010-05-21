@@ -80,9 +80,10 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 * @throws BusinessException 
 	 */
 	public boolean reinicializarServidorRemoto() throws RemoteException{
-		serviceUsuario = Utils.obterServiceUsuario();
+		
 		// Criar um stub
 		try {
+			serviceUsuario = Utils.obterServiceUsuario();
 			return autenticar(this.usuario);
 		} catch (BusinessException e) {
 			// TODO Auto-generated catch block
