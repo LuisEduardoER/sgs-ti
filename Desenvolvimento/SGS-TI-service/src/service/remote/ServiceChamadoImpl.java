@@ -93,6 +93,7 @@ public class ServiceChamadoImpl implements ServiceChamado
 		// TODO: adicionar no banco.
 		
 		boolean inseriu = FacadeChamado.criarChamado(chamado);
+		FilaChamado.getInstance().atualizarChamados();
 		Utils.printMsg(this.getClass().getName(), "Cadastrando chamado: " + inseriu);
 
 		if(inseriu){
