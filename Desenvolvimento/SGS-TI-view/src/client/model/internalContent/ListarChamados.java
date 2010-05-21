@@ -26,7 +26,6 @@ import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.PatternFilter;
 import common.entity.Chamado;
 import common.entity.Prioridade;
-import common.entity.TipoChamado;
 import common.remote.ObservadorFila;
 import common.util.Utils;
 import client.controller.ClientController;
@@ -185,14 +184,19 @@ public class ListarChamados implements InternalContent, Observer{
 		// "Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"
 		for(int linha=0; linha<chamados.size(); linha++){
 			Chamado chamado = chamados.get(linha);
-			if(chamado.getStatus().getCodigo()==1)
-				chamado.getStatus().setNome("ABERTO");
+			System.out.println("-1");
 			Prioridade pri = new Prioridade(chamado.getTipoChamado().getValor(), chamado.getPj().getPorte().getValor(), new Date());
-			matriz[linha][0] = String.valueOf(chamado.getNumeroChamado());
+			System.out.println("0");
+			matriz[linha][0] = String.valueOf(chamado.getCodigo());
+			System.out.println("1");
 			matriz[linha][1] = chamado.getPj().getNome();
+			System.out.println("2");
 			matriz[linha][2] = String.valueOf(pri.getValorPrioridade());
-			matriz[linha][3] = formatador.format(chamado.getDataHoraAbertura()).toString();
+			System.out.println("3");
+			matriz[linha][3] = formatador.format(chamado.getDataAbertura()).toString();
+			System.out.println("4");
 			matriz[linha][4] = chamado.getStatus().getNome();
+			System.out.println("5");
 		}
 
 		return matriz;
@@ -200,7 +204,7 @@ public class ListarChamados implements InternalContent, Observer{
 
 	public Chamado buscarChamadobyCodigo(int codigo){
 		for(Chamado c: listaChamados){
-			if(c.getNumeroChamado() == codigo)
+			if(c.getCodigo() == codigo)
 				return c;
 		}
 		return null;

@@ -36,13 +36,13 @@ public class FilaChamadoModel extends AbstractTableModel {
 		//"Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"
 		switch(indexColuna){
 			case 0:
-				return chamado.getNumeroChamado();
+				return chamado.getCodigo();
 			case 1:
-				return chamado.getReclamante().getNome();
+				return chamado.getPj().getNome();
 			case 2:
 				return chamado.getPrioridade().getValorPrioridade();
 			case 3:
-				return chamado.getDataHoraAbertura();
+				return chamado.getDataAbertura();
 			case 4:
 				return chamado.getStatus().getNome();
 			
