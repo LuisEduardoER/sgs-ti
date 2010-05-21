@@ -8,6 +8,8 @@ public class TipoFalha implements Serializable
 	public static final String HARDWARE = "HARDWARE";
 	public static final String SOFTWARE = "SOFTWARE";
 	public static final String DUVIDA = "DUVIDA";
+	
+	private int codigo;
 	private String nome;
 
 	/**
@@ -18,40 +20,48 @@ public class TipoFalha implements Serializable
 	 * 
 	 * @param nome
 	 */
-	public TipoFalha(String nome)
+	public TipoFalha(int codigo, String nome)
 	{
-		setNome(nome);
+		this.nome=nome;
+		this.codigo = codigo;
 	}
 	
-	/*
-	 * GETTERs AND SETTERs
-	 */
+	public TipoFalha(String nome)
+	{
+		this.nome=nome;
+	}
+	
+	public TipoFalha()
+	{
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	/**
-	* TODO - Documentar
-	*/
 	@Override
-	public int hashCode() 
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + codigo;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
 
-	/**
-	* TODO - Documentar
-	*/
 	@Override
-	public boolean equals(Object obj) 
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -59,6 +69,8 @@ public class TipoFalha implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		TipoFalha other = (TipoFalha) obj;
+		if (codigo != other.codigo)
+			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
@@ -66,4 +78,9 @@ public class TipoFalha implements Serializable
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getNome();
+	}	
 }

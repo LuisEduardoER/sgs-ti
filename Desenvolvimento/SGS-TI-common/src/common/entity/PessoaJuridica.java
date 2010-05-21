@@ -5,10 +5,14 @@ import java.util.List;
 public class PessoaJuridica extends Cliente 
 {
 	private static final long serialVersionUID = 1L;
+	private int codigo;
 	private String razaoSocial;
 	private String nomeFantasia;
 	private long CNPJ;
-
+	
+	
+	
+	
 	/**
 	* TODO - Descrever melhor os campos
 	*/
@@ -25,6 +29,16 @@ public class PessoaJuridica extends Cliente
 			String razaoSocial, String nomeFantasia, long CNPJ) {
 		
 		super(endereco, porte, null, nomeFantasia);
+		this.razaoSocial = razaoSocial;
+		this.nomeFantasia = nomeFantasia;
+		this.CNPJ = CNPJ;
+	}
+	
+	public PessoaJuridica(int codigo,String endereco, Porte porte, List<Usuario> usuarios,
+			String razaoSocial, String nomeFantasia, long CNPJ) {
+		
+		super(endereco, porte, null, nomeFantasia);
+		this.codigo = codigo;
 		this.razaoSocial = razaoSocial;
 		this.nomeFantasia = nomeFantasia;
 		this.CNPJ = CNPJ;
@@ -51,4 +65,13 @@ public class PessoaJuridica extends Cliente
 	public void setCNPJ(long cNPJ) {
 		CNPJ = cNPJ;
 	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	
 }

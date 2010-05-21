@@ -73,5 +73,15 @@ public interface ServiceUsuario extends Remote
 	 * @throws BusinessException 
 	 */
 	public List<PessoaJuridica> pesquisarPJ(String desc) throws RemoteException, BusinessException;
+	
+	/**
+	 * Pega o cliente PJ
+	 * @throws BusinessException 
+	 */
+	public PessoaJuridica pesquisarPJ(Usuario usuario) throws RemoteException, BusinessException;
+	
+	public PessoaJuridica pesquisarPF(Usuario usuario) throws RemoteException;
+	
+	
 
 }

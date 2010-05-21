@@ -10,6 +10,7 @@ public class TipoChamado implements Serializable
 	public static final String NORMAL = "NORMAL";
 	public static final String INFORMATIVO = "INFORMATIVO";
 	
+	private int codigo;
 	private String nome;
 	private int valor;
 	
@@ -29,6 +30,12 @@ public class TipoChamado implements Serializable
 		setNome(nome);
 		setValor(prioridade);
 	}
+	
+	public TipoChamado(int codigo,String nome, int prioridade) {
+		this.codigo = codigo;
+		this.nome = nome;
+		this.valor = prioridade;
+	}
 
 	/*
 	 * GETTERs AND SETTERs
@@ -44,5 +51,49 @@ public class TipoChamado implements Serializable
 	}
 	public void setValor(int valor) {
 		this.valor = valor;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + codigo;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + valor;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TipoChamado other = (TipoChamado) obj;
+		if (codigo != other.codigo)
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (valor != other.valor)
+			return false;
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getNome();
 	}
 }
