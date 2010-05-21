@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import common.entity.Chamado;
-import common.entity.Cliente;
 import common.entity.PessoaFisica;
 import common.entity.PessoaJuridica;
 import common.entity.Usuario;
@@ -133,7 +132,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 		if(!Utils.isNullOrEmpty(this.usuario)){
 			MainView.getInstance().alterarWelcomeMsg(SystemConstant.USUARIO_LOGADO + this.usuario.getUsername());
 			// Pega o cliente;
-			pj= serviceUsuario.pesquisarPJ(usuario);
+			pj= serviceUsuario.pesquisarPJ(this.usuario);
 			return true;
 		}
 		return false;
