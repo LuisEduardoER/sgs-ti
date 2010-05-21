@@ -25,6 +25,11 @@ public class StatusChamado implements Serializable
 	public StatusChamado(String nome) {
 		setNome(nome);
 	}
+	
+	public StatusChamado(int codigo, String nome) {
+		this.nome = nome;
+		this.codigo = codigo;
+	}
 
 	/*
 	 * GETTERs AND SETTERs
