@@ -308,6 +308,7 @@ public class CriarChamados implements InternalContent
 					System.out.println(clienteEscolhido.getCodigo());
 					// Status null?
 					
+					
 					// Cliente e descricao eh obrigatorio
 					if(Utils.isNullOrEmpty(descricao) || Utils.isNullOrEmpty(clienteEscolhido)){
 						JOptionPane.showMessageDialog(null, "Os campos cliente e descrição são obrigatórios.");
