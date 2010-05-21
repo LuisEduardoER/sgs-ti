@@ -12,9 +12,6 @@ public class FacadeTipoChamado
 {
 	
 	/**
-	 * TODO - Descrever melhor os campos
-	 */
-	/**
 	 * 
 	 * @param tipoChamado
 	 * @return
@@ -26,9 +23,6 @@ public class FacadeTipoChamado
 		return inserido;
 	}
 
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
 	/**
 	 * 
 	 * @param tipoChamado
@@ -49,5 +43,16 @@ public class FacadeTipoChamado
 	public static TipoChamado getById(int codigo) throws BusinessException{
 		DAOTipoChamado dao = new SQLTipoChamado();
 		return dao.getById(codigo);
+	}
+	
+	/**
+	 * 
+	 * @param tipoChamado
+	 * @return
+	 * @throws BusinessException
+	 */
+	public static int procurarTipoChamado(TipoChamado tipoChamado) throws BusinessException{
+		DAOTipoChamado dao = new SQLTipoChamado();
+		return dao.procurarTipoChamado(tipoChamado);
 	}
 }

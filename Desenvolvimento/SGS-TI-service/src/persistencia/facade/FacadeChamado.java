@@ -12,9 +12,6 @@ import persistencia.sql.SQLChamado;
 public class FacadeChamado 
 {
 	/**
-	 * TODO - Descrever melhor os campos
-	 */
-	/**
 	 * 
 	 * @param chamado
 	 * @return
@@ -27,9 +24,6 @@ public class FacadeChamado
 	}
 
 	/**
-	 * TODO - Descrever melhor os campos
-	 */
-	/**
 	 * 
 	 * @param chamado
 	 * @return
@@ -40,10 +34,7 @@ public class FacadeChamado
 		boolean atualizado = dao.atualizarChamado(chamado);	
 		return atualizado;
 	}
-	
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
+
 	/**
 	 * 
 	 * @param chamado

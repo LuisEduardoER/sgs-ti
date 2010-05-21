@@ -8,10 +8,6 @@ import common.util.MD5Encryption;
 
 public class FacadeUsuario 
 {
-	
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
 	/**
 	 * 	
 	 * @param user
@@ -29,9 +25,6 @@ public class FacadeUsuario
 	}
 	
 	/**
-	 * TODO - Descrever melhor os campos
-	 */
-	/**
 	 * 
 	 * @param user
 	 * @return
@@ -42,10 +35,7 @@ public class FacadeUsuario
 		
 		return dao.autenticar(user);
 	}
-
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
+	
 	/**
 	 * 
 	 * @param user
@@ -61,10 +51,7 @@ public class FacadeUsuario
 		
 		return atualizado;
 	}
-	
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
+
 	/**
 	 * 
 	 * @param username

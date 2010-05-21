@@ -23,7 +23,8 @@ import persistencia.util.SQLExceptionHandler;
 public class SQLChamado implements DAOChamado{
 	private static final boolean DEBUG = true;
 	private static String INSERIR_CHAMADO = ".jdbc.INSERIR_CHAMADO";
-	private static String ATUALIZAR_CHAMADO = ".jdbc.ATUALIZAR_CHAMADO";
+	//private static String ATUALIZAR_CHAMADO = ".jdbc.ATUALIZAR_CHAMADO";
+	private static String ATUALIZAR_CHAMADO_CAMPOS = ".jdbc.ATUALIZAR_CHAMADO_CAMPOS";
 	private static String BUSCAR_CHAMADO = ".jdbc.BUSCAR_CHAMADO";
 	private static String BUSCAR_CHAMADOS_ABERTOS = ".jdbc.BUSCAR_CHAMADOS_ABERTOS";
 	private static String BUSCAR_CHAMADOS_AGENDADOS = ".jdbc.BUSCAR_CHAMADOS_AGENDADOS";
@@ -85,44 +86,90 @@ public class SQLChamado implements DAOChamado{
 		return true;
 	}
 	
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
 	@Override
 	public boolean atualizarChamado(Chamado chamado) throws BusinessException{
 		Connection con = null;
 		String sql= null;
 		
 		String origem = Conexao.obterOrigem();
-		sql = FabricaSql.getSql(origem + ATUALIZAR_CHAMADO);
+		sql = FabricaSql.getSql(origem + ATUALIZAR_CHAMADO_CAMPOS);
 		
-		/*String sql= "UPDATE chamado SET dataFechamento=?,detalhes=?,dataHoraAgendamento=?," +
-				"cod_tipoChamado=?,cod_tipoFalha=? WHERE codigo_chamado=?";*/
+		/*UPDATE CHAMADO SET 
+		 * DATA_ABERTURA= ?,
+		 * DATA_FECHAMENTO = ?,
+		 * DETALHES = ?,
+		 * RESPONSAVEL = ?,
+		 * CONTATO=?,
+		 * DATA_AGENDAMENTO=?,
+		 * CODIGO_STATUS=?,
+		 * CODIGO_TIPO_CHAMADO=?,
+		 * CODIGO_TIPO_FALHA=?,
+		 * CODIGO_USU_REGISTRO=?,
+		 * CODIGO_PF=?,
+		 * CODIGO_PJ=? 
+		 * WHERE CODIGO=?*/
 
-		//int codigoTipoChamado = FacadeTipoChamado.procurarTipoChamado(chamado.getTipoChamado());
+		int codigoTipoChamado = FacadeTipoChamado.procurarTipoChamado(chamado.getTipoChamado());
 		int codigoTipoFalha = FacadeTipoFalha.procurarTipoFalha(chamado.getTipoFalha());
+		int codigoStatus = FacadeStatus.procurarStatus(chamado.getStatus());
+		//int codigoUsuario = FacadeUsuario.obterCodigo(chamado.getUsuario());
 		
 		try {
 			con = Conexao.obterConexao();
 			PreparedStatement stmt = con.prepareStatement(sql);
 			
+			/*stmt.setDate(1, (java.sql.Date) chamado.getDataAbertura());
+			System.out.println((java.sql.Date) chamado.getDataAbertura());
+			stmt.setDate(2, (java.sql.Date) chamado.getDataFechamento());
+			System.out.println((java.sql.Date) chamado.getDataFechamento());
+			stmt.setString(3, chamado.getDetalhes());
+			System.out.println(chamado.getDetalhes());
+			stmt.setString(4, chamado.getResponsavel());
+			System.out.println(chamado.getResponsavel());
+			stmt.setString(5, chamado.getContato());
+			System.out.println(chamado.getContato());
+			stmt.setDate(6, new java.sql.Date(chamado.getDataAgendamento().getTime()));
+			System.out.println(new java.sql.Date(chamado.getDataAgendamento().getTime()));
+			stmt.setInt(7, codigoStatus);
+			System.out.println(codigoStatus);
+			stmt.setInt(8, codigoTipoChamado);
+			System.out.println(codigoTipoChamado);
+			stmt.setInt(9, codigoTipoFalha);
+			System.out.println(codigoTipoFalha);
+			stmt.setInt(10, codigoUsuario);
+			System.out.println(codigoUsuario);
+			stmt.setInt(11, 1);
+			stmt.setInt(12, 1);*/
+			
+			//stmt.setLong(13, chamado.getCodigo());
+			
+			
+			//UPDATE CHAMADO SET 
+			//DATA_FECHAMENTO = ?,
+			//DETALHES = ?,
+			//DATA_AGENDAMENTO=?,
+			//CODIGO_STATUS=?,
+			//CODIGO_TIPO_CHAMADO=?,
+			//CODIGO_TIPO_FALHA=? WHERE CODIGO=?
+			
 			stmt.setDate(1, (java.sql.Date) chamado.getDataFechamento());
 			stmt.setString(2, chamado.getDetalhes());
-			stmt.setDate(3, (java.sql.Date) chamado.getDataFechamento());
-			//stmt.setInt(4, codigoTipoChamado);
-			stmt.setInt(5, codigoTipoFalha);
-			stmt.setLong(6, chamado.getCodigo());
+			stmt.setDate(3, new java.sql.Date(chamado.getDataAgendamento().getTime()));
+			stmt.setInt(4, codigoStatus);
+			stmt.setInt(5, codigoTipoChamado);
+			stmt.setInt(6, codigoTipoFalha);
+			stmt.setLong(7, 1);
 			
 			int qtd = stmt.executeUpdate();
 
 			if (qtd != 1) {
 				con.rollback();
-				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
+				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
 
 		} catch (SQLException e) {
-			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			throw new RuntimeException("Erro SQL", e);
 			
 		} finally {
 			Conexao.fecharConexao(con);

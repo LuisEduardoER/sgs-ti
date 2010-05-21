@@ -31,6 +31,7 @@ import common.remote.ObservadorAgendamento;
 import common.util.Utils;
 import client.controller.ObservadorFilaImplAgendamento;
 import client.util.SpringUtilities;
+import client.view.MainView;
 
 public class ListarAgenda implements InternalContent, Observer
 {
@@ -131,30 +132,23 @@ public class ListarAgenda implements InternalContent, Observer
 			public void run() {
 				while (true) {
 					for(Chamado c : listaChamados)
-					{
-						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-						System.out.println("@  Data agendamento = " + c.getDataAgendamento());
-						System.out.println("@  Data atual = " + new Date());
-						System.out.println("@  Data agendamento string = " + c.getDataAgendamento().toString());
-						System.out.println("@  Data atual string = " + new Date().toString());
-						System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-						
+					{	
 						long d = c.getDataAgendamento().getTime();
 						long dd = new Date().getTime();
 						
-						//if(c.getDataHoraAgendamento().after(new Date()))
-						if(d < dd)
-							System.out.println("Agendamento " + c.getDataAbertura() + "já passou");
+				
+						/*if(d < dd)
+							System.out.println("Agendamento " + c.getDataAbertura() + "já passou");					
 						if(d == dd)
-							System.out.println("Agendamento " + c.getDataAbertura() + "AGORA");
+							System.out.println("Agendamento " + c.getDataAbertura() + "AGORA");*/
 						if(d > dd)
-							System.out.println("Agendamento " + c.getDataAbertura() + "ira vir");
+							//System.out.println("Agendamento " + c.getDataAbertura() + "ira vir");
+							MainView.getInstance().mostrarMensagemPersonalizada("Agendamento por vir");
+			
 							
-						
 						try {
 							sleep(1000);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
