@@ -13,8 +13,6 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -30,6 +28,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import common.util.SystemConstant;
 import common.util.Utils;
 import client.controller.ClientController;
@@ -42,7 +42,6 @@ public class MainView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-
 	// Debug
 	private final boolean DEBUG = false;
 	private final String ICON_PATH = "resources/imgs/window_icon.png";
@@ -254,18 +253,7 @@ public class MainView extends JFrame {
 		Utils.printMsg(this.getClass().getName(), "openNewInternalContent - " + newInternalFrame);
 
 		JInternalFrame jif = ClientController.getInstance().getInternalContent(newInternalFrame,param);
-		jif.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent window) {
-				JInternalFrame jif = (JInternalFrame)window.getSource();
-				jif.setLayer(0);
-			}
-			@Override
-			public void focusGained(FocusEvent window) {
-				JInternalFrame jif = (JInternalFrame)window.getSource();
-				jif.setLayer(new Integer(200));
-			}
-		});
+		jif.addInternalFrameListener(new OuvinteJIF());
 		
 		for(JInternalFrame j : conteudo.getAllFrames()){
 			j.setLayer(0);
@@ -292,6 +280,41 @@ public class MainView extends JFrame {
 		}
 	}
 
+	/**
+	 * Classe ouvinte de todos os JInternalFrames
+	 * @author admin	 
+	 */
+	class OuvinteJIF implements InternalFrameListener{
+		@Override
+		public void internalFrameActivated(InternalFrameEvent e) {
+			e.getInternalFrame().setLayer(new Integer(200));
+		}
+		@Override
+		public void internalFrameClosed(InternalFrameEvent e) {
+		}
+		@Override
+		public void internalFrameClosing(InternalFrameEvent e) {	
+		}
+		@Override
+		public void internalFrameDeactivated(InternalFrameEvent e) {
+			e.getInternalFrame().setLayer(0);
+		}
+		@Override
+		public void internalFrameDeiconified(InternalFrameEvent e) {
+		}
+		@Override
+		public void internalFrameIconified(InternalFrameEvent e) {
+		}
+		@Override
+		public void internalFrameOpened(InternalFrameEvent e) {
+		}
+	}
+	
+	/**
+	 * Pegar instancia
+	 * @return
+	 * 		MainView
+	 */
 	public static MainView getInstance() 
 	{
 		if(instance == null)
@@ -384,6 +407,7 @@ public class MainView extends JFrame {
 		menu.add(exit);
 		return menu;
 	}
+	
 	public void mostrarMensagemPersonalizada(String msg) {
 		JOptionPane.showMessageDialog(null, msg);
 	}
@@ -421,4 +445,6 @@ public class MainView extends JFrame {
 	public void setWelcomeMsg(JLabel welcomeMsg) {
 		this.welcomeMsg = welcomeMsg;
 	}
+
+	
 }
