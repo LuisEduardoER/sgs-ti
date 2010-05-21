@@ -3,8 +3,13 @@ package service.remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
+import persistencia.facade.FacadeTipoChamado;
+import persistencia.facade.FacadeTipoFalha;
 import common.entity.StatusChamado;
+import common.entity.TipoChamado;
 import common.entity.TipoFalha;
+import common.exception.BusinessException;
 import common.remote.ServiceChamadoItens;
 
 public class ServiceChamadoProperts implements ServiceChamadoItens 
@@ -47,5 +52,23 @@ public class ServiceChamadoProperts implements ServiceChamadoItens
 		listStatus.add(s5);
 		
 		return listStatus;
+	}
+
+	@Override
+	public List<TipoChamado> procurarTipoChamado() throws RemoteException,
+			BusinessException {
+		return null;
+	}
+
+	@Override
+	public List<TipoFalha> tipoFalhaListarTodos() throws RemoteException,
+			BusinessException {
+		return FacadeTipoFalha.listarTodos();
+	}
+
+	@Override
+	public List<TipoChamado> tipoChamadoListarTodos() throws RemoteException,
+			BusinessException {
+		return FacadeTipoChamado.listarTodos();
 	}
 }

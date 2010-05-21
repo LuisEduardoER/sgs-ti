@@ -1,9 +1,14 @@
 package persistencia.facade;
 
+import java.util.List;
+
+import common.entity.TipoChamado;
 import common.entity.TipoFalha;
 import common.exception.BusinessException;
 
+import persistencia.dao.DAOTipoChamado;
 import persistencia.dao.DAOTipoFalha;
+import persistencia.sql.SQLTipoChamado;
 import persistencia.sql.SQLTipoFalha;
 
 public class FacadeTipoFalha 
@@ -46,5 +51,11 @@ public class FacadeTipoFalha
 	public static TipoFalha getById(int codigo) throws BusinessException{
 		DAOTipoFalha dao = new SQLTipoFalha();
 		return dao.getById(codigo);
+	}
+	
+	public static List<TipoFalha> listarTodos() throws BusinessException
+	{
+		DAOTipoFalha dao = new SQLTipoFalha();
+		return dao.listarTodos();	
 	}
 }

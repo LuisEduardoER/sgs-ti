@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import persistencia.facade.FacadeClienteUsuario;
 import persistencia.facade.FacadePessoaJuridica;
 import persistencia.facade.FacadeUsuario;
 import service.task.ThreadUserMonitor;
@@ -99,6 +101,17 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 	@Override
 	public boolean isAlive() {
 		return true;
+	}
+
+	@Override
+	public PessoaJuridica pesquisarPF(Usuario usuario) throws RemoteException {
+		// nao implementado devido ausencia do modulo cliente
+		return null;
+	}
+
+	@Override
+	public PessoaJuridica pesquisarPJ(Usuario usuario) throws RemoteException, BusinessException {
+		return FacadeClienteUsuario.getClientePJ(usuario);
 	}
 
 }

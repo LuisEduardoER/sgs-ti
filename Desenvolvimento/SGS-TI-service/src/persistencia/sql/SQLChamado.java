@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import common.entity.Chamado;
 import common.entity.HistoricoChamado;
+import common.entity.StatusChamado;
 import common.exception.BusinessException;
 import persistencia.dao.DAOChamado;
 import persistencia.facade.FacadePessoaJuridica;
@@ -47,24 +49,21 @@ public class SQLChamado implements DAOChamado{
 			PreparedStatement stmt = con.prepareStatement(sql);
 			
 			//TODO -colocar os parametros
-			//insert into CHAMADO values(chamadoSeq.nextVal,?,null,?,?,?,?,?,?,?,?,?,?) 
-			//,1data_aber,NULLdata_fech,2detalhes,3responsavel,4contato,5data_agendamento,
-			//6codigo_status,7codigo_tipo_chamado,8codigo_tipo_falah,9codigo_usu_registro,10codigo_pf,11codigo_pj
-			chamado = new Chamado();
-			chamado.setResponsavel("denis");
-			chamado.setDetalhes("lixo");
+			//insert into CHAMADO values
+			//(chamadoSeq.nextVRal,?,null,?,?,?,?,?,?,?,?,?,?) 
 			
-			stmt.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			stmt.setDate(2, null);
-			stmt.setString(3,chamado.getDetalhes());
-			stmt.setString(4,chamado.getResponsavel());
-			stmt.setString(5,null);
-			stmt.setInt(6,1);
-			stmt.setInt(7,1);
-			stmt.setInt(8,1);
-			stmt.setInt(9,1);
-			stmt.setNull(10,1);
-			stmt.setInt(11,4);
+			stmt.setDate(1, new java.sql.Date(new java.util.Date().getTime()));//data_abertura
+			stmt.setString(2,chamado.getDetalhes());//detalhes
+			stmt.setString(3,chamado.getUsuarioResgistro().getNome());//resposnavel
+			stmt.setString(4,"0033334444");//contato
+			stmt.setNull(5,Types.DATE);//data_agendamento
+			stmt.setInt(6,0);//codigo_status
+			stmt.setInt(7,chamado.getTipoChamado().getCodigo());//codigo_tipo_chamado
+			stmt.setInt(8,chamado.getTipoFalha().getCodigo());//codigo_tipo_falha
+			stmt.setInt(9,chamado.getUsuarioResgistro().getCodigo());//codigo_usu_registro
+			stmt.setNull(10,Types.INTEGER);//codigo_pf
+			stmt.setInt(11,chamado.getPj().getCodigo());//codigo_pj
+
 			
 			int qtd = stmt.executeUpdate();
 			
@@ -100,7 +99,7 @@ public class SQLChamado implements DAOChamado{
 		/*String sql= "UPDATE chamado SET dataFechamento=?,detalhes=?,dataHoraAgendamento=?," +
 				"cod_tipoChamado=?,cod_tipoFalha=? WHERE codigo_chamado=?";*/
 
-		int codigoTipoChamado = FacadeTipoChamado.procurarTipoChamado(chamado.getTipoChamado());
+		//int codigoTipoChamado = FacadeTipoChamado.procurarTipoChamado(chamado.getTipoChamado());
 		int codigoTipoFalha = FacadeTipoFalha.procurarTipoFalha(chamado.getTipoFalha());
 		
 		try {
@@ -110,7 +109,7 @@ public class SQLChamado implements DAOChamado{
 			stmt.setDate(1, (java.sql.Date) chamado.getDataHoraFechamento());
 			stmt.setString(2, chamado.getDetalhes());
 			stmt.setDate(3, (java.sql.Date) chamado.getDataHoraAbertura());
-			stmt.setInt(4, codigoTipoChamado);
+			//stmt.setInt(4, codigoTipoChamado);
 			stmt.setInt(5, codigoTipoFalha);
 			stmt.setLong(6, chamado.getNumeroChamado());
 			
