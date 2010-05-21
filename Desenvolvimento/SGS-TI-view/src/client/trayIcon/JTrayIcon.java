@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.PopupMenu;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,7 +14,7 @@ import common.util.Utils;
 
 public class JTrayIcon extends TrayIcon implements Observer{
 
-	private int numMsg;
+	private List<PopupTrayIcon> mensagens;
 	private Dimension screenSize;
 	
 	/**
@@ -23,7 +25,7 @@ public class JTrayIcon extends TrayIcon implements Observer{
 	 */
 	public JTrayIcon(Image image, String tooltip, PopupMenu popup) {
 		super(image, tooltip, popup);
-		setNumMsg(0);
+		mensagens = new ArrayList<PopupTrayIcon>();
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		setScreenSize(size);
 	}
@@ -32,36 +34,47 @@ public class JTrayIcon extends TrayIcon implements Observer{
 	public void displayMessage(String caption, String text,
 			MessageType messageType) {
 		
-		setNumMsg(getNumMsg()+1);
-		new PopupTrayIcon(caption, text, getScreenSize(), getNumMsg(), this);		
-	}
-	
-	
-	/*
-	 * GETTERs AND SETTERs
-	 */
-	public int getNumMsg() {
-		return numMsg;
-	}
-
-	public void setNumMsg(int numMsg) {
-		this.numMsg = numMsg;
-	}
-
-	public Dimension getScreenSize() {
-		return screenSize;
-	}
-
-	public void setScreenSize(Dimension screenSize) {
-		this.screenSize = screenSize;
+		PopupTrayIcon msg = new PopupTrayIcon(caption, text, getScreenSize(), mensagens.size()+1, this);
+		mensagens.add(msg);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		Utils.printMsg(this.getClass().getName(), "Notificação de " + o.getClass().toString());
+	
 		if(o.getClass().toString().toLowerCase().contains("observadorfila")){
 			displayMessage("Aviso", "Novo chamado", MessageType.INFO);
-		}else
-			setNumMsg(getNumMsg()-1);
+		}else{
+			mensagens.remove(0);
+			reposicionaMensagens();
+		}
+	}
+	
+	public void reposicionaMensagens(){
+		for(PopupTrayIcon msg : getMensagens()){
+			
+			int x = msg.getPopup().getLocation().x;
+			int y = msg.getPopup().getLocation().y + msg.getPopup().getSize().height;
+			
+			msg.getPopup().setVisible(false);
+			msg.getPopup().setLocation(x,y);
+			msg.getPopup().setVisible(true);
+		}
+	}
+	
+	/*
+	 * GETTERs AND SETTERs
+	 */
+	public Dimension getScreenSize() {
+		return screenSize;
+	}
+	public void setScreenSize(Dimension screenSize) {
+		this.screenSize = screenSize;
+	}
+	public List<PopupTrayIcon> getMensagens() {
+		return mensagens;
+	}
+	public void setMensagens(List<PopupTrayIcon> mensagens) {
+		this.mensagens = mensagens;
 	}
 }
