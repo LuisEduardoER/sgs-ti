@@ -63,13 +63,13 @@ public class ObservadorFilaImpl extends Observable implements ObservadorFila{
 							} catch (RemoteException e1) {
 								// não faz nada
 							} catch (BusinessException be) {
-								Utils.printMsg(this.getClass().getName(),be.getMessage());
+								Utils.printErro(this.getClass().getName(), e);
 							}
 							
 						} catch (InterruptedException e) {
 							Utils.printMsg(this.getClass().getName(), "Thread do ObservadorFila finalizando.");
 						} catch (BusinessException e) {
-							Utils.printMsg(this.getClass().getName(),e.getMessage());
+							Utils.printErro(this.getClass().getName(), e);
 						}
 					}
 					
@@ -78,6 +78,7 @@ public class ObservadorFilaImpl extends Observable implements ObservadorFila{
 			
 		} catch (RemoteException e) {
 			// TODO: criar exception de infra.
+			Utils.printErro(this.getClass().getName(), e);
 			throw new RuntimeException(e);
 		}
 	}

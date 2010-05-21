@@ -184,19 +184,13 @@ public class ListarChamados implements InternalContent, Observer{
 		// "Codigo", "Cliente", "Prioridade", "Data Abertura", "Status"
 		for(int linha=0; linha<chamados.size(); linha++){
 			Chamado chamado = chamados.get(linha);
-			System.out.println("-1");
 			Prioridade pri = new Prioridade(chamado.getTipoChamado().getValor(), chamado.getPj().getPorte().getValor(), new Date());
-			System.out.println("0");
 			matriz[linha][0] = String.valueOf(chamado.getCodigo());
-			System.out.println("1");
 			matriz[linha][1] = chamado.getPj().getNome();
-			System.out.println("2");
 			matriz[linha][2] = String.valueOf(pri.getValorPrioridade());
-			System.out.println("3");
 			matriz[linha][3] = formatador.format(chamado.getDataAbertura()).toString();
-			System.out.println("4");
 			matriz[linha][4] = chamado.getStatus().getNome();
-			System.out.println("5");
+
 		}
 
 		return matriz;
