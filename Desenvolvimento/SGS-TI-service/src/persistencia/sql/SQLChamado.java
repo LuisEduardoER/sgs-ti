@@ -11,7 +11,6 @@ import java.util.List;
 import common.entity.Chamado;
 import common.entity.HistoricoChamado;
 import common.exception.BusinessException;
-import common.util.Utils;
 import persistencia.dao.DAOChamado;
 import persistencia.facade.FacadePessoaJuridica;
 import persistencia.facade.FacadeStatus;
@@ -19,6 +18,7 @@ import persistencia.facade.FacadeTipoChamado;
 import persistencia.facade.FacadeTipoFalha;
 import persistencia.facade.FacadeUsuario;
 import persistencia.util.Conexao;
+import persistencia.util.SQLExceptionHandler;
 
 public class SQLChamado implements DAOChamado{
 	private static final boolean DEBUG = true;
@@ -72,12 +72,12 @@ public class SQLChamado implements DAOChamado{
 			
 			if (qtd != 1) {
 				con.rollback();
-				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
+				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
 
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -117,12 +117,12 @@ public class SQLChamado implements DAOChamado{
 
 			if (qtd != 1) {
 				con.rollback();
-				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
+				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
 
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -164,7 +164,7 @@ public class SQLChamado implements DAOChamado{
 			stmt.close();
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL",e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 		} finally {
 			Conexao.fecharConexao(con);
 		}
@@ -225,7 +225,8 @@ public class SQLChamado implements DAOChamado{
 			return chamados;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL",e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 		} finally {
 			Conexao.fecharConexao(con);
 		}
@@ -285,8 +286,8 @@ public class SQLChamado implements DAOChamado{
 			return chamados;
 			
 		} catch (SQLException e) {
-			Utils.printErro(this.getClass().getName(), e);
-			throw new RuntimeException("Erro SQL",e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 		} finally {
 			Conexao.fecharConexao(con);
 		}

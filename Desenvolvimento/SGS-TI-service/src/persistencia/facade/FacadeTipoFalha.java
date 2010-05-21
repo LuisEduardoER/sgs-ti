@@ -2,13 +2,9 @@ package persistencia.facade;
 
 import java.util.List;
 
-import common.entity.TipoChamado;
 import common.entity.TipoFalha;
 import common.exception.BusinessException;
-
-import persistencia.dao.DAOTipoChamado;
 import persistencia.dao.DAOTipoFalha;
-import persistencia.sql.SQLTipoChamado;
 import persistencia.sql.SQLTipoFalha;
 
 public class FacadeTipoFalha 

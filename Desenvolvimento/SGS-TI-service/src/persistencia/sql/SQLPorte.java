@@ -8,6 +8,7 @@ import common.entity.Porte;
 import common.exception.BusinessException;
 import persistencia.dao.DAOPorte;
 import persistencia.util.Conexao;
+import persistencia.util.SQLExceptionHandler;
 
 public class SQLPorte implements DAOPorte{
 	private static final boolean DEBUG = true;
@@ -50,7 +51,8 @@ public class SQLPorte implements DAOPorte{
 			return null;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 			
 		} finally {
 			Conexao.fecharConexao(con);

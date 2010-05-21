@@ -14,6 +14,7 @@ import common.util.Utils;
 import persistencia.dao.DAOClienteUsuario;
 import persistencia.facade.FacadePessoaJuridica;
 import persistencia.util.Conexao;
+import persistencia.util.SQLExceptionHandler;
 
 public class SQLClienteUsuario implements DAOClienteUsuario{
 	private static final boolean DEBUG = true;
@@ -62,7 +63,8 @@ public class SQLClienteUsuario implements DAOClienteUsuario{
 			return pj;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL",e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 		} finally {
 			Conexao.fecharConexao(con);
 		}
@@ -105,7 +107,8 @@ public class SQLClienteUsuario implements DAOClienteUsuario{
 			return null;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL",e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 		} finally {
 			Conexao.fecharConexao(con);
 		}

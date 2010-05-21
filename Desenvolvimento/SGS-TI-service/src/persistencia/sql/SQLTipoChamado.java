@@ -6,19 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import common.entity.TipoChamado;
 import common.exception.BusinessException;
 import common.util.Utils;
-import common.exception.BusinessException;
-
 import persistencia.dao.DAOTipoChamado;
 import persistencia.util.Conexao;
+import persistencia.util.SQLExceptionHandler;
 
 public class SQLTipoChamado implements DAOTipoChamado{
 	private static final boolean DEBUG = true;
 	private static String INSERIR_TIPO_CHAMADO = ".jdbc.INSERIR_TIPO_CHAMADO";
-	private static String PROCURAR_TIPO_CHAMADO = ".jdbc.PROCURAR_TIPO_CHAMADO";
+	//private static String PROCURAR_TIPO_CHAMADO = ".jdbc.PROCURAR_TIPO_CHAMADO";
 	private static String PROCURAR_TIPO_CHAMADO_BY_ID = ".jdbc.PROCURAR_TIPO_CHAMADO_BY_ID";
 	private static String LISTAR_TODOS = ".jdbc.LISTAR_TODOS_TIPO_CHAMADO";
 
@@ -50,12 +48,13 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			
 			if (qtd != 1) {
 				con.rollback();
-				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
+				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
 
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return false;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -97,7 +96,8 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			}else
 				return tipoChamado;
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -134,7 +134,8 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			return null;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 			
 		} finally {
 			Conexao.fecharConexao(con);

@@ -11,6 +11,7 @@ import common.util.Utils;
 
 import persistencia.dao.DAOUsuario;
 import persistencia.util.Conexao;
+import persistencia.util.SQLExceptionHandler;
 
 public class SQLUsuario implements DAOUsuario{
 	private static final boolean DEBUG = true;
@@ -61,7 +62,8 @@ public class SQLUsuario implements DAOUsuario{
 			return true;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return false;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -97,12 +99,13 @@ public class SQLUsuario implements DAOUsuario{
 			
 			if (qtd != 1) {
 				con.rollback();
-				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
+				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
 
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return false;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -153,7 +156,8 @@ public class SQLUsuario implements DAOUsuario{
 			else
 				return usuario;
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL",e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 		} finally {
 			Conexao.fecharConexao(con);
 		}
@@ -198,7 +202,8 @@ public class SQLUsuario implements DAOUsuario{
 			return -1;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL",e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return -1;
 		} finally {
 			Conexao.fecharConexao(con);
 		}
@@ -223,12 +228,13 @@ public class SQLUsuario implements DAOUsuario{
 
 			if (qtd != 1) {
 				con.rollback();
-				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
+				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
 
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return false;
 			
 		} finally {
 			Conexao.fecharConexao(con);
@@ -271,7 +277,8 @@ public class SQLUsuario implements DAOUsuario{
 			return null;
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL",e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return null;
 		} finally {
 			Conexao.fecharConexao(con);
 		}

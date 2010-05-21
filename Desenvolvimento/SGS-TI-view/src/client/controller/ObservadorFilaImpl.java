@@ -30,6 +30,11 @@ public class ObservadorFilaImpl extends Observable implements ObservadorFila{
 			serviceChamado.adicionarObservadorFila(myStub);
 			atualizou = true;
 
+			/*
+			 * Thread que fica monitorando o serviço de chamados
+			 * caso ocorra algum problema tenta re-estabelecer o
+			 * serviço.
+			 */
 			new Thread(){
 				public void run() {
 					int contadorTentativas = 0;
