@@ -201,7 +201,6 @@ public class ListarChamados implements InternalContent, Observer{
 		return null;
 	}
 
-
 	/*
 	 * GETTERs AND SETTERs
 	 */
@@ -222,26 +221,20 @@ public class ListarChamados implements InternalContent, Observer{
 		public void internalFrameClosed(InternalFrameEvent e) {
 			finalizar();
 		}
-		
 		@Override
 		public void internalFrameClosing(InternalFrameEvent e) {
 		}			
 		@Override
 		public void internalFrameActivated(InternalFrameEvent e) {
-			// TODO Auto-generated method stub
-
 		}
 		@Override
 		public void internalFrameIconified(InternalFrameEvent e) {
-
 		}
 		@Override
 		public void internalFrameDeiconified(InternalFrameEvent e) {
-
 		}
 		@Override
 		public void internalFrameDeactivated(InternalFrameEvent e) {
-
 		}
 	}
 

@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,7 +29,6 @@ import common.entity.TipoFalha;
 import common.exception.BusinessException;
 import common.remote.ServiceChamadoItens;
 import common.util.Utils;
-import client.Modal;
 import client.controller.ClientController;
 import client.util.SpringUtilities;
 
@@ -221,29 +218,18 @@ public class EditarChamados extends Observable implements InternalContent
 		}
 	}
 
+	/**
+	 * Classe Ouvinte do JInternalFrame
+	 * @author admin
+	 */
 	public class ouvinteInternalContent implements InternalFrameListener{
 		@Override
 		public void internalFrameOpened(InternalFrameEvent e) {
 			inicializar();
 		}
-
 		@Override
 		public void internalFrameClosed(InternalFrameEvent e) {
-			Modal modal = new Modal();
-			modal.setModal(true);
-
-			modal.addWindowListener(new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent e) {
-					List<String> form = ((Modal)e.getSource()).pegarDados();
-					for(String s : form)
-						Utils.printMsg(this.getClass().getName(), s);
-				}	
-			});
-
-			modal.setVisible(true);
 		}
-
 		@Override
 		public void internalFrameClosing(InternalFrameEvent e) {
 		}			
@@ -261,7 +247,11 @@ public class EditarChamados extends Observable implements InternalContent
 		}
 	}
 
-	class OuvinteEditarChamado implements ActionListener 
+	/**
+	 * Classe Ouvinte dos botões
+	 * @author admin
+	 */
+	public class OuvinteEditarChamado implements ActionListener 
 	{
 
 		@Override
