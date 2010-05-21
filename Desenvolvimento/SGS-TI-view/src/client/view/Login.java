@@ -91,8 +91,8 @@ public class Login extends JFrame {
 
 		lblPassword.setLabelFor(password);
 		// TODO: Temporario, login pronto(preguica detected)
-		this.user.setText("admin");
-		this.password.setText("mimimi");
+		this.user.setText("denis");
+		this.password.setText("teste");
 		JButton btEnter = new JButton("Entrar");
 		btEnter.addActionListener(new LoginAction());
 		
