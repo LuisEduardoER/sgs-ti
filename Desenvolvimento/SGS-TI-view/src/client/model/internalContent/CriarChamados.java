@@ -8,12 +8,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -22,7 +24,11 @@ import javax.swing.SpringLayout;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import common.entity.Chamado;
+import common.entity.PessoaJuridica;
+import common.entity.StatusChamado;
+import common.entity.TipoChamado;
 import common.entity.TipoFalha;
+import common.entity.Usuario;
 import common.exception.BusinessException;
 import common.remote.ObservadorFila;
 import common.remote.ServiceChamadoItens;
@@ -40,6 +46,7 @@ public class CriarChamados implements InternalContent
 	private ObservadorFila observadorFila;
 	private ServiceChamadoItens servico;
 	private List<TipoFalha> listFalha;
+	private List<TipoChamado> listTipoChamado;
 	private OuvinteEditarChamado oec;
 	private Chamado chamado;
 
@@ -50,14 +57,17 @@ public class CriarChamados implements InternalContent
 	private JTextField responsavelTextField;
 	private JTextField enderecoTextField;
 	private JComboBox tipoFalhaComboBox;
-	private JComboBox prioridadeTextField;
+	private JComboBox tipoChamadoComboBox;
 	private JTextArea descricaoTextArea;
 	private JButton btSalvar;
 	private JButton btCancelar;
+	private PessoaJuridica clienteEscolhido;
 	private JButton btBuscarCliente;
 	
 	public CriarChamados()
 	{
+		this.chamado = new Chamado();
+		this.clienteEscolhido = null;
 		try {
 			listFalha = new ArrayList<TipoFalha>();
 
@@ -108,8 +118,8 @@ public class CriarChamados implements InternalContent
 		JLabel tipoFalhaL = new JLabel("Tipo de falha: ");
 		tipoFalhaComboBox = new JComboBox();
 
-		JLabel lblPrioridade = new JLabel("Prioridade: ");
-		prioridadeTextField = new JComboBox();
+		JLabel lblPrioridade = new JLabel("Tipo Chamado: ");
+		tipoChamadoComboBox = new JComboBox();
 		
 		JLabel descricaoL = new JLabel("Descrição: ");		
 		descricaoTextArea = new JTextArea();
@@ -139,7 +149,7 @@ public class CriarChamados implements InternalContent
 		form.add(new JLabel(""));
 		
 		form.add(lblPrioridade);
-		form.add(prioridadeTextField);
+		form.add(tipoChamadoComboBox);
 		form.add(new JLabel(""));
 		
 		form.add(descricaoL);
@@ -165,14 +175,22 @@ public class CriarChamados implements InternalContent
 	{
 		try {
 
-			clienteTextField.setText("Pegar o cliente na modal");
+			clienteTextField.setText("");
+			clienteTextField.setEnabled(false);
 			clienteTextField.setEditable(false);
+			
 
 			String usuario = ClientController.getInstance().getUsuario().getNome();
+			String enderecoCliente = ClientController.getInstance().getPj().getEndereco();
 			
 			responsavelTextField.setText(usuario);
+			responsavelTextField.setEnabled(false);
 			responsavelTextField.setEditable(false);
 
+			enderecoTextField.setText(enderecoCliente);
+			enderecoTextField.setEnabled(false);
+			enderecoTextField.setEditable(false);
+			
 			descricaoTextArea.setAutoscrolls(true);
 			descricaoTextArea.setRows(10);
 			descricaoTextArea.setText("");
@@ -191,11 +209,20 @@ public class CriarChamados implements InternalContent
 			btCancelar.setToolTipText("Cancelar alterações");
 			btCancelar.setActionCommand("CANCELAR");
 
-			listFalha = servico.procurarFalha();		
+			try {
+				listFalha = servico.tipoFalhaListarTodos();
+				listTipoChamado = servico.tipoChamadoListarTodos();
+			} catch (BusinessException e) {
+				MainView.getInstance().mostrarMensagemPersonalizada(e.getMessage());
+			}
+		
 
-			for (int cont = 0; cont < listFalha.size(); cont++) {
-				tipoFalhaComboBox.addItem(listFalha.get(cont).getNome());
-			}			
+			for(TipoFalha tf : listFalha){
+				tipoFalhaComboBox.addItem(tf);
+			}
+			for(TipoChamado tp : listTipoChamado){
+				tipoChamadoComboBox.addItem(tp);
+			}
 
 
 		} catch (RemoteException e) {
@@ -257,7 +284,40 @@ public class CriarChamados implements InternalContent
 		public void actionPerformed(ActionEvent evt) {
 			if (evt.getActionCommand().equals("SALVAR")) {
 				try {
-					ClientController.getInstance().criarChamado(chamado);
+					// Codigo n tem
+					
+					// DataAbertura
+					Date dataAbertura = new Date();
+					// DataFechamento
+					Date dataFechamento = null;
+					// detalhes
+					String descricao = descricaoTextArea.getText();
+					// responsavel
+					// Contato
+					// Usuario Registro
+					Usuario resp = ClientController.getInstance().getUsuario();
+					// DataAgendamento
+					Date dataAgenda = null;
+					// TIpo_Chamado
+					TipoChamado tc = (TipoChamado)tipoChamadoComboBox.getSelectedItem();
+					// Tipo_Falha
+					TipoFalha tf = (TipoFalha)tipoFalhaComboBox.getSelectedItem();
+					// PJ
+					PessoaJuridica pj = clienteEscolhido;
+					
+					System.out.println(clienteEscolhido.getCodigo());
+					// Status null?
+					
+					// Cliente e descricao eh obrigatorio
+					if(Utils.isNullOrEmpty(descricao) || Utils.isNullOrEmpty(clienteEscolhido)){
+						JOptionPane.showMessageDialog(null, "Os campos cliente e descrição são obrigatórios.");
+					}else{
+						Chamado novoChamado = new Chamado(dataAbertura,dataFechamento,descricao,resp,dataAgenda,
+								tc,tf,pj,null);
+						ClientController.getInstance().criarChamado(novoChamado);
+						JOptionPane.showMessageDialog(null, "Inserido com sucesso!");
+						fecharJanela();
+					}
 				} catch (RemoteException e) {
 					MainView.getInstance().mostrarMensagemErroRemoto();
 				}
@@ -284,8 +344,8 @@ public class CriarChamados implements InternalContent
 						boolean cancelado = ((ModalCliente)e.getSource()).isCancelado();
 						if(!cancelado)
 						{
-							String cliente = ((ModalCliente)e.getSource()).getCliente();
-							clienteTextField.setText(cliente);
+							clienteEscolhido = ((ModalCliente)e.getSource()).getCliente();
+							clienteTextField.setText(clienteEscolhido.getNomeFantasia());
 						}
 					}
 				});
@@ -293,29 +353,14 @@ public class CriarChamados implements InternalContent
 				modal.setVisible(true);
 			}
 
-			/*if(evt.getActionCommand().equals("AGENDAR"))
-			{
-				if(statusComboBox.getSelectedItem().toString().equals(StatusChamado.AGENDADO))
-				{
-					dataAgentamentoDateChooser.setEnabled(true);
-					horaAgendamentoTextField.setEnabled(true);
-				}
-				else
-				{
-					dataAgentamentoDateChooser.setEnabled(false);
-					horaAgendamentoTextField.setEnabled(false);
-				}
-			}*/
 		}
 	}
-	public JComboBox getPrioridade() {
-		return prioridadeTextField;
-	}
-
-	public void setPrioridade(JComboBox prioridade) {
-		this.prioridadeTextField = prioridade;
-	}
 	
+	public void fecharJanela(){
+		
+		jif.dispose();
+		jif = new JInternalFrame();
+	}
 	public JTextField getEnderecoTextField() {
 		return enderecoTextField;
 	}
@@ -323,4 +368,5 @@ public class CriarChamados implements InternalContent
 	public void setEnderecoTextField(JTextField enderecoTextField) {
 		this.enderecoTextField = enderecoTextField;
 	}
+	
 }

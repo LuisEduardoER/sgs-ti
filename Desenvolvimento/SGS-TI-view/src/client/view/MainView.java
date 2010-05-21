@@ -73,7 +73,7 @@ public class MainView extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ICON_PATH));
-		setSize(new Dimension(640,480));
+		setSize(new Dimension(800,600));
 		setLayout(new BorderLayout(5,5));
 		setBackground(Color.white);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

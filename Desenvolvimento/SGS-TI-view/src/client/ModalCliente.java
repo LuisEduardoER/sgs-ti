@@ -52,6 +52,7 @@ public class ModalCliente extends JDialog {
 	private String nome;
 	private List<PessoaJuridica> lista;
 	private JXTableModel tm;
+	private PessoaJuridica pessoaJuridica;
 
 	private boolean cancelado;
 	public String getNome() {
@@ -78,6 +79,7 @@ public class ModalCliente extends JDialog {
 					
 				}
 				if(JOptionPane.showConfirmDialog(null,"Nenhum cliente foi selecionado, deseja cancelar a busca?","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
+					nome="";
 					cancelado = true;
 					fecharModal();
 				}
@@ -149,9 +151,9 @@ public class ModalCliente extends JDialog {
 		add(painelTabela,BorderLayout.SOUTH);
 	}
 
-	public String getCliente(){
+	public PessoaJuridica getCliente(){
 		// TODO: Denis - Pegar um cliente qualquer do banco
-		return nome;
+		return pessoaJuridica;
 	};
 	
 	class ListenerPesquisar implements ActionListener 
@@ -173,11 +175,23 @@ public class ModalCliente extends JDialog {
 					}
 			}else if (evt.getActionCommand().equals("ENVIAR")) {
 				int linha = tabela.getSelectedRow();
-				if(linha>-1)
+				if(linha>-1){
 					nome = tabela.getValueAt(linha, 0).toString();
-				if(Utils.isNullOrEmpty(nome))
+					for(PessoaJuridica pj : lista){
+						if(pj.getNome().equals(nome)){
+							pessoaJuridica = pj;
+						}
+					}
+					fecharModal();
+				}
+				if(Utils.isNullOrEmpty(nome)){
 					nome = "";
-				fecharModal();
+					if(JOptionPane.showConfirmDialog(null,"Nenhum cliente foi selecionado, deseja cancelar a busca?","ATENÇÃO ",javax.swing.JOptionPane.YES_NO_OPTION)==0){
+						cancelado = true;
+						fecharModal();
+					}
+				}
+				
 			}
 
 		}
@@ -253,6 +267,14 @@ public class ModalCliente extends JDialog {
 
 	public void setCancelado(boolean cancelado) {
 		this.cancelado = cancelado;
+	}
+
+	public PessoaJuridica getPessoaJuridica() {
+		return pessoaJuridica;
+	}
+
+	public void setPessoaJuridica(PessoaJuridica pessoaJuridica) {
+		this.pessoaJuridica = pessoaJuridica;
 	}
 	
 	
