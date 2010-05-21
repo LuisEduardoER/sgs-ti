@@ -27,6 +27,14 @@ public class FilaChamado extends Observable
 	}
 	
 	/**
+	 * Busca os chamados do banco
+	 * @throws BusinessException
+	 */
+	public void atualizarChamados() throws BusinessException{
+		fila = FacadeChamado.buscarChamadosAbertos();
+	}
+	
+	/**
 	 * Obtem a instancia da classe.
 	 * @return
 	 * 		Instancia da FilaChamado.

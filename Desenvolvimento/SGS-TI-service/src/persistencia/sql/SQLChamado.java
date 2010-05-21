@@ -194,6 +194,7 @@ public class SQLChamado implements DAOChamado{
 			
 			while(rs.next()){
 				Chamado chamado = new Chamado();
+				chamado.setCodigo(rs.getInt("CODIGO"));
 				chamado.setDataAbertura(rs.getDate("DATA_ABERTURA"));
 				chamado.setDataFechamento(rs.getDate("DATA_FECHAMENTO"));
 				chamado.setDetalhes(rs.getString("DETALHES"));
