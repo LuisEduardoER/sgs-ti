@@ -150,6 +150,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 		} catch (BusinessException e) {
 			// TODO Auto-generated catch block
 			mostrarMensagem(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

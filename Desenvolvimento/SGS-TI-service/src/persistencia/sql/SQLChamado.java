@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import common.entity.Chamado;
 import common.entity.HistoricoChamado;
-import common.entity.StatusChamado;
 import common.exception.BusinessException;
 import persistencia.dao.DAOChamado;
 import persistencia.facade.FacadePessoaJuridica;

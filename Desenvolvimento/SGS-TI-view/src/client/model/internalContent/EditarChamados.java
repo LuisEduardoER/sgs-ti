@@ -74,14 +74,14 @@ public class EditarChamados extends Observable implements InternalContent
 	public JInternalFrame getInternalContent(Object param) {
 		chamado = (Chamado) param;
 
-		Utils.printMsg(this.getClass().getName(), "Editando chamado número: " + chamado.getNumeroChamado());
+		Utils.printMsg(this.getClass().getName(), "Editando chamado número: " + chamado.getCodigo());
 
 		jif = new JInternalFrame();
 		jif.addInternalFrameListener(new ouvinteInternalContent());
 
 		jif.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		jif.setBackground(Color.WHITE);
-		jif.setLocation(10, 10);
+		jif.setLocation(30, 30);
 		jif.setSize(new Dimension(800, 450));
 		jif.setClosable(true);
 		jif.setResizable(true);	
@@ -169,13 +169,13 @@ public class EditarChamados extends Observable implements InternalContent
 				statusComboBox.removeAll();
 				tipoFalhaComboBox.removeAll();
 			}
-			dataAberturaTextField.setText(chamado.getDataHoraAbertura().toString());
+			dataAberturaTextField.setText(chamado.getDataAbertura().toString());
 			dataAberturaTextField.setEditable(false);
 
-			aberturaTextField.setText(chamado.getUsuarioResgistro().getUsername().toString());
+			aberturaTextField.setText(chamado.getUsuario().getUsername().toString());
 			aberturaTextField.setEditable(false);
 
-			clienteTextField.setText(chamado.getReclamante().getNome().toString());
+			clienteTextField.setText(chamado.getPj().getNome().toString());
 			clienteTextField.setEditable(false);
 
 			statusComboBox.setActionCommand("AGENDAR");
@@ -265,20 +265,12 @@ public class EditarChamados extends Observable implements InternalContent
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 					Date data = sdf.parse(dataAgentamentoDateChooser.getText() + " " +  horaAgendamentoTextField.getText());
 					
-					Chamado newChamado = new Chamado(chamado.getNumeroChamado(), 
-							(Date) chamado.getDataHoraAbertura(),
-							(Date) chamado.getDataHoraFechamento(),
-							descricaoTextArea.getText().toString(),
-							new StatusChamado(statusComboBox.getSelectedItem().toString()),
-							chamado.getPrioridade(),
-							chamado.getTipoChamado(),
-							chamado.getReclamante(),
-							new TipoFalha(tipoFalhaComboBox.getSelectedItem().toString()), 
-							chamado.getResponsavel(),
-							chamado.getUsuarioResgistro(),
-							data,
-							chamado.getContato());
-					ClientController.getInstance().atualizarChamado(newChamado);
+					
+					Chamado c = new Chamado(chamado.getDataAbertura(), chamado.getDataFechamento(), chamado.getDetalhes(),
+							chamado.getUsuario(),chamado.getDataAgendamento(),chamado.getTipoChamado(), chamado.getTipoFalha(),
+							chamado.getPj(), chamado.getStatus());
+							
+					ClientController.getInstance().atualizarChamado(c);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
