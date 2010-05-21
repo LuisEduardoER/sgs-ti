@@ -128,8 +128,10 @@ public class Login extends JFrame {
 			}
 			String loginUser = user.getText();
 			String loginPass = password.getText();
+			System.out.println(loginUser + " - " + loginPass);
 			// Criptografa a senha
 			loginPass = MD5Encryption.encript(loginPass);
+			System.out.println(loginUser + " - " + loginPass);
 			if(Utils.isNullOrEmpty(loginUser))
 				JOptionPane.showMessageDialog(null, "Digite um usuário.");
 			else if(Utils.isNullOrEmpty(loginPass))

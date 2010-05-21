@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import common.entity.Chamado;
+import common.entity.Cliente;
+import common.entity.PessoaFisica;
 import common.entity.PessoaJuridica;
 import common.entity.Usuario;
 import common.entity.UsuarioAutenticado;
@@ -32,6 +34,8 @@ public class ClientController implements ObserverUsuario, Serializable{
 	private ObserverUsuario stubUsuario;
 	private ObservadorFila observerFila;
 	private Usuario usuario;
+	private PessoaFisica pf;
+	private PessoaJuridica pj;
 	private boolean desativando;
 
 	private ClientController() {
@@ -128,6 +132,8 @@ public class ClientController implements ObserverUsuario, Serializable{
 		System.out.println(this.usuario.getNome());
 		if(!Utils.isNullOrEmpty(this.usuario)){
 			MainView.getInstance().alterarWelcomeMsg(SystemConstant.USUARIO_LOGADO + this.usuario.getUsername());
+			// Pega o cliente;
+			pj= serviceUsuario.pesquisarPJ(usuario);
 			return true;
 		}
 		return false;
@@ -346,4 +352,23 @@ public class ClientController implements ObserverUsuario, Serializable{
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
+	public PessoaFisica getPf() {
+		return pf;
+	}
+
+	public void setPf(PessoaFisica pf) {
+		this.pf = pf;
+	}
+
+	public PessoaJuridica getPj() {
+		return pj;
+	}
+
+	public void setPj(PessoaJuridica pj) {
+		this.pj = pj;
+	}
+
+
+	
 }
