@@ -54,13 +54,13 @@ public class SQLChamado implements DAOChamado{
 			
 			stmt.setDate(1, new java.sql.Date(new java.util.Date().getTime()));//data_abertura
 			stmt.setString(2,chamado.getDetalhes());//detalhes
-			stmt.setString(3,chamado.getUsuarioResgistro().getNome());//resposnavel
+			stmt.setString(3,chamado.getUsuario().getNome());//resposnavel
 			stmt.setString(4,"0033334444");//contato
 			stmt.setNull(5,Types.DATE);//data_agendamento
 			stmt.setInt(6,1);//codigo_status
 			stmt.setInt(7,chamado.getTipoChamado().getCodigo());//codigo_tipo_chamado
 			stmt.setInt(8,chamado.getTipoFalha().getCodigo());//codigo_tipo_falha
-			stmt.setInt(9,chamado.getUsuarioResgistro().getCodigo());//codigo_usu_registro
+			stmt.setInt(9,chamado.getUsuario().getCodigo());//codigo_usu_registro
 			stmt.setNull(10,Types.INTEGER);//codigo_pf
 			stmt.setInt(11,chamado.getPj().getCodigo());//codigo_pj
 
@@ -106,12 +106,12 @@ public class SQLChamado implements DAOChamado{
 			con = Conexao.obterConexao();
 			PreparedStatement stmt = con.prepareStatement(sql);
 			
-			stmt.setDate(1, (java.sql.Date) chamado.getDataHoraFechamento());
+			stmt.setDate(1, (java.sql.Date) chamado.getDataFechamento());
 			stmt.setString(2, chamado.getDetalhes());
-			stmt.setDate(3, (java.sql.Date) chamado.getDataHoraAbertura());
+			stmt.setDate(3, (java.sql.Date) chamado.getDataFechamento());
 			//stmt.setInt(4, codigoTipoChamado);
 			stmt.setInt(5, codigoTipoFalha);
-			stmt.setLong(6, chamado.getNumeroChamado());
+			stmt.setLong(6, chamado.getCodigo());
 			
 			int qtd = stmt.executeUpdate();
 
@@ -158,7 +158,7 @@ public class SQLChamado implements DAOChamado{
 				int codUsuario = rs.getInt("codigo_usu_registro");
 				
 				HistoricoChamado historicoChamado = new HistoricoChamado(new Date(), descricao, dataAgendamento,
-						codStatus, codUsuario, (int)chamado.getNumeroChamado());
+						codStatus, codUsuario, (int)chamado.getCodigo());
 				return historicoChamado;
 			}					
 			stmt.close();
@@ -194,12 +194,12 @@ public class SQLChamado implements DAOChamado{
 			
 			while(rs.next()){
 				Chamado chamado = new Chamado();
-				chamado.setDataHoraAbertura(rs.getDate("DATA_ABERTURA"));
-				chamado.setDataHoraFechamento(rs.getDate("DATA_FECHAMENTO"));
+				chamado.setDataAbertura(rs.getDate("DATA_ABERTURA"));
+				chamado.setDataFechamento(rs.getDate("DATA_FECHAMENTO"));
 				chamado.setDetalhes(rs.getString("DETALHES"));
 				chamado.setResponsavel(rs.getString("RESPONSAVEL"));
 				chamado.setContato(rs.getString("CONTATO"));
-				chamado.setDataHoraAgendamento(rs.getDate("DATA_AGENDAMENTO"));
+				chamado.setDataAgendamento(rs.getDate("DATA_AGENDAMENTO"));
 						
 				int codStatus = rs.getInt("CODIGO_STATUS");
 				chamado.setStatus(FacadeStatus.getById(codStatus));
@@ -211,11 +211,11 @@ public class SQLChamado implements DAOChamado{
 				chamado.setTipoFalha(FacadeTipoFalha.getById(codTipoFalha));
 				
 				int codUsuReg = rs.getInt("CODIGO_USU_REGISTRO");
-				chamado.setUsuarioResgistro(FacadeUsuario.getById(codUsuReg));
+				chamado.setUsuario(FacadeUsuario.getById(codUsuReg));
 				
 				//int codPF = rs.getInt("CODIGO_PF");
 				int codPJ = rs.getInt("CODIGO_PJ");
-				chamado.setReclamante(FacadePessoaJuridica.getById(codPJ));
+				chamado.setPj(FacadePessoaJuridica.getById(codPJ));
 
 				chamado.atualizaPrioridade();
 				chamados.add(chamado);
@@ -254,12 +254,12 @@ public class SQLChamado implements DAOChamado{
 			
 			while(rs.next()){
 				Chamado chamado = new Chamado();
-				chamado.setDataHoraAbertura(rs.getDate("DATA_ABERTURA"));
-				chamado.setDataHoraFechamento(rs.getDate("DATA_FECHAMENTO"));
+				chamado.setDataAbertura(rs.getDate("DATA_ABERTURA"));
+				chamado.setDataFechamento(rs.getDate("DATA_FECHAMENTO"));
 				chamado.setDetalhes(rs.getString("DETALHES"));
 				chamado.setResponsavel(rs.getString("RESPONSAVEL"));
 				chamado.setContato(rs.getString("CONTATO"));
-				chamado.setDataHoraAgendamento(rs.getDate("DATA_AGENDAMENTO"));
+				chamado.setDataAgendamento(rs.getDate("DATA_AGENDAMENTO"));
 						
 				int codStatus = rs.getInt("CODIGO_STATUS");
 				chamado.setStatus(FacadeStatus.getById(codStatus));
@@ -271,11 +271,11 @@ public class SQLChamado implements DAOChamado{
 				chamado.setTipoFalha(FacadeTipoFalha.getById(codTipoFalha));
 				
 				int codUsuReg = rs.getInt("CODIGO_USU_REGISTRO");
-				chamado.setUsuarioResgistro(FacadeUsuario.getById(codUsuReg));
+				chamado.setUsuario(FacadeUsuario.getById(codUsuReg));
 				
 				//int codPF = rs.getInt("CODIGO_PF");
 				int codPJ = rs.getInt("CODIGO_PJ");
-				chamado.setReclamante(FacadePessoaJuridica.getById(codPJ));
+				chamado.setPj(FacadePessoaJuridica.getById(codPJ));
 
 				chamado.atualizaPrioridade();
 				chamados.add(chamado);
