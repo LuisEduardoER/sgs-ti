@@ -153,4 +153,4 @@ create table CLIENTE_USUARIO
 
 select * from USUARIO
 select * from CHAMADO
-delete fro CHAMADO WHERE CODIGO!= 1 
+delete from CHAMADO WHERE CODIGO!= 1 
