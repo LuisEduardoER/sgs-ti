@@ -141,5 +141,13 @@ create table HISTORICO_CHAMADO
 
 create sequence historicoChamadoSeq start with 1 increment by 1;
 
-
+/*
+ * Criação da tabela de CLIENTE_USUARIO
+ */
+create table CLIENTE_USUARIO
+(
+    codigo_usuario integer not null constraint FK_CODIGO_USUARIO_2 references USUARIO (codigo),
+    codigo_pj integer null constraint FK_CODIGO_PJ_2 references PESSOA_JURIDICA (codigo),
+    codigo_pf integer null constraint FK_CODIGO_PF_2 references PESSOA_FISICA (codigo)
+);
 

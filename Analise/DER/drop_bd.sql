@@ -4,6 +4,7 @@ drop table CHAMADO;
 drop table TIPO_CHAMADO;
 drop table TIPO_FALHA;
 drop table STATUS;
+drop table CLIENTE_USUARIO;
 drop table USUARIO;
 drop table GRUPO_USUARIO;
 drop table PESSOA_FISICA;
