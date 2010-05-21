@@ -228,8 +228,11 @@ public class ClientController implements ObserverUsuario, Serializable{
 			atualizarCliente();
 			
 		} catch (BusinessException e) {
+			Utils.printErro(this.getClass().getName(), e);
 			mostrarMensagem(e.getMessage());
+			
 		} catch (RemoteException e) {
+			Utils.printErro(this.getClass().getName(), e);
 			mostrarMensagem(SystemConstant.MSG_AM_ATUALIZAR_STATUS);
 		}
 	}

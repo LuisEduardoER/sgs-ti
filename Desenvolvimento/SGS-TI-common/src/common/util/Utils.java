@@ -62,6 +62,17 @@ public class Utils {
 		if(SystemConstant.DEBUG_MODE)
 			System.out.println("["+ className + "]: " + msg);
 	}
+	public static void printErro(String className, Exception e){
+		if(SystemConstant.DEBUG_MODE){
+			System.err.println("************ ERROR ************");
+			System.err.println("Classe que lançou: " + className);
+			System.err.println("Erro: " + e.getMessage());
+			System.err.println("Classe da exception: " + e.getClass().getName());
+			System.err.println("Stack:\n");
+			e.printStackTrace();
+			System.err.println("\n***************************************************************");
+		}
+	}
 	
 	/**
 	 * Verifica se um valor é nulo ou vazio

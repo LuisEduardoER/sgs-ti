@@ -11,6 +11,7 @@ import java.util.List;
 import common.entity.Chamado;
 import common.entity.HistoricoChamado;
 import common.exception.BusinessException;
+import common.util.Utils;
 import persistencia.dao.DAOChamado;
 import persistencia.facade.FacadePessoaJuridica;
 import persistencia.facade.FacadeStatus;
@@ -284,6 +285,7 @@ public class SQLChamado implements DAOChamado{
 			return chamados;
 			
 		} catch (SQLException e) {
+			Utils.printErro(this.getClass().getName(), e);
 			throw new RuntimeException("Erro SQL",e);
 		} finally {
 			Conexao.fecharConexao(con);
