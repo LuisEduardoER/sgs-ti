@@ -86,7 +86,6 @@ public class ClientController implements ObserverUsuario, Serializable{
 			serviceUsuario = Utils.obterServiceUsuario();
 			return autenticar(this.usuario);
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
 			mostrarMensagem(e.getMessage());
 			return false;
 		}
@@ -149,7 +148,6 @@ public class ClientController implements ObserverUsuario, Serializable{
 		try {
 			serviceUsuario.atualizarClient(this.usuario);
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
 			mostrarMensagem(e.getMessage());
 			e.printStackTrace();
 		}
@@ -166,7 +164,6 @@ public class ClientController implements ObserverUsuario, Serializable{
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
 			mostrarMensagem(e.getMessage());
 		}
 	}
@@ -180,7 +177,6 @@ public class ClientController implements ObserverUsuario, Serializable{
 		try {
 			return serviceUsuario.getUsuarioAutenticado();
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
 			mostrarMensagem(e.getMessage());
 			return null;
 		}
@@ -213,7 +209,6 @@ public class ClientController implements ObserverUsuario, Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
 			mostrarMensagem(e.getMessage());
 		}
 	}
@@ -253,7 +248,6 @@ public class ClientController implements ObserverUsuario, Serializable{
 		} catch (RemoteException e) {
 			mostrarMensagem("Erro ao conectar com o serviço de chamados.");
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
 			mostrarMensagem(e.getMessage());
 		}	
 	}
