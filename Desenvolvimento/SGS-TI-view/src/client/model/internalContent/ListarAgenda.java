@@ -26,6 +26,7 @@ import org.jdesktop.swingx.decorator.Filter;
 import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.PatternFilter;
 import common.entity.Chamado;
+import common.entity.Prioridade;
 import common.exception.BusinessException;
 import common.remote.ObservadorAgendamento;
 import common.util.Utils;
@@ -147,7 +148,7 @@ public class ListarAgenda implements InternalContent, Observer
 			
 							
 						try {
-							sleep(1000);
+							sleep(10000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -159,10 +160,13 @@ public class ListarAgenda implements InternalContent, Observer
 	}
 
 	public void atualizarFila(List<Chamado> listaChamados){
-		this.listaChamados = listaChamados;
-		modeloFila.setLinhas(converterListEmMatriz(listaChamados));
+		if(listaChamados!=null){
+			this.listaChamados = listaChamados;
+			modeloFila.setLinhas(converterListEmMatriz(listaChamados));
+		}
+		
 		modeloFila.fireTableDataChanged();
-
+		
 		Utils.printMsg(this.getClass().getName(), new Date() + " - Fila atualizada. Size: " + listaChamados.size());
 	}
 
@@ -197,11 +201,17 @@ public class ListarAgenda implements InternalContent, Observer
 		// "Codigo", "Cliente", "Prioridade", "Reclamante", "Contato"
 		for(int linha=0; linha<chamados.size(); linha++){
 			Chamado chamado = chamados.get(linha);
+			Prioridade pri = new Prioridade(chamado.getTipoChamado().getValor(), chamado.getPj().getPorte().getValor(), new Date());
 			matriz[linha][0] = String.valueOf(chamado.getCodigo());
+			System.out.println(matriz[linha][0]);
 			matriz[linha][1] = chamado.getPj().getNome();
-			matriz[linha][2] = String.valueOf(chamado.getPrioridade().getValorPrioridade());
+			System.out.println(matriz[linha][1]);
+			matriz[linha][2] = String.valueOf(pri.getValorPrioridade());
+			System.out.println(matriz[linha][2]);
 			matriz[linha][3] = chamado.getPj().getEndereco().toString();
+			System.out.println(matriz[linha][3]);
 			matriz[linha][4] = chamado.getContato().toString();
+			System.out.println(matriz[linha][4]);
 		}
 
 		return matriz;
@@ -214,7 +224,6 @@ public class ListarAgenda implements InternalContent, Observer
 		}
 		return null;
 	}
-
 
 	/*
 	 * GETTERs AND SETTERs

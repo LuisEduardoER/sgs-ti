@@ -66,7 +66,6 @@ public class EditarChamados extends Observable implements InternalContent
 
 			servico = Utils.obterServiceChamadoItens();
 		} catch (BusinessException e) {
-			// TODO Vanessa -  Arrumar Exceção
 			new BusinessException("As listas estão vazias, favor preenche-las");
 		}
 	}
@@ -191,9 +190,17 @@ public class EditarChamados extends Observable implements InternalContent
 			if(chamado.getDataAgendamento() != null)
 			{
 				dataAgentamentoDateChooser.setText(chamado.getDataAgendamento().toString());
-				horaAgendamentoTextField.setText(chamado.getDataAgendamento().toString());
+				dataAgentamentoDateChooser.setEnabled(true);
+				horaAgendamentoTextField.setText(String.valueOf(chamado.getDataAgendamento().getTime()));
+				horaAgendamentoTextField.setEnabled(true);
+			}else
+			{
+				dataAgentamentoDateChooser.setText("");
+				dataAgentamentoDateChooser.setEnabled(false);
+				horaAgendamentoTextField.setText("");
+				horaAgendamentoTextField.setEnabled(false);
 			}
-			
+				
 			btSalvar.setText("Salvar");
 			btSalvar.addActionListener(oec);
 			btSalvar.setToolTipText("Salvar alterações");
@@ -279,7 +286,9 @@ public class EditarChamados extends Observable implements InternalContent
 						data = null;
 						
 
-					Chamado c = new Chamado(chamado.getDataAbertura(), 
+					Chamado c = new Chamado(
+							chamado.getCodigo(),
+							chamado.getDataAbertura(), 
 							chamado.getDataFechamento(), 
 							descricaoTextArea.getText(),
 							chamado.getUsuario(),
@@ -287,9 +296,11 @@ public class EditarChamados extends Observable implements InternalContent
 							chamado.getTipoChamado(), 
 							new TipoFalha(tipoFalhaComboBox.getSelectedItem().toString()),
 							chamado.getPj(), 
-							new StatusChamado(statusComboBox.getSelectedItem().toString()));
+							new StatusChamado(statusComboBox.getSelectedItem().toString()),
+							chamado.getContato());
 							
 					ClientController.getInstance().atualizarChamado(c);
+					jif.dispose();
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
