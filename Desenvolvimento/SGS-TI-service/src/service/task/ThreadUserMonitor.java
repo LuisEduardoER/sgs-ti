@@ -53,10 +53,9 @@ public class ThreadUserMonitor extends Thread{
 					}
 				}
 				sleep(SystemConstant.USER_MONITOR_SLEEP_TIME);
+				// ignora excecoes
 			}catch (InterruptedException e) {
-				e.printStackTrace();
 			} catch (RemoteException e) {
-				e.printStackTrace();
 			}
 		}
 	}

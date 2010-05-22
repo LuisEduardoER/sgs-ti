@@ -36,8 +36,10 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 	public Usuario autenticar(ObserverUsuario observador, Usuario usuario) throws RemoteException, BusinessException {
 		Usuario logado = FacadeUsuario.autenticarUser(usuario);
 		// Valida, mas se deu erro na autenticacao vai jogar exception, nem vira aqui
-		if(!Utils.isNullOrEmpty(logado))
+		if(!Utils.isNullOrEmpty(logado)){
+			verificaUsuariosLogados(logado);
 			adicionarObservador(observador, logado);
+		}
 		return logado;
 	}
 
@@ -83,6 +85,28 @@ public class ServiceUsuarioImpl implements ServiceUsuario{
 			throws RemoteException {
 		Utils.printMsg(this.getClass().getName(),"Notificando tempo excedido");
 		usuarioAutenticado.getObservador().notificarTempoExcedido();		
+	}
+	
+	public void verificaUsuariosLogados(Usuario usuario){
+		Iterator<UsuarioAutenticado> it = usuarioAutenticado.iterator();
+		while(it.hasNext()){
+			UsuarioAutenticado ua = (UsuarioAutenticado) it.next();
+			String uaUser = ua.getUsuario().getUsername();
+			String newUser = usuario.getUsername();
+			if(uaUser.equals(newUser)){
+				System.out.println("Ja tem na lista, removendo...");
+				try {
+					ua.getObservador().encerrarClient();
+				} catch (RemoteException e) {
+					// Se não notificou é pq perdeu conexao, somente remove da lista.
+					usuarioAutenticado.remove(uaUser);
+					break;
+				}
+				usuarioAutenticado.remove(uaUser);
+				break;
+			}else
+				System.out.println("Nao tem na lista");
+		}
 	}
 	
 	@Override

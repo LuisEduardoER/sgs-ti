@@ -17,7 +17,6 @@ public class SQLUsuario implements DAOUsuario{
 	private static final boolean DEBUG = true;
 	private static String AUTENTICAR_USER = ".jdbc.AUTENTICAR_USER";
 	private static String INSERIR_USER = ".jdbc.INSERE_USUARIO";
-	private static String VERIFICA_USERNAME = ".jdbc.VERIFICA_USERNAME";
 	private static String OBTER_CODIGO_USUARIO = ".jdbc.OBTER_CODIGO_USUARIO";
 	private static String OBTER_USUARIO_BY_ID = ".jdbc.OBTER_USUARIO_BY_ID";
 

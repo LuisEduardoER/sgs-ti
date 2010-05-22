@@ -1,23 +1,30 @@
 package service.remote;
 
+import java.awt.BorderLayout;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import common.remote.ServiceChamado;
 import common.remote.ServiceChamadoItens;
 import common.remote.ServiceUsuario;
-import common.util.Utils;
 
 public class ServidorChamados {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
 		try {
+			
 			// TODO : MELHORAR ESTA MERDA
 			// Criar o objeto
 			ServiceChamadoImpl servico = new ServiceChamadoImpl();
@@ -43,12 +50,8 @@ public class ServidorChamados {
 			// Registra o objeto
 			registry.rebind("serviceChamadoItens", stubChamado);
 	
-			System.out.println("Servidor de chamados ativo.");
-			//System.out.println("Servidor de chamados ativo.");
-			Utils.printMsg(ServidorChamados.class.getName(), "Servidor de chamados ativo.");
+			inicializarTela();
 			
-			//System.out.println("Servidor de chamados ativo.");
-			Utils.printMsg(ServidorChamados.class.getName(), "Servidor de chamados ativo.");
 			
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null,
@@ -57,5 +60,19 @@ public class ServidorChamados {
 			e.printStackTrace();
 		}
 
+	}
+
+	private static void inicializarTela() {
+		JFrame frame = new JFrame();
+		frame.setLayout(new BorderLayout(1,1)); 
+		frame.setSize(200,75);
+		frame.setResizable(false); 
+		frame.setVisible(true);
+		frame.setTitle("Servidor da aplicação.");
+		JLabel lblUsuario = new JLabel("Servidor Usuario: ok");
+		JLabel lblChamado = new JLabel("Servidor Chamados: ok");
+		
+		frame.add(lblUsuario,BorderLayout.NORTH);
+		frame.add(lblChamado,BorderLayout.CENTER);
 	}
 }
