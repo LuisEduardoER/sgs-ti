@@ -13,9 +13,6 @@ public class Funcionario extends Pessoa
 	private Date dataDemissao;
 	private long CPF;
 	
-	/**
-	* TODO - Descrever campos
-	*/
 
 	/**
 	 * Construtor.

@@ -13,9 +13,7 @@ public class PessoaJuridica extends Cliente
 	
 	
 	
-	/**
-	* TODO - Descrever melhor os campos
-	*/
+	
 	/**
 	 * Construtor
 	 * @param endereco
