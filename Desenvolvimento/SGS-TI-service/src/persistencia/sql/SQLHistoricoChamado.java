@@ -53,10 +53,11 @@ public class SQLHistoricoChamado implements DAOHistoricoChamado
 			
 			if (qtd != 1) {
 				con.rollback();
+				stmt.close();
 				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
-
+			stmt.close();
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return false;

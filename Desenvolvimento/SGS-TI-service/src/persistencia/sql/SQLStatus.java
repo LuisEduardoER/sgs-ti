@@ -47,10 +47,11 @@ public class SQLStatus implements DAOStatus{
 			
 			if (qtd != 1) {
 				con.rollback();
+				stmt.close();
 				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
-
+			stmt.close();
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return false;
@@ -83,14 +84,14 @@ public class SQLStatus implements DAOStatus{
 			
 			ResultSet rs = stmt.executeQuery();
 		
-			int codigo;
+			int codigo = -1;
 			
 			while(rs.next()){
 				codigo = Integer.parseInt(rs.getString("codigoTipoFalha"));
-				return codigo;		
 			}					
+			rs.close();
 			stmt.close();
-			return -1;
+			return codigo;
 			
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
@@ -120,14 +121,14 @@ public class SQLStatus implements DAOStatus{
 			stmt.setInt(1, codigo);
 			
 			ResultSet rs = stmt.executeQuery();
-			
+			StatusChamado status = null;
 			while(rs.next()){
 				String nome = rs.getString("NOME");
-				StatusChamado status = new StatusChamado(nome);
-				return status;		
-			}					
+				status = new StatusChamado(nome);
+			}			
+			rs.close();
 			stmt.close();
-			return null;
+			return status;
 			
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
@@ -163,7 +164,8 @@ public class SQLStatus implements DAOStatus{
 				int codigo = rs.getInt("CODIGO");
 				status.setCodigo(codigo);
 				listaStatus.add(status);		
-			}					
+			}
+			rs.close();
 			stmt.close();
 			return listaStatus;
 			

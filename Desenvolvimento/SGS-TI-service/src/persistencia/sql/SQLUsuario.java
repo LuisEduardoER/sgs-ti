@@ -27,7 +27,7 @@ public class SQLUsuario implements DAOUsuario{
 	*/
 	@Override
 	public boolean existeUser(String user)  throws BusinessException{
-		Connection con = null;
+		/*Connection con = null;
 		String sql = null;
 		
 		if(user.contains("%"))
@@ -58,6 +58,7 @@ public class SQLUsuario implements DAOUsuario{
 					return false;
 				}	
 			}					
+			
 			stmt.close();
 			return true;
 			
@@ -67,7 +68,8 @@ public class SQLUsuario implements DAOUsuario{
 			
 		} finally {
 			Conexao.fecharConexao(con);
-		}
+		}*/
+		return true;
 	}
 
 	/**
@@ -98,11 +100,12 @@ public class SQLUsuario implements DAOUsuario{
 				System.out.println("QTDE: "+ qtd);
 			
 			if (qtd != 1) {
+				stmt.close();
 				con.rollback();
 				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
-
+			stmt.close();
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return false;
@@ -140,21 +143,17 @@ public class SQLUsuario implements DAOUsuario{
 			while(rs.next()){
 				int codigo = Integer.parseInt(rs.getString("CODIGO"));
 				String nome = rs.getString("NOME");
-				if(Utils.isNullOrEmpty(nome)){
-					throw new BusinessException("Usuário não possui nome.");
-				}else
-				{
-					usuario = user;
-					usuario.setCodigo(codigo);
-					usuario.setNome(nome);
-				}
+				usuario = user;
+				usuario.setCodigo(codigo);
+				usuario.setNome(nome);
 			}
-
+			rs.close();
 			stmt.close();
 			if(Utils.isNullOrEmpty(usuario))
 				throw new BusinessException("Usuário não encontrado!");
-			else
-				return usuario;
+			else if(Utils.isNullOrEmpty(usuario.getNome()))
+				throw new BusinessException("Usuário não possui nome.");
+			return usuario;
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return null;
@@ -192,14 +191,13 @@ public class SQLUsuario implements DAOUsuario{
 			stmt.setString(1, user.getUsername());
 			
 			ResultSet rs = stmt.executeQuery();
-		
+			int r = -1;
 			while(rs.next()){
-				int r = Integer.parseInt(rs.getString("cod_usuario"));
-
-				return r;
-			}					
+				r = Integer.parseInt(rs.getString("cod_usuario"));
+			}
+			rs.close();
 			stmt.close();
-			return -1;
+			return r;
 			
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
@@ -228,9 +226,11 @@ public class SQLUsuario implements DAOUsuario{
 
 			if (qtd != 1) {
 				con.rollback();
+				stmt.close();
 				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
+			stmt.close();
 
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
@@ -262,19 +262,18 @@ public class SQLUsuario implements DAOUsuario{
 			stmt.setInt(1, codigo);
 			
 			ResultSet rs = stmt.executeQuery();
-		
+			Usuario usu = null;
 			while(rs.next()){
-				Usuario usu = new Usuario();
+				usu = new Usuario();
 				String nome = rs.getString("NOME");
 				String username = rs.getString("USERNAME");
 				
 				usu.setNome(nome);
 				usu.setUsername(username);
-
-				return usu;
-			}					
+			}				
+			rs.close();
 			stmt.close();
-			return null;
+			return usu;
 			
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
