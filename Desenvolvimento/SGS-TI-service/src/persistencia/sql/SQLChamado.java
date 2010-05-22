@@ -29,9 +29,6 @@ public class SQLChamado implements DAOChamado{
 	private static String BUSCAR_CHAMADOS_ABERTOS = ".jdbc.BUSCAR_CHAMADOS_ABERTOS";
 	private static String BUSCAR_CHAMADOS_AGENDADOS = ".jdbc.BUSCAR_CHAMADOS_AGENDADOS";
 	
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
 	@Override
 	public boolean adicionaChamado(Chamado chamado)  throws BusinessException{
 		Connection con = null;
@@ -48,10 +45,6 @@ public class SQLChamado implements DAOChamado{
 				System.out.println(sql);
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			
-			//TODO -colocar os parametros
-			//insert into CHAMADO values
-			//(chamadoSeq.nextVRal,?,null,?,?,?,?,?,?,?,?,?,?) 
 			
 			stmt.setDate(1, new java.sql.Date(new java.util.Date().getTime()));//data_abertura
 			stmt.setString(2,chamado.getDetalhes());//detalhes
@@ -76,7 +69,7 @@ public class SQLChamado implements DAOChamado{
 				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
-
+			stmt.close();
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			
@@ -93,72 +86,27 @@ public class SQLChamado implements DAOChamado{
 		
 		String origem = Conexao.obterOrigem();
 		sql = FabricaSql.getSql(origem + ATUALIZAR_CHAMADO_CAMPOS);
-		
-		/*UPDATE CHAMADO SET 
-		 * DATA_ABERTURA= ?,
-		 * DATA_FECHAMENTO = ?,
-		 * DETALHES = ?,
-		 * RESPONSAVEL = ?,
-		 * CONTATO=?,
-		 * DATA_AGENDAMENTO=?,
-		 * CODIGO_STATUS=?,
-		 * CODIGO_TIPO_CHAMADO=?,
-		 * CODIGO_TIPO_FALHA=?,
-		 * CODIGO_USU_REGISTRO=?,
-		 * CODIGO_PF=?,
-		 * CODIGO_PJ=? 
-		 * WHERE CODIGO=?*/
 
 		int codigoTipoChamado = FacadeTipoChamado.procurarTipoChamado(chamado.getTipoChamado());
 		int codigoTipoFalha = FacadeTipoFalha.procurarTipoFalha(chamado.getTipoFalha());
 		int codigoStatus = FacadeStatus.procurarStatus(chamado.getStatus());
-		//int codigoUsuario = FacadeUsuario.obterCodigo(chamado.getUsuario());
 		
 		try {
 			con = Conexao.obterConexao();
 			PreparedStatement stmt = con.prepareStatement(sql);
-			
-			/*stmt.setDate(1, (java.sql.Date) chamado.getDataAbertura());
-			System.out.println((java.sql.Date) chamado.getDataAbertura());
-			stmt.setDate(2, (java.sql.Date) chamado.getDataFechamento());
-			System.out.println((java.sql.Date) chamado.getDataFechamento());
-			stmt.setString(3, chamado.getDetalhes());
-			System.out.println(chamado.getDetalhes());
-			stmt.setString(4, chamado.getResponsavel());
-			System.out.println(chamado.getResponsavel());
-			stmt.setString(5, chamado.getContato());
-			System.out.println(chamado.getContato());
-			stmt.setDate(6, new java.sql.Date(chamado.getDataAgendamento().getTime()));
-			System.out.println(new java.sql.Date(chamado.getDataAgendamento().getTime()));
-			stmt.setInt(7, codigoStatus);
-			System.out.println(codigoStatus);
-			stmt.setInt(8, codigoTipoChamado);
-			System.out.println(codigoTipoChamado);
-			stmt.setInt(9, codigoTipoFalha);
-			System.out.println(codigoTipoFalha);
-			stmt.setInt(10, codigoUsuario);
-			System.out.println(codigoUsuario);
-			stmt.setInt(11, 1);
-			stmt.setInt(12, 1);*/
-			
-			//stmt.setLong(13, chamado.getCodigo());
-			
-			
-			//UPDATE CHAMADO SET 
-			//DATA_FECHAMENTO = ?,
-			//DETALHES = ?,
-			//DATA_AGENDAMENTO=?,
-			//CODIGO_STATUS=?,
-			//CODIGO_TIPO_CHAMADO=?,
-			//CODIGO_TIPO_FALHA=? WHERE CODIGO=?
+
+			java.util.Date agendamento = null;
 			
 			stmt.setDate(1, (java.sql.Date) chamado.getDataFechamento());
 			stmt.setString(2, chamado.getDetalhes());
-			stmt.setDate(3, new java.sql.Date(chamado.getDataAgendamento().getTime()));
+			if (chamado.getDataAgendamento() == null) {
+				stmt.setDate(3, (java.sql.Date) agendamento);
+			}else
+				stmt.setDate(3, new java.sql.Date(chamado.getDataAgendamento().getTime()));
 			stmt.setInt(4, codigoStatus);
 			stmt.setInt(5, codigoTipoChamado);
 			stmt.setInt(6, codigoTipoFalha);
-			stmt.setLong(7, 1);
+			stmt.setLong(7, chamado.getCodigo());
 			
 			int qtd = stmt.executeUpdate();
 
@@ -167,7 +115,7 @@ public class SQLChamado implements DAOChamado{
 				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
-
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException("Erro SQL", e);
 			
@@ -194,22 +142,23 @@ public class SQLChamado implements DAOChamado{
 				System.out.println("SQL - " + sql);
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setFloat(1, 1); //chamado.getNumeroChamado());
+			stmt.setFloat(1, chamado.getCodigo()); //chamado.getNumeroChamado());
 			
 			ResultSet rs = stmt.executeQuery();
-			
+			HistoricoChamado historicoChamado = null;
 			while(rs.next()){
 				String descricao = rs.getString("detalhes");
 				Date dataAgendamento = rs.getDate("data_agendamento");
 				int codStatus = rs.getInt("codigo_status");
 				int codUsuario = rs.getInt("codigo_usu_registro");
 				
-				HistoricoChamado historicoChamado = new HistoricoChamado(new Date(), descricao, dataAgendamento,
+				 historicoChamado = new HistoricoChamado(new Date(), descricao, dataAgendamento,
 						codStatus, codUsuario, (int)chamado.getCodigo());
-				return historicoChamado;
-			}					
+				
+			}			
+			rs.close();
 			stmt.close();
-			
+			return historicoChamado;
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 		} finally {
@@ -268,7 +217,7 @@ public class SQLChamado implements DAOChamado{
 				chamado.atualizaPrioridade();
 				chamados.add(chamado);
 			}	
-			
+			rs.close();
 			stmt.close();
 			return chamados;
 			
@@ -303,6 +252,7 @@ public class SQLChamado implements DAOChamado{
 			
 			while(rs.next()){
 				Chamado chamado = new Chamado();
+				chamado.setCodigo(rs.getInt("CODIGO"));
 				chamado.setDataAbertura(rs.getDate("DATA_ABERTURA"));
 				chamado.setDataFechamento(rs.getDate("DATA_FECHAMENTO"));
 				chamado.setDetalhes(rs.getString("DETALHES"));
@@ -329,7 +279,7 @@ public class SQLChamado implements DAOChamado{
 				chamado.atualizaPrioridade();
 				chamados.add(chamado);
 			}	
-			
+			rs.close();
 			stmt.close();
 			return chamados;
 			
