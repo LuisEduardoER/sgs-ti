@@ -53,7 +53,8 @@ public class SQLClienteUsuario implements DAOClienteUsuario{
 					codCli = Integer.parseInt(cpj);
 					pj = FacadePessoaJuridica.getById(codCli);
 				}
-			}					
+			}				
+			rs.close();
 			stmt.close();
 			
 			if(Utils.isNullOrEmpty(pj)){
@@ -97,7 +98,8 @@ public class SQLClienteUsuario implements DAOClienteUsuario{
 				{
 					codCli = Integer.parseInt(pf);
 				}
-			}					
+			}	
+			rs.close();
 			stmt.close();
 			
 			if(codCli==-1){

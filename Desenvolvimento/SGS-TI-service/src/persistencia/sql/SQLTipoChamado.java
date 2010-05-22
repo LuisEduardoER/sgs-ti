@@ -48,10 +48,11 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			
 			if (qtd != 1) {
 				con.rollback();
+				stmt.close();
 				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
-
+			stmt.close();
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return false;
@@ -89,12 +90,14 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			while(rs.next()){
 				TipoChamado tc = new TipoChamado(rs.getInt("CODIGO"),rs.getString("NOME"), rs.getInt("VALOR_PRIORIDADE"));
 				tipoChamado.add(tc);
-			}					
+			}
+			rs.close();
 			stmt.close();
 			if(Utils.isEmptyCollection(tipoChamado)){
 				throw new BusinessException("Não foi possível carregar os Tipos de chamado");
 			}else
 				return tipoChamado;
+			
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return null;
@@ -123,15 +126,16 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			stmt.setInt(1, codigo);
 			
 			ResultSet rs = stmt.executeQuery();
-	
+			TipoChamado tipoChamado = null;
 			while(rs.next()){
 				String nome = rs.getString("NOME");
 				int prio = rs.getInt("VALOR_PRIORIDADE");
 				
-				return new TipoChamado(nome,prio);
-			}					
+				tipoChamado = new TipoChamado(nome,prio);
+			}				
+			rs.close();
 			stmt.close();
-			return null;
+			return tipoChamado;
 			
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);

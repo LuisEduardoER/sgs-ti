@@ -49,10 +49,11 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			
 			if (qtd != 1) {
 				con.rollback();
+				stmt.close();
 				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
-
+			stmt.close();
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return false;
@@ -86,14 +87,14 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			
 			ResultSet rs = stmt.executeQuery();
 		
-			int codigo;
+			int codigo = -1;
 			
 			while(rs.next()){
 				codigo = Integer.parseInt(rs.getString("codigoTipoFalha"));
-				return codigo;		
-			}					
+			}
+			rs.close();
 			stmt.close();
-			return -1;
+			return codigo;
 			
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
@@ -126,7 +127,8 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			while(rs.next()){
 				TipoFalha tf = new TipoFalha(rs.getInt("CODIGO"),rs.getString("NOME"));
 				tipoFalha.add(tf);
-			}					
+			}
+			rs.close();
 			stmt.close();
 			if(Utils.isEmptyCollection(tipoFalha)){
 				throw new BusinessException("Não foi possível carregar os Tipos de falhas");
@@ -161,14 +163,14 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			
 			ResultSet rs = stmt.executeQuery();
 		
-			
+			TipoFalha tipoFalha =null;
 			while(rs.next()){
 				String nome = rs.getString("NOME");
-				TipoFalha tipoFalha = new TipoFalha(nome);
-				return tipoFalha;
-			}					
+				tipoFalha = new TipoFalha(nome);
+			}				
+			rs.close();
 			stmt.close();
-			return null;
+			return tipoFalha;
 			
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);

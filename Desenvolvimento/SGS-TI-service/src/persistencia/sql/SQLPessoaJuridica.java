@@ -40,13 +40,13 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 			sql = FabricaSql.getSql(origem + PROCURAR_PJ_BY_ID);
 			
 			if(DEBUG)
-				System.out.println("SQL - " + sql);
+				System.out.println("SQL - " + sql + " Codigo:" + codigo);
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, codigo);
 			
 			ResultSet rs = stmt.executeQuery();
-			
+			PessoaJuridica pj = null;
 			while(rs.next()){
 				
 				String razaoSocial = rs.getString("RAZAO_SOCIAL");
@@ -56,11 +56,10 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 				int codPorte = rs.getInt("CODIGO_PORTE");
 				Porte porte = FacadePorte.getById(codPorte);
 				
-				PessoaJuridica pj = new PessoaJuridica(codigo,endereco, porte, null, razaoSocial, nomeFantasia, cnpj);
-				return pj;		
+				pj = new PessoaJuridica(codigo,endereco, porte, null, razaoSocial, nomeFantasia, cnpj);
 			}					
 			stmt.close();
-			return null;
+			return pj;
 			
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);

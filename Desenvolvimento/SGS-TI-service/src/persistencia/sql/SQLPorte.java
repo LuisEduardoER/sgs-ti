@@ -40,15 +40,15 @@ public class SQLPorte implements DAOPorte{
 			stmt.setInt(1, codigo);
 			
 			ResultSet rs = stmt.executeQuery();
-			
+			Porte porte = null;
 			while(rs.next()){
 				String nome = rs.getString("NOME");
 				
-				Porte porte = new Porte(nome);
-				return porte;
-			}					
+				porte = new Porte(nome);
+			}	
+			rs.close();
 			stmt.close();
-			return null;
+			return porte;
 			
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
