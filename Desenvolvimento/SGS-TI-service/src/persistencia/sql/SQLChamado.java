@@ -66,6 +66,7 @@ public class SQLChamado implements DAOChamado{
 			
 			if (qtd != 1) {
 				con.rollback();
+				stmt.close();
 				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
@@ -87,7 +88,6 @@ public class SQLChamado implements DAOChamado{
 		String origem = Conexao.obterOrigem();
 		sql = FabricaSql.getSql(origem + ATUALIZAR_CHAMADO_CAMPOS);
 
-		int codigoTipoChamado = FacadeTipoChamado.procurarTipoChamado(chamado.getTipoChamado());
 		int codigoTipoFalha = FacadeTipoFalha.procurarTipoFalha(chamado.getTipoFalha());
 		int codigoStatus = FacadeStatus.procurarStatus(chamado.getStatus());
 		
@@ -104,7 +104,6 @@ public class SQLChamado implements DAOChamado{
 			}else
 				stmt.setDate(3, new java.sql.Date(chamado.getDataAgendamento().getTime()));
 			stmt.setInt(4, codigoStatus);
-			stmt.setInt(5, codigoTipoChamado);
 			stmt.setInt(6, codigoTipoFalha);
 			stmt.setLong(7, chamado.getCodigo());
 			
@@ -112,7 +111,8 @@ public class SQLChamado implements DAOChamado{
 
 			if (qtd != 1) {
 				con.rollback();
-				throw new RuntimeException("Quantidade de linhas afetadas inválida: " + qtd);
+				stmt.close();
+				throw new BusinessException("Quantidade de linhas afetadas inválida: " + qtd);
 			}else
 				con.commit();
 			stmt.close();
@@ -154,8 +154,7 @@ public class SQLChamado implements DAOChamado{
 				
 				 historicoChamado = new HistoricoChamado(new Date(), descricao, dataAgendamento,
 						codStatus, codUsuario, (int)chamado.getCodigo());
-				
-			}			
+			}		
 			rs.close();
 			stmt.close();
 			return historicoChamado;

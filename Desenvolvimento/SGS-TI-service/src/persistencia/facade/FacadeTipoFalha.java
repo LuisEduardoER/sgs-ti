@@ -1,7 +1,6 @@
 package persistencia.facade;
 
 import java.util.List;
-
 import common.entity.TipoFalha;
 import common.exception.BusinessException;
 import persistencia.dao.DAOTipoFalha;
