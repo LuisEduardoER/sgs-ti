@@ -11,9 +11,7 @@ public class PessoaFisica extends Cliente
 	private Date dataNascimento;
 	private long CPF;
 
-	/**
-	* TODO - Descrever melhor os campos
-	*/
+	
 	/**
 	 * Construtor.
 	 * 

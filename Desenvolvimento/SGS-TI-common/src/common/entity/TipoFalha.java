@@ -14,9 +14,6 @@ public class TipoFalha implements Serializable
 	private String nome;
 
 	/**
-	* TODO - Descrever melhor os campos
-	*/
-	/**
 	 * Construdor
 	 * 
 	 * @param nome

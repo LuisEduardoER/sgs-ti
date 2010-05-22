@@ -12,9 +12,7 @@ public class Prioridade implements Serializable
 	private Date horaAtualizacao;
 	private int valorPrioridade;
 	
-	/**
-	* TODO - Descrever melhor os campos
-	*/
+	
 	/**
 	 * Construtor.
 	 * @param valorTipoChamado

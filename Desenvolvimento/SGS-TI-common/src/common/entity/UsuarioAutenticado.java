@@ -14,15 +14,9 @@ public class UsuarioAutenticado implements Serializable, Cloneable
 	public static final int ENCERRAR_CLIENTE 		= -1;
 	public static final int TEMPO_MAX_EXPIRANDO 	=  0;
 
-	/**
-	* TODO - Documentar
-	*/
 	public UsuarioAutenticado() {
 	}
 
-	/**
-	* TODO - Descrever melhor os campos
-	*/
 	/**
 	 * 
 	 * @param ultimaAtualizacao
@@ -57,9 +51,6 @@ public class UsuarioAutenticado implements Serializable, Cloneable
 		this.observador = observador;
 	}
 	
-	/**
-	* TODO - Documentar
-	*/
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		return super.clone();

@@ -27,7 +27,18 @@ public class Chamado implements Serializable
 	public Chamado(){
 	}
 	
-	// Construtor para criar chamado
+	/**
+	 * 
+	 * @param dataAbertura
+	 * @param dataFechamento
+	 * @param descricao
+	 * @param usuarioLogado
+	 * @param dataAgenda
+	 * @param tc
+	 * @param tf
+	 * @param pj
+	 * @param status
+	 */
 	public Chamado(Date dataAbertura, Date dataFechamento, String descricao,
 			Usuario usuarioLogado, Date dataAgenda, TipoChamado tc, TipoFalha tf,
 			PessoaJuridica pj, StatusChamado status){
@@ -40,6 +51,36 @@ public class Chamado implements Serializable
 		this.pj = pj;
 		this.status = status;
 		this.usuario= usuarioLogado;
+	}
+
+	
+	/**
+	 * 
+	 * @param codigo
+	 * @param dataAbertura
+	 * @param dataFechamento
+	 * @param descricao
+	 * @param usuarioLogado
+	 * @param dataAgenda
+	 * @param tc
+	 * @param tf
+	 * @param pj
+	 * @param status
+	 */
+	public Chamado(int codigo, Date dataAbertura, Date dataFechamento, String descricao,
+			Usuario usuarioLogado, Date dataAgenda, TipoChamado tc, TipoFalha tf,
+			PessoaJuridica pj, StatusChamado status, String contato){
+		this.codigo=codigo;
+		this.dataAbertura = dataAbertura;
+		this.dataFechamento = dataFechamento;
+		this.detalhes = descricao;
+		this.dataAgendamento = dataAgenda;
+		this.tipoChamado= tc;
+		this.tipoFalha = tf;
+		this.pj = pj;
+		this.status = status;
+		this.usuario= usuarioLogado;
+		this.contato = contato;
 	}
 
 	
