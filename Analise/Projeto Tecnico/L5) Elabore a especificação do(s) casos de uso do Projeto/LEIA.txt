@@ -1,0 +1,10 @@
+Quem vai fazer o q
+
+UC - 01 ate o UC - 07 => Vanessa
+UC - 08 ate o UC - 14 => 
+UC - 15 ate o UC - 22 => 
+
+Obs: 
+ - Fazer os diagramas de sequencia equivalente
+ - Quem pegar do UC-15 ate o UC-22 não precisa fazer o digrama de comunicação
+	
