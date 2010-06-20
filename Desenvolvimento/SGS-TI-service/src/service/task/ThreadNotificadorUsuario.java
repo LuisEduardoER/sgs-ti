@@ -52,8 +52,8 @@ public class ThreadNotificadorUsuario extends Thread{
 			case UsuarioAutenticado.TEMPO_MAX_EXPIRANDO:
 				usuario.getObservador().notificarTempoExcedido();
 				break;
-			case UsuarioAutenticado.NOTIFICACAO_REMOTA:
-				usuario.getObservador().notificaoRemota(mensagem, titulo, tipoAlerta, acao);
+			//case UsuarioAutenticado.NOTIFICACAO_REMOTA:
+				//usuario.getObservador().notificaoRemota(mensagem, titulo, tipoAlerta, acao);
 			default:
 				break;
 			}
