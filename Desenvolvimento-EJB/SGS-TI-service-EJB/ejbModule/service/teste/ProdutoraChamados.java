@@ -1,7 +1,5 @@
 package service.teste;
 
-import java.rmi.RemoteException;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -104,9 +102,6 @@ public class ProdutoraChamados extends Thread {
 
 			} catch (InterruptedException e) {
 				break;
-			} catch (RemoteException e) {
-				// TODO criar exception de infra
-				Utils.printMsg(this.getClass().getName(), "Erro no objeto remoto, " + e);
 			} catch (BusinessException e) {
 				// TODO Auto-generated catch block
 				Utils.printMsg(this.getClass().getName(),e.getMessage());

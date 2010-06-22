@@ -1,11 +1,14 @@
 package service.remote;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
+import org.jboss.ejb3.annotation.RemoteBinding;
 import persistencia.facade.FacadeChamado;
 import persistencia.facade.FacadeHistoricoChamado;
 import service.base.FilaChamado;
+import service.base.RepositorioObsAgendamento;
+import service.base.RepositorioObsChamado;
 import common.entity.Chamado;
 import common.entity.HistoricoChamado;
 import common.exception.BusinessException;
@@ -14,83 +17,72 @@ import common.remote.ObservadorFila;
 import common.remote.ServiceChamado;
 import common.util.Utils;
 
+@Stateless
+@RemoteBinding(jndiBinding = "serviceChamado")
 public class ServiceChamadoImpl implements ServiceChamado
 {
-	List<ObservadorFila> observadoresFila;
-	List<ObservadorAgendamento> observadoresAgendamento;
-	FilaChamado filaChamados;
-	
 	/**
 	 * Construtor
-	 */
-	public ServiceChamadoImpl(){
-		observadoresFila = new ArrayList<ObservadorFila>();
-		observadoresAgendamento = new ArrayList<ObservadorAgendamento>();
-	}
+	 */	
+	public ServiceChamadoImpl(){}
 	
 	@Override
-	public void adicionarObservadorFila(ObservadorFila obs)
-			throws RemoteException, BusinessException
+	public void adicionarObservadorFila(ObservadorFila obs) throws BusinessException
 	{
-
-		observadoresFila.add(obs);
-		obs.atualizarFila(FilaChamado.getInstance().getFila());
+		RepositorioObsChamado.getInstance().addObserver(obs);
 	}
 	
 	@Override
-	public void removerObservadorFila(ObservadorFila obs)
-			throws RemoteException {
-		if(observadoresFila.contains(obs))
-			observadoresFila.remove(obs);
+	public void removerObservadorFila(ObservadorFila obs){
+		RepositorioObsChamado.getInstance().removeObserver(obs);
 	}
 	
 	@Override
 	public void notificarObservadorFila() throws BusinessException {
-		for(int i=0; i<observadoresFila.size();i++){
-			ObservadorFila obs = observadoresFila.get(i);
+		List<ObservadorFila> listaObsFila = RepositorioObsChamado.getInstance().getObservers();
+		for(int i=0; i<listaObsFila.size();i++){
+			ObservadorFila obs = listaObsFila.get(i);
 			try{
-				obs.atualizarFila(FilaChamado.getInstance().getFila());
+				if(obs!= null)
+					obs.atualizarFila(FilaChamado.getInstance().getFila());
 				
 			}catch(RemoteException e){
 				// se o observador fila está indisponivel, remove
-				observadoresFila.remove(i);
+				RepositorioObsChamado.getInstance().removeObserver(listaObsFila.get(i));
 				i--;
 			}	
 		}
 	}
 
 	@Override
-	public void adicionarObservadorAgendamento(ObservadorAgendamento obs)
-			throws RemoteException, BusinessException {
-		observadoresAgendamento.add(obs);	
-		obs.atualizarFila(FilaChamado.getInstance().getFilaAgendamento());
+	public void adicionarObservadorAgendamento(ObservadorAgendamento obs) throws BusinessException, RemoteException {
+		RepositorioObsAgendamento.getInstance().addObserver(obs);
 	}
 	
 	@Override
-	public void notificarObservadorAgendamento() throws RemoteException, BusinessException {
-		for(int i = 0;  i <observadoresAgendamento.size(); i++)
+	public void notificarObservadorAgendamento() throws BusinessException {
+		List<ObservadorAgendamento> listaObsAgendamentos = RepositorioObsAgendamento.getInstance().getObservers();
+		for(int i = 0;  i <listaObsAgendamentos.size(); i++)
 		{
-			ObservadorAgendamento obs = observadoresAgendamento.get(i);
+			ObservadorAgendamento obs = listaObsAgendamentos.get(i);
 			try{
 				obs.atualizarFila(FilaChamado.getInstance().getFilaAgendamento());
 				
 			}catch(RemoteException e){
 				// se o observador fila está indisponivel, remove
-				observadoresAgendamento.remove(i);
+				RepositorioObsAgendamento.getInstance().removeObserver(listaObsAgendamentos.get(i));
 				i--;
 			}	
 		}	
 	}
 
 	@Override
-	public void removerObservadorAgendamento(ObservadorAgendamento obs)
-			throws RemoteException {
-		observadoresAgendamento.remove(obs);
-		
+	public void removerObservadorAgendamento(ObservadorAgendamento obs) {
+		RepositorioObsAgendamento.getInstance().removeObserver(obs);
 	}
 	
 	@Override
-	public void cadastrarChamado(Chamado chamado) throws RemoteException, BusinessException {
+	public void cadastrarChamado(Chamado chamado) throws BusinessException {
 
 		// TODO: adicionar no banco.
 		boolean inseriu = FacadeChamado.criarChamado(chamado);
@@ -102,7 +94,7 @@ public class ServiceChamadoImpl implements ServiceChamado
 	}
 
 	@Override
-	public void atualizarChamado(Chamado chamado) throws RemoteException, BusinessException {
+	public void atualizarChamado(Chamado chamado) throws BusinessException {
 		HistoricoChamado historicoChamado = FacadeChamado.buscarChamado(chamado);
 		boolean criou = FacadeHistoricoChamado.criarHistoricoChamado(historicoChamado);
 		if(criou)
@@ -118,31 +110,19 @@ public class ServiceChamadoImpl implements ServiceChamado
 					notificarObservadorAgendamento();
 				}
 			}
-			
 		}
-		
-		
 		// atualiza o chamado na fila e notificar.
 		FilaChamado.getInstance().atualizarChamado(chamado);
 		notificarObservadorFila();
-		
 	}
 	
 	@Override
-	public void verificarStatus(ObservadorFila obs) throws RemoteException, BusinessException{
-		if(!observadoresFila.contains(obs)){
-			observadoresFila.add(obs);
+	public void verificarStatus(ObservadorFila obs) throws BusinessException, RemoteException{
+		
+		if(!RepositorioObsChamado.getInstance().getObservers().contains(obs)){
+			RepositorioObsChamado.getInstance().addObserver(obs);
 			obs.atualizarFila(FilaChamado.getInstance().getFila());
 		}
 	}
-	
-	/*
-	 * GETTERs AND SETTERs
-	 */
-	public FilaChamado getFilaChamados() {
-		return filaChamados;
-	}
-	public void setFilaChamados(FilaChamado filaChamados) {
-		this.filaChamados = filaChamados;
-	}
+
 }

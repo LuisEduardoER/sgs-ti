@@ -1,4 +1,4 @@
-package service.remote;
+/*package service.remote;
 
 import java.awt.BorderLayout;
 import java.rmi.RemoteException;
@@ -13,14 +13,14 @@ import common.remote.ServiceChamadoItens;
 import common.remote.ServiceUsuario;
 
 public class ServidorChamados {
-	/**
+	*//**
 	 * 
-	 */
+	 *//*
 	private static final long serialVersionUID = 1L;
 
-	/**
+	*//**
 	 * @param args
-	 */
+	 *//*
 	public static void main(String[] args) {
 
 		try {
@@ -76,3 +76,4 @@ public class ServidorChamados {
 		frame.add(lblChamado,BorderLayout.CENTER);
 	}
 }
+*/

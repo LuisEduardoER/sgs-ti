@@ -5,8 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -59,10 +58,8 @@ public class ShowUsers  implements InternalContent
 				
 					try{
 						String user = jcb.getSelectedItem().toString();
-						Set<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
-						Iterator<UsuarioAutenticado> it = ua.iterator();
-						while(it.hasNext()){
-							UsuarioAutenticado usuario = it.next();
+						LinkedList<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+						for(UsuarioAutenticado usuario : ua)
 							if(usuario.getUsuario().getUsername().equals(user)){
 								try {
 									if(acoes.getSelectedIndex()==0){
@@ -74,7 +71,6 @@ public class ShowUsers  implements InternalContent
 								} catch (RemoteException e1) {
 								}
 							}
-						}
 						atualizaUsuariosComboBox();
 					}catch(RemoteException ex){
 						MainView.getInstance().mostrarMensagemErroRemoto();
@@ -118,7 +114,7 @@ public class ShowUsers  implements InternalContent
 	public void atualizaUsuariosComboBox(){
 		try{
 			
-			Utils.printMsg(this.getClass().getName(), "Atualizando ComboBox");
+			/*Utils.printMsg(this.getClass().getName(), "Atualizando ComboBox");
 			String userName = ClientController.getInstance().getUsuario().getUsername();
 			Set<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
 			Iterator<UsuarioAutenticado> it = ua.iterator();
@@ -128,6 +124,19 @@ public class ShowUsers  implements InternalContent
 				UsuarioAutenticado usuario = it.next();
 				if(!userName.equals(usuario.getUsuario().getUsername()))
 					jcb.addItem(usuario.getUsuario().getUsername());
+			}*/
+			
+			
+			Utils.printMsg(this.getClass().getName(), "Atualizando ComboBox");
+			String userName = ClientController.getInstance().getUsuario().getUsername();
+			jcb.removeAllItems();
+			jcb.addItem("Selecione");
+			
+			LinkedList<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+			for(UsuarioAutenticado usuario : ua){
+				if(!userName.equals(usuario.getUsuario().getUsername())){
+					jcb.addItem(usuario.getUsuario().getUsername());
+				}
 			}
 		}catch(RemoteException e){
 			MainView.getInstance().mostrarMensagemErroRemoto();

@@ -48,7 +48,6 @@ public class CriarChamados implements InternalContent
 	private List<TipoFalha> listFalha;
 	private List<TipoChamado> listTipoChamado;
 	private OuvinteEditarChamado oec;
-	private Chamado chamado;
 
 	/**
 	 * Componetes 
@@ -66,14 +65,12 @@ public class CriarChamados implements InternalContent
 	
 	public CriarChamados()
 	{
-		this.chamado = new Chamado();
 		this.clienteEscolhido = null;
 		try {
 			listFalha = new ArrayList<TipoFalha>();
 
 			servico = Utils.obterServiceChamadoItens();
 		} catch (BusinessException e) {
-			// TODO Vanessa -  Arrumar Exceção
 			new BusinessException("As listas estão vazias, favor preenche-las");
 		}
 	}
@@ -173,8 +170,6 @@ public class CriarChamados implements InternalContent
 
 	public void inicializacaoComponentes()
 	{
-		try {
-
 			clienteTextField.setText("");
 			clienteTextField.setEnabled(false);
 			clienteTextField.setEditable(false);
@@ -225,10 +220,6 @@ public class CriarChamados implements InternalContent
 			}
 
 
-		} catch (RemoteException e) {
-			// TODO Vanessa - Colocar Exception
-			e.printStackTrace();
-		}
 	}
 
 	public void update(Observable o, Object arg) {

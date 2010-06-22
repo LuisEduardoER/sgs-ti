@@ -1,7 +1,8 @@
 package service.task;
 
-import java.rmi.RemoteException;
-import java.util.Iterator;
+import java.util.LinkedList;
+
+import service.base.RepositorioObsUsuario;
 import service.remote.ServiceUsuarioImpl;
 import common.entity.UsuarioAutenticado;
 import common.util.SystemConstant;
@@ -9,13 +10,10 @@ import common.util.Utils;
 
 public class ThreadUserMonitor extends Thread{
 
-	private ServiceUsuarioImpl servicoUsuario;
-	
+
 	public ThreadUserMonitor(ServiceUsuarioImpl servicoUsuario) {
-		// Pega a instancia do ServicoUsuario para enviar as tarefas e pegar usuários autenticados
-		this.servicoUsuario = servicoUsuario;
 	}
-	
+
 	@Override
 	public void run() {
 		Utils.printMsg(this.getClass().getName(),"Inicializando ThreadUserMonitor...");
@@ -26,11 +24,18 @@ public class ThreadUserMonitor extends Thread{
 				// TODO : DENIS - VER EXCEPTIONS
 				// Se tiver algum usuario, verifica o tempo de atividade
 				//Utils.printMsg(this.getClass().getSimpleName(), "Qtde Usuários:" + servicoUsuario.getUsuarioAutenticado().size());
-				if(servicoUsuario.getUsuarioAutenticado().size()>0){
+				if(RepositorioObsUsuario.getInstance().getObservers().size()>0){
 					// Se o tempo de atividade for maior que o máximo, manda extermina-lo
-					Iterator<UsuarioAutenticado> ua = servicoUsuario.getUsuarioAutenticado().iterator();
-					while(ua.hasNext()){
-						UsuarioAutenticado user = ua.next();
+					LinkedList<UsuarioAutenticado> lista = (LinkedList<UsuarioAutenticado>) RepositorioObsUsuario.getInstance().getObservers();
+					for(UsuarioAutenticado user : lista){
+						/*UsuarioAutenticado ua = uas;
+						if(ua.getUsuario().equals(usuario)){
+							Utils.printMsg(this.getClass().getName(),"User encontrado, atualizando horario atual:"+ua.getUltimaAtualizacao().getTime());
+							ua.setUltimaAtualizacao(new Date());
+							Utils.printMsg(this.getClass().getName(),"Novo horário do usuario                   :"+ua.getUltimaAtualizacao().getTime());
+							break;
+						}*/
+						
 						user.getObservador();
 						long ultimaAtividade = user.getUltimaAtualizacao().getTime();
 						double difTime = (System.currentTimeMillis() - ultimaAtividade);
@@ -49,15 +54,14 @@ public class ThreadUserMonitor extends Thread{
 							thread.start();
 							break;
 						}
-						
 					}
+						
+
 				}
 				sleep(SystemConstant.USER_MONITOR_SLEEP_TIME);
 				// ignora excecoes
 			}catch (InterruptedException e) {
-			} catch (RemoteException e) {
 			}
 		}
 	}
-	
 }

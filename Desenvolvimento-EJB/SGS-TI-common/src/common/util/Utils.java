@@ -1,11 +1,11 @@
 package common.util;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Collection;
-
+import java.util.Properties;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import common.exception.BusinessException;
 import common.remote.ServiceChamado;
 import common.remote.ServiceChamadoItens;
@@ -15,49 +15,96 @@ public class Utils {
 
 	public static ServiceChamado obterServiceChamado() throws BusinessException{
 		try{	
-			return (ServiceChamado) Naming.lookup("rmi://localhost/serviceChamado");
-			
-		}catch(RemoteException e){
-			throw new BusinessException("Não consegui conectar ao serviço remoto.");
-		}catch(MalformedURLException e ){
-			
-		}catch(NotBoundException e){
-			
+
+			Properties prop = new Properties();
+			prop.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
+			prop.put(Context.PROVIDER_URL,"jnp://localhost:1099");
+			prop.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:jnp.interfaces");
+
+			InitialContext ctx;
+			ctx = new InitialContext(prop);
+
+			ServiceChamado repo = 
+				(ServiceChamado) ctx.lookup("serviceChamado");
+
+			return repo;
+
+		}catch (NamingException e) {
+			// TODO Auto-generated catch block
+			throw new BusinessException(SystemConstant.MSG_ERRO_OBTER_SERVICO_REMOTO);
 		}
-		return null;
 	}
-	
+
 	public static ServiceUsuario obterServiceUsuario() throws RemoteException, BusinessException{
-		try{	
+		/*try{	
 			return (ServiceUsuario) Naming.lookup("rmi://localhost/serviceUsuario");
-			
+
 		}catch(RemoteException e){
 			throw new BusinessException(SystemConstant.MSG_ERRO_OBTER_SERVICO_REMOTO);
 		}catch(MalformedURLException e ){
 			throw new BusinessException(SystemConstant.MSG_ERRO_CAMINHO_CONEXAO_REMOTO);
 		}catch(NotBoundException e){
 			throw new BusinessException(SystemConstant.MSG_ERRO_OBTER_SERVICO_REMOTO);
+		}*/
+		
+		try{	
+
+			Properties prop = new Properties();
+			prop.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
+			prop.put(Context.PROVIDER_URL,"jnp://localhost:1099");
+			prop.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:jnp.interfaces");
+
+			InitialContext ctx;
+			ctx = new InitialContext(prop);
+
+			ServiceUsuario repo = 
+				(ServiceUsuario) ctx.lookup("serviceUsuario");
+
+			return repo;
+
+		}catch (NamingException e) {
+			// TODO Auto-generated catch block
+			throw new BusinessException(SystemConstant.MSG_ERRO_OBTER_SERVICO_REMOTO);
 		}
 	}
-	
+
 	public static ServiceChamadoItens obterServiceChamadoItens() throws BusinessException{
-		try{	
+		/*try{	
 			return (ServiceChamadoItens) Naming.lookup("rmi://localhost/serviceChamadoItens");
-			
+
 		}catch(RemoteException e){
 			throw new BusinessException("Não consegui conectar ao serviço remoto.");
 		}catch(MalformedURLException e ){
-			
+
 		}catch(NotBoundException e){
 		}
-		return null;
+		return null;*/
+		
+		try{	
+
+			Properties prop = new Properties();
+			prop.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
+			prop.put(Context.PROVIDER_URL,"jnp://localhost:1099");
+			prop.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:jnp.interfaces");
+
+			InitialContext ctx;
+			ctx = new InitialContext(prop);
+
+			ServiceChamadoItens repo = 
+				(ServiceChamadoItens) ctx.lookup("serviceChamadoProperts");
+
+			return repo;
+
+		}catch (NamingException e) {
+			throw new BusinessException(SystemConstant.MSG_ERRO_OBTER_SERVICO_REMOTO);
+		}
 	}
-	
+
 	public static double milisegundosParaMin(double tempo){
 		double min = ((tempo/1000)/60);
 		return min;
 	}
-	
+
 	public static void printMsg(String className, String msg){
 		if(SystemConstant.DEBUG_MODE)
 			System.out.println("["+ className + "]: " + msg);
@@ -73,7 +120,7 @@ public class Utils {
 			System.err.println("\n***************************************************************");
 		}
 	}
-	
+
 	/**
 	 * Verifica se um valor é nulo ou vazio
 	 * 
@@ -108,5 +155,5 @@ public class Utils {
 			return false;
 		}
 	}
-	
+
 }
