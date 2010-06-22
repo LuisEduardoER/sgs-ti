@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -163,7 +162,6 @@ public class EditarChamados extends Observable implements InternalContent
 
 	public void inicializacaoComponentes()
 	{
-		try {
 			if (statusComboBox != null && tipoFalhaComboBox != null) {
 				statusComboBox.removeAll();
 				tipoFalhaComboBox.removeAll();
@@ -229,10 +227,6 @@ public class EditarChamados extends Observable implements InternalContent
 				if(chamado.getStatus().getNome().toString().equals(listStatus.get(i).getNome().toString()))
 					statusComboBox.setSelectedIndex(i);
 			}			
-		} catch (RemoteException e) {
-			// TODO Vanessa - Colocar Exception
-			e.printStackTrace();
-		}
 	}
 
 	/**

@@ -3,9 +3,9 @@ package client.controller;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observer;
-import java.util.Set;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import common.entity.Chamado;
@@ -161,8 +161,6 @@ public class ClientController implements ObserverUsuario, Serializable{
 	public void encerrarSessao(){
 		try {
 			serviceUsuario.removerObservador(this.usuario);
-		} catch (RemoteException e) {
-			e.printStackTrace();
 		} catch (BusinessException e) {
 			mostrarMensagem(e.getMessage());
 		}
@@ -173,7 +171,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 * @return Todos os usuários conectados no Servico Usuário
 	 * @throws RemoteException 
 	 */
-	public Set<UsuarioAutenticado> getUsuariosAutenticados() throws RemoteException{
+	public LinkedList<UsuarioAutenticado> getUsuariosAutenticados() throws RemoteException{
 		try {
 			return serviceUsuario.getUsuarioAutenticado();
 		} catch (BusinessException e) {
@@ -205,9 +203,6 @@ public class ClientController implements ObserverUsuario, Serializable{
 		try {
 			Utils.printMsg(this.getClass().getName(), "Atualizando chamado");
 			serviceChamado.atualizarChamado(chamado);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (BusinessException e) {
 			mostrarMensagem(e.getMessage());
 		}

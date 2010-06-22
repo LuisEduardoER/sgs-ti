@@ -10,10 +10,6 @@ public class ThreadNotificadorUsuario extends Thread{
 
 	private UsuarioAutenticado usuario;
 	private int tarefa;
-	private String mensagem;
-	private String titulo;
-	private int tipoAlerta;
-	private int acao;
 	
 	public static final int MSG_INFO = JOptionPane.INFORMATION_MESSAGE;
 	public static final int MSG_ERRO = JOptionPane.ERROR_MESSAGE;
@@ -31,10 +27,6 @@ public class ThreadNotificadorUsuario extends Thread{
 	public ThreadNotificadorUsuario(UsuarioAutenticado usuario, int tarefa, String mensagem, String titulo, int tipoAlerta, int acao) {
 		this.usuario = usuario;
 		this.tarefa = tarefa;
-		this.mensagem = mensagem;
-		this.titulo = titulo;
-		this.tipoAlerta = tipoAlerta;
-		this.acao = acao;
 	}
 	
 	public ThreadNotificadorUsuario(UsuarioAutenticado usuario, int tarefa) {

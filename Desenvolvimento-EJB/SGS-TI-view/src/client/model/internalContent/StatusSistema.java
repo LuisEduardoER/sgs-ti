@@ -5,8 +5,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -57,9 +56,8 @@ public class StatusSistema  implements InternalContent
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					Set<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
-					if(!Utils.isEmptyCollection(ua)){
-						numUser.setText(String.valueOf(ua.size()));
+					if(!Utils.isEmptyCollection(ClientController.getInstance().getUsuariosAutenticados())){
+						numUser.setText(String.valueOf(ClientController.getInstance().getUsuariosAutenticados().size()));
 					}
 				}catch(RemoteException ex){
 					MainView.getInstance().mostrarMensagemErroRemoto();
@@ -76,10 +74,9 @@ public class StatusSistema  implements InternalContent
 				try{
 					// Mata todos os usuários menos ele mesmo
 					Usuario user = ClientController.getInstance().getUsuario();
-					Set<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
-					Iterator<UsuarioAutenticado> it = ua.iterator();
-					while(it.hasNext()){
-						UsuarioAutenticado usuario = it.next();
+					LinkedList<UsuarioAutenticado> ua = ClientController.getInstance().getUsuariosAutenticados();
+					
+					for(UsuarioAutenticado usuario : ua){
 						if(!usuario.getUsuario().equals(user)){
 							try {
 								usuario.getObservador().encerrarClient();
@@ -89,6 +86,8 @@ public class StatusSistema  implements InternalContent
 							}
 						}
 					}
+					
+						
 				}catch (RemoteException ex) {
 					MainView.getInstance().mostrarMensagemErroRemoto();
 				}
