@@ -13,5 +13,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SGS-TI-common"/>
+	<classpathentry exported="true" kind="lib" path="ejbModule/META-INF/resources/driver/ojdbc14_b.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

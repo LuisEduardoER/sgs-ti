@@ -6,7 +6,6 @@ import java.util.Date;
 
 public class Chamado implements Serializable 
 {
-	
 	private static final long serialVersionUID = 1L;
 	private int codigo;
 	private Date dataAbertura;
@@ -28,7 +27,6 @@ public class Chamado implements Serializable
 	}
 	
 	/**
-	 * 
 	 * @param dataAbertura
 	 * @param dataFechamento
 	 * @param descricao
@@ -52,10 +50,8 @@ public class Chamado implements Serializable
 		this.status = status;
 		this.usuario= usuarioLogado;
 	}
-
 	
 	/**
-	 * 
 	 * @param codigo
 	 * @param dataAbertura
 	 * @param dataFechamento
@@ -82,7 +78,6 @@ public class Chamado implements Serializable
 		this.usuario= usuarioLogado;
 		this.contato = contato;
 	}
-
 	
 	public void atualizaPrioridade(){
 		this.prioridade = new Prioridade(getTipoChamado().getValor(), getPj().getPorte().getValor(), getDataAbertura());
@@ -192,6 +187,35 @@ public class Chamado implements Serializable
 		this.pj = pj;
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + codigo;
+		result = prime * result
+				+ ((dataAbertura == null) ? 0 : dataAbertura.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Chamado other = (Chamado) obj;
+		if (codigo != other.codigo)
+			return false;
+		if (dataAbertura == null) {
+			if (other.dataAbertura != null)
+				return false;
+		} else if (!dataAbertura.equals(other.dataAbertura))
+			return false;
+		return true;
+	}
+
 	public void pritChamado(){
 		System.out.println("\n*********************************");
 		System.out.println("\t codigo: " + codigo);

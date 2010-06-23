@@ -17,9 +17,7 @@ public class SQLHistoricoChamado implements DAOHistoricoChamado
 	private static final boolean DEBUG = true;
 	private static String INSERIR_HISTORICO_CHAMADO = ".jdbc.INSERIR_HISTORICO_CHAMADO";
 
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
+
 	@Override
 	public boolean adicionaHistoricoChamado(HistoricoChamado chamado)  throws BusinessException 
 	{
@@ -27,21 +25,28 @@ public class SQLHistoricoChamado implements DAOHistoricoChamado
 		String sql= null;
 		
 		try {
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + INSERIR_HISTORICO_CHAMADO);
 			
 			if(DEBUG)
 				System.out.println(sql);
 			
-			PreparedStatement stmt = con.prepareStatement(sql);
-			chamado = new HistoricoChamado();
+			java.util.Date agendamento;
 			
-			stmt.setDate(1, (Date) chamado.getDataAtualizacao());
+			if(chamado.getDataAgentamento() == null)
+				agendamento = null;
+			else
+				agendamento = new Date (chamado.getDataAgentamento().getTime());
+			     
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			
+			stmt.setDate(1, new Date(chamado.getDataAtualizacao().getTime()));
 			stmt.setString(2, chamado.getDescricao());
-			stmt.setDate(3, (Date) chamado.getDataAgentamento());
+			stmt.setDate(3, (Date) agendamento);
 			stmt.setInt(4, chamado.getCod_status());
 			stmt.setInt(5, chamado.getCod_usuario_registro());
 			stmt.setInt(6, chamado.getCod_chamado());
@@ -63,7 +68,7 @@ public class SQLHistoricoChamado implements DAOHistoricoChamado
 			return false;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		return true;
 	}	

@@ -47,4 +47,43 @@ public abstract class Cliente extends Pessoa
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((porte == null) ? 0 : porte.hashCode());
+		result = prime * result
+				+ ((usuarios == null) ? 0 : usuarios.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (porte == null) {
+			if (other.porte != null)
+				return false;
+		} else if (!porte.equals(other.porte))
+			return false;
+		if (usuarios == null) {
+			if (other.usuarios != null)
+				return false;
+		} else if (!usuarios.equals(other.usuarios))
+			return false;
+		return true;
+	}
+
 }

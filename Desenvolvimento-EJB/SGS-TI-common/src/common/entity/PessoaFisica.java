@@ -10,7 +10,6 @@ public class PessoaFisica extends Cliente
 	private String sexo;
 	private Date dataNascimento;
 	private long CPF;
-
 	
 	/**
 	 * Construtor.
@@ -60,4 +59,46 @@ public class PessoaFisica extends Cliente
 	public void setCPF(long cPF) {
 		CPF = cPF;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + (int) (CPF ^ (CPF >>> 32));
+		result = prime * result
+				+ ((dataNascimento == null) ? 0 : dataNascimento.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PessoaFisica other = (PessoaFisica) obj;
+		if (CPF != other.CPF)
+			return false;
+		if (dataNascimento == null) {
+			if (other.dataNascimento != null)
+				return false;
+		} else if (!dataNascimento.equals(other.dataNascimento))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (sexo == null) {
+			if (other.sexo != null)
+				return false;
+		} else if (!sexo.equals(other.sexo))
+			return false;
+		return true;
+	}
+	
 }

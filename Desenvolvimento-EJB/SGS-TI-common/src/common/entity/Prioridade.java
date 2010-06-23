@@ -74,5 +74,46 @@ public class Prioridade implements Serializable
 	}
 	public void setValorEspera(int valorEspera) {
 		this.valorEspera = valorEspera;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((horaAtualizacao == null) ? 0 : horaAtualizacao.hashCode());
+		result = prime * result + valorEspera;
+		result = prime * result + valorPorte;
+		result = prime * result + valorPrioridade;
+		result = prime * result + valorTipoChamado;
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Prioridade other = (Prioridade) obj;
+		if (horaAtualizacao == null) {
+			if (other.horaAtualizacao != null)
+				return false;
+		} else if (!horaAtualizacao.equals(other.horaAtualizacao))
+			return false;
+		if (valorEspera != other.valorEspera)
+			return false;
+		if (valorPorte != other.valorPorte)
+			return false;
+		if (valorPrioridade != other.valorPrioridade)
+			return false;
+		if (valorTipoChamado != other.valorTipoChamado)
+			return false;
+		return true;
 	}	
+	
 }

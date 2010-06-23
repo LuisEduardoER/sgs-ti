@@ -20,18 +20,15 @@ public class SQLStatus implements DAOStatus{
 	private static String PROCURAR_STATUS_BY_ID = ".jdbc.PROCURAR_STATUS_BY_ID";
 	private static String LISTAR_TODOS_STATUS = ".jdbc.LISTAR_TODOS_STATUS";
 	
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
 	public boolean adicionaStatus(StatusChamado status) throws BusinessException {
 		Connection con = null;
 		String sql= null;
 		
 		try {
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + INSERIR_STATUS);
 			
 			if(DEBUG)
@@ -57,23 +54,20 @@ public class SQLStatus implements DAOStatus{
 			return false;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		return true;
 	}
 
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
 	public int procurarStatus(StatusChamado status) throws BusinessException {
 		Connection con = null;
 		String sql = null;
 			
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + PROCURAR_STATUS);
 			
 			if(DEBUG)
@@ -87,7 +81,7 @@ public class SQLStatus implements DAOStatus{
 			int codigo = -1;
 			
 			while(rs.next()){
-				codigo = Integer.parseInt(rs.getString("codigoTipoFalha"));
+				codigo = rs.getInt("CODIGO");
 			}					
 			rs.close();
 			stmt.close();
@@ -98,7 +92,7 @@ public class SQLStatus implements DAOStatus{
 			return -1;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 
@@ -109,9 +103,9 @@ public class SQLStatus implements DAOStatus{
 			
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + PROCURAR_STATUS_BY_ID);
 			
 			if(DEBUG)
@@ -135,7 +129,7 @@ public class SQLStatus implements DAOStatus{
 			return null;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 	
@@ -146,9 +140,9 @@ public class SQLStatus implements DAOStatus{
 			
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + LISTAR_TODOS_STATUS);
 			
 			if(DEBUG)
@@ -174,7 +168,7 @@ public class SQLStatus implements DAOStatus{
 			return null;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 }

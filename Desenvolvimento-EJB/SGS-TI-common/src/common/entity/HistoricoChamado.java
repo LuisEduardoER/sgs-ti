@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class HistoricoChamado implements Serializable
 {
-
 	private static final long serialVersionUID = 1L;
 	private long numeroChamado;
 	private Date dataAtualizacao;
@@ -71,4 +70,58 @@ public class HistoricoChamado implements Serializable
 	public void setCod_chamado(int codChamado) {
 		cod_chamado = codChamado;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + cod_chamado;
+		result = prime * result + cod_status;
+		result = prime * result + cod_usuario_registro;
+		result = prime * result
+				+ ((dataAgentamento == null) ? 0 : dataAgentamento.hashCode());
+		result = prime * result
+				+ ((dataAtualizacao == null) ? 0 : dataAtualizacao.hashCode());
+		result = prime * result
+				+ ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result
+				+ (int) (numeroChamado ^ (numeroChamado >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HistoricoChamado other = (HistoricoChamado) obj;
+		if (cod_chamado != other.cod_chamado)
+			return false;
+		if (cod_status != other.cod_status)
+			return false;
+		if (cod_usuario_registro != other.cod_usuario_registro)
+			return false;
+		if (dataAgentamento == null) {
+			if (other.dataAgentamento != null)
+				return false;
+		} else if (!dataAgentamento.equals(other.dataAgentamento))
+			return false;
+		if (dataAtualizacao == null) {
+			if (other.dataAtualizacao != null)
+				return false;
+		} else if (!dataAtualizacao.equals(other.dataAtualizacao))
+			return false;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (numeroChamado != other.numeroChamado)
+			return false;
+		return true;
+	}
+	
 }

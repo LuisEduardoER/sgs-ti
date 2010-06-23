@@ -15,6 +15,7 @@ import common.exception.BusinessException;
 import common.remote.ObservadorAgendamento;
 import common.remote.ObservadorFila;
 import common.remote.ServiceChamado;
+import common.util.SystemConstant;
 import common.util.Utils;
 
 @Stateless
@@ -29,7 +30,13 @@ public class ServiceChamadoImpl implements ServiceChamado
 	@Override
 	public void adicionarObservadorFila(ObservadorFila obs) throws BusinessException
 	{
-		RepositorioObsChamado.getInstance().addObserver(obs);
+		try {
+			RepositorioObsChamado.getInstance().addObserver(obs);
+			obs.atualizarFila(FilaChamado.getInstance().getFila());
+		} catch (RemoteException e) {
+			Utils.printErro(ServiceChamadoImpl.class.getName(), e);
+			throw new BusinessException(SystemConstant.MSG_ERRO_CALLBACK);
+		}
 	}
 	
 	@Override
@@ -55,8 +62,15 @@ public class ServiceChamadoImpl implements ServiceChamado
 	}
 
 	@Override
-	public void adicionarObservadorAgendamento(ObservadorAgendamento obs) throws BusinessException, RemoteException {
-		RepositorioObsAgendamento.getInstance().addObserver(obs);
+	public void adicionarObservadorAgendamento(ObservadorAgendamento obs) throws BusinessException {
+		try{
+			RepositorioObsAgendamento.getInstance().addObserver(obs);
+			obs.atualizarFila(FilaChamado.getInstance().getFilaAgendamento());
+			
+		} catch (RemoteException e) {
+			Utils.printErro(ServiceChamadoImpl.class.getName(), e);
+			throw new BusinessException(SystemConstant.MSG_ERRO_CALLBACK);
+		}
 	}
 	
 	@Override
@@ -96,6 +110,8 @@ public class ServiceChamadoImpl implements ServiceChamado
 	@Override
 	public void atualizarChamado(Chamado chamado) throws BusinessException {
 		HistoricoChamado historicoChamado = FacadeChamado.buscarChamado(chamado);
+		historicoChamado.setDataAgentamento(chamado.getDataAgendamento());
+		
 		boolean criou = FacadeHistoricoChamado.criarHistoricoChamado(historicoChamado);
 		if(criou)
 		{
@@ -107,12 +123,16 @@ public class ServiceChamadoImpl implements ServiceChamado
 				{
 					// TODO - Notificar ListarAgenda
 					FilaChamado.getInstance().adicionaAgendamento(chamado);
-					notificarObservadorAgendamento();
+					FilaChamado.getInstance().atualizarAgendamento(chamado);
 				}
+				else
+					FilaChamado.getInstance().removeAgendamento(chamado);
 			}
 		}
 		// atualiza o chamado na fila e notificar.
 		FilaChamado.getInstance().atualizarChamado(chamado);
+		
+		notificarObservadorAgendamento();
 		notificarObservadorFila();
 	}
 	

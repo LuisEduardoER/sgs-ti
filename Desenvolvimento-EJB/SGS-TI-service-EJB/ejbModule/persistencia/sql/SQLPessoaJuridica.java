@@ -34,9 +34,9 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 			
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + PROCURAR_PJ_BY_ID);
 			
 			if(DEBUG)
@@ -66,7 +66,7 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 			return null;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 
@@ -77,9 +77,9 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 		List<PessoaJuridica> pjs = new ArrayList<PessoaJuridica>();
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + PROCURAR_PJ_BY_DESC);
 			
 			if(DEBUG)
@@ -113,7 +113,7 @@ public class SQLPessoaJuridica implements DAOPessoaJuridica{
 			return null;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		
 	}

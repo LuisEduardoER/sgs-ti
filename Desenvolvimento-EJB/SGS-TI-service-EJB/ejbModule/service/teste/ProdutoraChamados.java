@@ -97,7 +97,7 @@ public class ProdutoraChamados extends Thread {
 				Utils.printMsg(this.getClass().getName(), "Cadastrando novo chamado.");
 				
 				// dorme um pouco
-				long time = new Random().nextInt(5000);
+				long time = 100+ new Random().nextInt(5000);
 				Thread.sleep(time);
 
 			} catch (InterruptedException e) {
