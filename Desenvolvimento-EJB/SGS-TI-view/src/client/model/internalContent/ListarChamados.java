@@ -167,7 +167,9 @@ public class ListarChamados implements InternalContent, Observer{
 	@Override
 	public void update(Observable o, Object listaChamados) {
 		try{
-
+			if(listaChamados == null)
+				throw new IllegalArgumentException("Lista de chamados esta vazia.");
+			
 			atualizarFila((List<Chamado>)listaChamados);
 
 		}catch(Exception e){

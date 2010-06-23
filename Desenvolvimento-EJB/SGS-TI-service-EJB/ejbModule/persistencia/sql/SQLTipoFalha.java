@@ -21,19 +21,17 @@ public class SQLTipoFalha implements DAOTipoFalha{
 	
 	private static String LISTAR_TODOS = ".jdbc.LISTAR_TODOS_TIPO_FALHA";
 	
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
+
 	@Override
 	public boolean adicionaTipoFalha(TipoFalha tipoFalha) throws BusinessException {
 		Connection con = null;
 		String sql= null;
 		
 		try {
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + INSERIR_TIPO_FALHA);
 			
 			if(DEBUG)
@@ -59,14 +57,11 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			return false;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		return true;
 	}
 
-	/**
-	 * TODO - Descrever melhor os campos
-	 */
 	@Override
 	public int procurarTipoFalha(TipoFalha tipoFalha) throws BusinessException {
 		Connection con = null;
@@ -74,9 +69,9 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + PROCURAR_TIPO_FALHA);
 			
 			if(DEBUG)
@@ -90,7 +85,7 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			int codigo = -1;
 			
 			while(rs.next()){
-				codigo = Integer.parseInt(rs.getString("codigoTipoFalha"));
+				codigo = Integer.parseInt(rs.getString("codigo"));
 			}
 			rs.close();
 			stmt.close();
@@ -101,7 +96,7 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			return -1;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 	
@@ -111,9 +106,9 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + LISTAR_TODOS);
 			
 			if(DEBUG)
@@ -139,7 +134,7 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			return null;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 
@@ -150,9 +145,9 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + PROCURAR_TIPO_FALHA_BY_ID);
 			
 			if(DEBUG)
@@ -177,7 +172,7 @@ public class SQLTipoFalha implements DAOTipoFalha{
 			return null;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}	
 }

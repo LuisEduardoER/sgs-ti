@@ -36,7 +36,7 @@ public class SQLUsuario implements DAOUsuario{
 			// Obtem a conexão
 			con = Conexao.obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + VERIFICA_USERNAME);
 			
 			if(DEBUG)
@@ -66,7 +66,7 @@ public class SQLUsuario implements DAOUsuario{
 			return false;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}*/
 		return true;
 	}
@@ -80,10 +80,10 @@ public class SQLUsuario implements DAOUsuario{
 		String sql= null;
 		
 		try {
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + INSERIR_USER);
 			
 			if(DEBUG)
@@ -110,7 +110,7 @@ public class SQLUsuario implements DAOUsuario{
 			return false;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		return true;
 
@@ -127,10 +127,10 @@ public class SQLUsuario implements DAOUsuario{
 
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + AUTENTICAR_USER);
 
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -157,7 +157,7 @@ public class SQLUsuario implements DAOUsuario{
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return null;
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		
 	}
@@ -177,10 +177,10 @@ public class SQLUsuario implements DAOUsuario{
 		
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + OBTER_CODIGO_USUARIO);
 			
 			if(DEBUG)
@@ -202,7 +202,7 @@ public class SQLUsuario implements DAOUsuario{
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return -1;
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 
@@ -215,7 +215,7 @@ public class SQLUsuario implements DAOUsuario{
 		String sql= "UPDATE usuario SET senha=? WHERE login=?";
 
 		try {
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			PreparedStatement stmt = con.prepareStatement(sql);
 			
 			stmt.setString(1, user.getPassword());
@@ -236,7 +236,7 @@ public class SQLUsuario implements DAOUsuario{
 			return false;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		return true;
 	}
@@ -248,10 +248,10 @@ public class SQLUsuario implements DAOUsuario{
 		
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + OBTER_USUARIO_BY_ID);
 			
 			if(DEBUG)
@@ -278,7 +278,7 @@ public class SQLUsuario implements DAOUsuario{
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return null;
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 }

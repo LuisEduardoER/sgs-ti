@@ -28,9 +28,9 @@ public class SQLPorte implements DAOPorte{
 			
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + PROCURAR_PORTE_BY_ID);
 			
 			if(DEBUG)
@@ -55,7 +55,7 @@ public class SQLPorte implements DAOPorte{
 			return null;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 

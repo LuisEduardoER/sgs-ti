@@ -12,6 +12,7 @@ public class RepositorioObsChamado {
 	
 	
 	private RepositorioObsChamado(){
+		mutex = new Object();
 		listaObsFila = new LinkedList<ObservadorFila>();
 	}
 	

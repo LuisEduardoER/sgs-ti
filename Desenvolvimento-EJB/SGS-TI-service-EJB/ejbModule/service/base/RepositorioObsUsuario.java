@@ -17,6 +17,7 @@ public class RepositorioObsUsuario {
 	}
 	
 	private RepositorioObsUsuario(){
+		mutex = new Object();
 		listaUserAutenticado = new LinkedList<UsuarioAutenticado>();
 	}
 	

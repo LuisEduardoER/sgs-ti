@@ -11,6 +11,7 @@ public class RepositorioObsAgendamento {
 	
 	
 	private RepositorioObsAgendamento(){
+		mutex = new Object();
 		listaObsAgendamento = new LinkedList<ObservadorAgendamento>();
 	}
 	

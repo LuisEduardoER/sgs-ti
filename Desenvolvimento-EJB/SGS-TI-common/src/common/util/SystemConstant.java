@@ -26,6 +26,7 @@ public class SystemConstant {
 	// Constantes de erro
 	public static final String MSG_ERRO_OBTER_SERVICO_REMOTO = "Ocorreu um erro ao subir o serviço remoto.";
 	public static final String MSG_ERRO_CAMINHO_CONEXAO_REMOTO = "A string de conexão é inválida.";	
+	public static final String MSG_ERRO_CALLBACK = "Ocorreu um erro ao notificar um cliente (callback).";
 	
 	// Constantes de erro amigaveis - view
 	public static final String MSG_AM_USUARIO_INVALIDO = "Usuário ou senha inválido.";

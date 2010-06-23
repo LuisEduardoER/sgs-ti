@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import common.exception.BusinessException;
 import common.util.SystemConstant;
+import common.util.Utils;
 
 /**
  * 
@@ -17,42 +18,32 @@ import common.util.SystemConstant;
  */
 public class Conexao {
 
-	private static final String ARQUIVO_CONF = "META-INF/conexao.properties";
+	private static final String ARQUIVO_CONF = "META-INF/resources/properties/conexao.properties";
 	private static Connection con;
-	private static final Properties configuracoes;
+	private Properties configuracoes;
 	private static Conexao instance;
-
-	/*
-	 * código-fonte estático que é executado assim que o ClassLoader carrega a
-	 * classe na memória. Assim o atributo de configurações é carregado apenas
-	 * uma vez, não precisando ser carregado diversas vezes desnecessariamente.
-	 */
 	
-	static 
-	{	
+	private Conexao() throws BusinessException {
 		try {
 			InputStream is = Conexao.class.getClassLoader().getResourceAsStream(ARQUIVO_CONF);
+			
+			if(is==null)
+				throw new BusinessException("Arquivo de configurações da conexão inválido.");
+			
 			configuracoes = new Properties();
 			configuracoes.load(is);
-		
-			/**
-			 * TODO - Arrumar Exceptio
-			 */
-		} catch (IOException e) {
-			throw new RuntimeException("Erro de I/O", e);
-		}
-	}
-	
-	private Conexao() {
-		try {
+			
 			con = criarConexao();
 			System.out.println("conexao criada");
-		} catch (BusinessException e) {
-			e.printStackTrace();
+			
+			
+		} catch (IOException e) {
+			Utils.printErro(Conexao.class.getName(), e);
+			throw new BusinessException("Erro ao ler o arquivo de propriedades da conexão.");
 		}
 	}
 	
-	public static Conexao getInstance(){
+	public static Conexao getInstance() throws BusinessException {
 		if(instance == null)
 			instance = new Conexao();
 		return instance;
@@ -63,7 +54,7 @@ public class Conexao {
 	 * @return Connection
 	 * @throws BusinessException 
 	 */
-	public static Connection obterConexao() throws BusinessException {
+	public Connection obterConexao() throws BusinessException {
 		if(instance == null)
 			instance = new Conexao();
 		return con;
@@ -90,6 +81,7 @@ public class Conexao {
 			return con;
 
 		} catch (Exception e) {
+			Utils.printErro(Conexao.class.getName(), e);
 			throw new BusinessException(SystemConstant.MSG_AM_ERRO_CONEXAO);
 		}
 }
@@ -97,7 +89,7 @@ public class Conexao {
 	 * Fecha uma conexão.
 	 * @param con conexão.
 	 */
-	public static void fecharConexao(Connection con) {
+	public void fecharConexao(Connection con) {
 
 		/*try {
 			System.out.println("fechando conexao..");
@@ -109,7 +101,7 @@ public class Conexao {
 		
 	}
 	
-	public static String obterOrigem() {
+	public String obterOrigem() {
 		return configuracoes.getProperty("jdbc.origem");
 	}
 }

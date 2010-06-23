@@ -46,9 +46,11 @@ public class FilaChamado extends Observable
 	}
 
 	public synchronized void removeChamado(Chamado chamado){
-		fila.remove(chamado);
-		setChanged();
-		notifyAll();
+		if(fila.contains(chamado)){
+			fila.remove(chamado);
+			setChanged();
+			notifyAll();
+		}
 	}
 	public synchronized void adicionaChamado(Chamado chamado){
 		fila.add(chamado);
@@ -56,10 +58,25 @@ public class FilaChamado extends Observable
 		notifyAll();
 	}
 	public synchronized void atualizarChamado(Chamado chamado){
+		/*
+		boolean achou = false;
 		for(Chamado c : fila){
-			if(c.equals(chamado))
+			if(c.equals(chamado)){
+				achou = true;
 				c = chamado;
+			}
 		}
+		if(!achou)
+			adicionaChamado(chamado);
+		*/
+		
+		try {
+			fila = FacadeChamado.buscarChamadosAbertos();
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace(); 
+		}
+		
 	}
 	
 	public synchronized void removeAgendamento(Chamado chamado){
@@ -73,10 +90,15 @@ public class FilaChamado extends Observable
 		notifyAll();
 	}
 	public synchronized void atualizarAgendamento(Chamado chamado){
+		boolean achou = false;
 		for(Chamado c : fila){
-			if(c.equals(chamado))
+			if(c.equals(chamado)){
 				c = chamado;
+				achou =  true;
+			}
 		}
+		if(!achou)
+			adicionaAgendamento(chamado);
 	}
 	
 	/**

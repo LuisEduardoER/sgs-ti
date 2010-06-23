@@ -31,10 +31,10 @@ public class SQLClienteUsuario implements DAOClienteUsuario{
 		
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + PEGAR_CLIENTE_PJ);
 			
 			if(DEBUG)
@@ -67,7 +67,7 @@ public class SQLClienteUsuario implements DAOClienteUsuario{
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return null;
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 	
@@ -78,10 +78,10 @@ public class SQLClienteUsuario implements DAOClienteUsuario{
 		//TODO tem q arrumar, igual PJ
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + PEGAR_CLIENTE_PF);
 			
 			if(DEBUG)
@@ -112,7 +112,7 @@ public class SQLClienteUsuario implements DAOClienteUsuario{
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return null;
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 }

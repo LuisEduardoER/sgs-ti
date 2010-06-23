@@ -8,7 +8,7 @@ import java.util.Properties;
 import persistencia.util.Conexao;
 
 public class FabricaSql {
-	private static final String ARQUIVO_COMANDOS = "META-INF/sql.properties";
+	private static final String ARQUIVO_COMANDOS = "META-INF/resources/properties/sql.properties";
 	private static final boolean DEBUG = false;
 	private static Properties sqlProperties;
 	private static HashMap<String, String> cache;

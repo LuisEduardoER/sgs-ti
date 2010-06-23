@@ -16,23 +16,21 @@ import persistencia.util.SQLExceptionHandler;
 public class SQLTipoChamado implements DAOTipoChamado{
 	private static final boolean DEBUG = true;
 	private static String INSERIR_TIPO_CHAMADO = ".jdbc.INSERIR_TIPO_CHAMADO";
-	//private static String PROCURAR_TIPO_CHAMADO = ".jdbc.PROCURAR_TIPO_CHAMADO";
+	private static String PROCURAR_TIPO_CHAMADO = ".jdbc.PROCURAR_TIPO_CHAMADO";
 	private static String PROCURAR_TIPO_CHAMADO_BY_ID = ".jdbc.PROCURAR_TIPO_CHAMADO_BY_ID";
 	private static String LISTAR_TODOS = ".jdbc.LISTAR_TODOS_TIPO_CHAMADO";
 
-	/**
-	 * TODO - Descrever melhor os campos
-	 */	
+
 	@Override
 	public boolean adicionaTipoChamado(TipoChamado tipoChamado) throws BusinessException {
 		Connection con = null;
 		String sql= null;
 		
 		try {
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + INSERIR_TIPO_CHAMADO);
 			
 			if(DEBUG)
@@ -58,13 +56,12 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			return false;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		return true;
 	}
 
 	/**
-	 * TODO - Descrever melhor os campos
 	 * @throws BusinessException 
 	 */
 	@Override
@@ -74,9 +71,9 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + LISTAR_TODOS);
 			
 			if(DEBUG)
@@ -103,7 +100,7 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			return null;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 
@@ -114,9 +111,9 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + PROCURAR_TIPO_CHAMADO_BY_ID);
 			
 			if(DEBUG)
@@ -142,13 +139,45 @@ public class SQLTipoChamado implements DAOTipoChamado{
 			return null;
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 
 	@Override
 	public int procurarTipoChamado(TipoChamado tipoChamado)
 			throws BusinessException {
-		return 0;
+		Connection con = null;
+		String sql = null;
+			
+		try {
+			// Obtem a conexão
+			con = Conexao.getInstance().obterConexao();
+			
+			String origem = Conexao.getInstance().obterOrigem();
+			sql = FabricaSql.getSql(origem + PROCURAR_TIPO_CHAMADO);
+			
+			if(DEBUG)
+				System.out.println("SQL - " + sql);
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, tipoChamado.getNome());
+			
+			ResultSet rs = stmt.executeQuery();
+	
+			while(rs.next()){
+				int codigo = rs.getInt("CODIGO");
+				
+				return codigo;
+			}					
+			stmt.close();
+			return -1;
+			
+		} catch (SQLException e) {
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
+			return -1;
+			
+		} finally {
+			Conexao.getInstance().fecharConexao(con);
+		}
 	}	
 }

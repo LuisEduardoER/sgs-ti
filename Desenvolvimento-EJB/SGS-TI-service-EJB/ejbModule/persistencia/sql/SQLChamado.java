@@ -35,10 +35,10 @@ public class SQLChamado implements DAOChamado{
 		String sql= null;
 		
 		try {
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + INSERIR_CHAMADO);
 			
 			if(DEBUG)
@@ -75,7 +75,7 @@ public class SQLChamado implements DAOChamado{
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		return true;
 	}
@@ -85,27 +85,27 @@ public class SQLChamado implements DAOChamado{
 		Connection con = null;
 		String sql= null;
 		
-		String origem = Conexao.obterOrigem();
+		String origem = Conexao.getInstance().obterOrigem();
 		sql = FabricaSql.getSql(origem + ATUALIZAR_CHAMADO_CAMPOS);
 
+		int codigoTipoChamado = FacadeTipoChamado.procurarTipoChamado(chamado.getTipoChamado());
 		int codigoTipoFalha = FacadeTipoFalha.procurarTipoFalha(chamado.getTipoFalha());
 		int codigoStatus = FacadeStatus.procurarStatus(chamado.getStatus());
 		
 		try {
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			PreparedStatement stmt = con.prepareStatement(sql);
 
-			java.util.Date agendamento = null;
-			
-			stmt.setDate(1, (java.sql.Date) chamado.getDataFechamento());
-			stmt.setString(2, chamado.getDetalhes());
+			stmt.setDate(1, (java.sql.Date) chamado.getDataFechamento());	//DATA_FECHAMENTO
+			stmt.setString(2, chamado.getDetalhes());	//DETALHES
 			if (chamado.getDataAgendamento() == null) {
-				stmt.setDate(3, (java.sql.Date) agendamento);
+				stmt.setDate(3, null);	//DATA_AGENDAMENTO
 			}else
-				stmt.setDate(3, new java.sql.Date(chamado.getDataAgendamento().getTime()));
-			stmt.setInt(4, codigoStatus);
-			stmt.setInt(6, codigoTipoFalha);
-			stmt.setLong(7, chamado.getCodigo());
+				stmt.setDate(3, new java.sql.Date(chamado.getDataAgendamento().getTime()));	//DATA_AGENDAMENTO
+			stmt.setInt(4, codigoStatus);	//CODIGO_STATUS
+			stmt.setInt(5, codigoTipoChamado);	//CODIGO_TIPO_CHAMADO
+			stmt.setInt(6, codigoTipoFalha);	//CODIGO_TIPO_FALHA
+			stmt.setLong(7, chamado.getCodigo());	//CODIGO
 			
 			int qtd = stmt.executeUpdate();
 
@@ -117,10 +117,10 @@ public class SQLChamado implements DAOChamado{
 				con.commit();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro SQL", e);
+			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		return true;
 	}
@@ -132,10 +132,10 @@ public class SQLChamado implements DAOChamado{
 		
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + BUSCAR_CHAMADO);
 			
 			if(DEBUG)
@@ -161,7 +161,7 @@ public class SQLChamado implements DAOChamado{
 		} catch (SQLException e) {
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 		return null;
 	}
@@ -173,10 +173,10 @@ public class SQLChamado implements DAOChamado{
 		
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + BUSCAR_CHAMADOS_ABERTOS);
 			
 			if(DEBUG)
@@ -224,7 +224,7 @@ public class SQLChamado implements DAOChamado{
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return null;
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 
@@ -235,10 +235,10 @@ public class SQLChamado implements DAOChamado{
 		
 		try {
 			// Obtem a conexão
-			con = Conexao.obterConexao();
+			con = Conexao.getInstance().obterConexao();
 			con.setAutoCommit(false);
 			
-			String origem = Conexao.obterOrigem();
+			String origem = Conexao.getInstance().obterOrigem();
 			sql = FabricaSql.getSql(origem + BUSCAR_CHAMADOS_AGENDADOS);
 			
 			if(DEBUG)
@@ -286,7 +286,7 @@ public class SQLChamado implements DAOChamado{
 			SQLExceptionHandler.tratarSQLException(this.getClass().getName(), e);
 			return null;
 		} finally {
-			Conexao.fecharConexao(con);
+			Conexao.getInstance().fecharConexao(con);
 		}
 	}
 }

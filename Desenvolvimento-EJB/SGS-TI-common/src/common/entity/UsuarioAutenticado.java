@@ -55,4 +55,38 @@ public class UsuarioAutenticado implements Serializable, Cloneable
 	protected Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((ultimaAtualizacao == null) ? 0 : ultimaAtualizacao
+						.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UsuarioAutenticado other = (UsuarioAutenticado) obj;
+		if (ultimaAtualizacao == null) {
+			if (other.ultimaAtualizacao != null)
+				return false;
+		} else if (!ultimaAtualizacao.equals(other.ultimaAtualizacao))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
+			return false;
+		return true;
+	}
 }
