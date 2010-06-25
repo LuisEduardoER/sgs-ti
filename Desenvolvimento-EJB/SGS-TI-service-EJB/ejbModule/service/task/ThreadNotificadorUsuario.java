@@ -50,7 +50,6 @@ public class ThreadNotificadorUsuario extends Thread{
 				break;
 			}
 		} catch (RemoteException e) {
-			e.printStackTrace();
 			// Caso de problema com a comunicação, ignora
 		}
 	}

@@ -85,8 +85,7 @@ public class ClientController implements ObserverUsuario, Serializable{
 		try {
 			serviceUsuario = Utils.obterServiceUsuario();
 			return autenticar(this.usuario);
-		} catch (BusinessException e) {
-			mostrarMensagem(e.getMessage());
+		} catch (Exception e) {
 			return false;
 		}
 	
@@ -186,7 +185,12 @@ public class ClientController implements ObserverUsuario, Serializable{
 	 */
 	@Override
 	public boolean checkServerStatus() throws RemoteException {
-		return serviceUsuario.isAlive();
+		try{
+			return serviceUsuario.isAlive();
+		}catch (Exception e) {
+			System.out.println("Deu pau vo retorna false");
+			throw new RemoteException();
+		}
 
 	}
 

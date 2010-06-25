@@ -144,5 +144,13 @@ public class ServiceChamadoImpl implements ServiceChamado
 			obs.atualizarFila(FilaChamado.getInstance().getFila());
 		}
 	}
-
+	
+	@Override
+	public void verificarStatusAgendamento(ObservadorAgendamento obs) throws BusinessException, RemoteException{
+		
+		if(!RepositorioObsAgendamento.getInstance().getObservers().contains(obs)){
+			RepositorioObsAgendamento.getInstance().addObserver(obs);
+			obs.atualizarFila(FilaChamado.getInstance().getFilaAgendamento());
+		}
+	}
 }

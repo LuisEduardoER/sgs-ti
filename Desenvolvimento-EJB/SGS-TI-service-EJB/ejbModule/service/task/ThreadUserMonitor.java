@@ -36,7 +36,7 @@ public class ThreadUserMonitor extends Thread{
 							break;
 						}*/
 						
-						user.getObservador();
+//						user.getObservador();
 						long ultimaAtividade = user.getUltimaAtualizacao().getTime();
 						double difTime = (System.currentTimeMillis() - ultimaAtividade);
 						double tempo = Utils.milisegundosParaMin(difTime);
