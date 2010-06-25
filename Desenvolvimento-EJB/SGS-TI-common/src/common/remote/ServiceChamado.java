@@ -76,4 +76,7 @@ public interface ServiceChamado
 	 * @throws BusinessException
 	 */
 	public void notificarObservadorAgendamento() throws BusinessException;
+
+	void verificarStatusAgendamento(ObservadorAgendamento obs)
+			throws BusinessException, RemoteException;
 }

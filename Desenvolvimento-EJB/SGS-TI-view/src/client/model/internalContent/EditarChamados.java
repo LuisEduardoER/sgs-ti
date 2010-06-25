@@ -172,11 +172,6 @@ public class EditarChamados extends Observable implements InternalContent
 
 	public void inicializacaoComponentes()
 	{
-		if (statusComboBox != null)
-			statusComboBox.removeAll();
-		
-		if(tipoFalhaComboBox != null)
-			tipoFalhaComboBox.removeAll();
 		
 		dataAberturaTextField.setText(chamado.getDataAbertura().toString());
 		dataAberturaTextField.setEditable(false);
@@ -224,6 +219,9 @@ public class EditarChamados extends Observable implements InternalContent
 		listFalha = servico.procurarFalha();		
 		listStatus = servico.procurarStatus();
 
+		statusComboBox.removeAll();
+		tipoFalhaComboBox.removeAll();
+		
 		for (int cont = 0; cont < listFalha.size(); cont++) {
 			tipoFalhaComboBox.addItem(listFalha.get(cont).getNome());
 		}			

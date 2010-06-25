@@ -5,12 +5,12 @@ public class SystemConstant {
 	//TODO EH  CACHE
 	// Constantes do Sistema
 	public static final boolean DEBUG_MODE 					= true;
-	public static final double 	MAX_SESSION_TIME_MIN		= 2d; 
-	public static final double 	SESSION_TIME_ALERT_MIN		= 1.5d; 
+	public static final double 	MAX_SESSION_TIME_MIN		= 78785d; 
+	public static final double 	SESSION_TIME_ALERT_MIN		= 4334d; 
 	public static final String	TEMPO_PARA_DESLIGAR  		= "1 minuto"; 
 	public static final int		USER_MONITOR_SLEEP_TIME 	= 2000;
-	public static final int 	SERVER_CHECK_STATUS_TIME	= 1000;
-	public static final int 	SERVER_CHECK_RECONECT_TIME	= 1000;
+	public static final int 	SERVER_CHECK_STATUS_TIME	= 3000;
+	public static final int 	SERVER_CHECK_RECONECT_TIME	= 3000;
 	public static final int		MAX_TENTATIVAS_RECONEXAO	= 5;
 	public static final long	TEMPO_ESPERA_MONITOR_CONEXAO	= 10000;
 	public static final long 	TIME_TO_LIVE_MSG_TRAY		= 4000;

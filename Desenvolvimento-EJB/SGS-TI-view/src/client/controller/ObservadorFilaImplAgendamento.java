@@ -10,11 +10,13 @@ import common.entity.Chamado;
 import common.exception.BusinessException;
 import common.remote.ObservadorAgendamento;
 import common.remote.ServiceChamado;
+import common.util.SystemConstant;
 import common.util.Utils;
 
 public class ObservadorFilaImplAgendamento extends Observable implements ObservadorAgendamento{
 	private ServiceChamado serviceChamado;
 	private ObservadorAgendamento myStub;
+	private boolean atualizou;
 	
 	public ObservadorFilaImplAgendamento(Observer obs) throws BusinessException{
 		try {
@@ -27,9 +29,41 @@ public class ObservadorFilaImplAgendamento extends Observable implements Observa
 
 			serviceChamado.adicionarObservadorAgendamento(myStub);
 
-		} catch (RemoteException e) {
-			// TODO: criar exception de infra.
-			throw new RuntimeException(e);
+			/*
+			 * Thread que fica monitorando o serviço de chamados
+			 * caso ocorra algum problema tenta re-estabelecer o
+			 * serviço.
+			 */
+			new Thread(){
+				public void run() {
+
+					while(!Thread.interrupted()){
+						try {
+							if(!atualizou){
+								serviceChamado.verificarStatusAgendamento(myStub);
+							}
+
+							Utils.printMsg(this.getClass().getName(), "Verificando status do ServiceChamado. Status: online");
+							
+							atualizou = false;
+							Thread.sleep(SystemConstant.TEMPO_ESPERA_MONITOR_CONEXAO);
+						
+						} catch (InterruptedException e) {
+							Utils.printMsg(this.getClass().getName(), "Thread do ObservadorFila finalizando.");
+						} catch (BusinessException e) {
+							Utils.printErro(this.getClass().getName(), e);
+						} catch (Exception e) {
+							// ops algum problema com o service
+							// tenta novamente
+						}	
+					}
+					
+				};
+			}.start();
+			
+			
+		} catch (Exception e) {
+			throw new BusinessException(SystemConstant.MSG_AM_SEM_CONEXAO_REMOTA);
 		}
 	}
 	

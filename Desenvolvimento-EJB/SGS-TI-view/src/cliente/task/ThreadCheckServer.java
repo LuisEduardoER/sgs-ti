@@ -14,9 +14,11 @@ public class ThreadCheckServer extends Thread {
 		while(true){
 			try {
 				try {
+					System.out.println("Verificando status sistema...");
 					if(ClientController.getInstance().checkServerStatus())
 						MainView.getInstance().alterarStatusSistema(true);
 				} catch (RemoteException e) {
+					System.out.println("alterar para falso");
 					MainView.getInstance().alterarStatusSistema(false);
 					boolean restart = false;
 					while(!restart){
