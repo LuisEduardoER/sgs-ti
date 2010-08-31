@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" height="100%" width="100%" horizontalAlign="center" verticalAlign="top">
+
+	<!-- ***********************************************
+    *	XML do menu superior						   *		
+	*************************************************-->
+	<mx:XML id="menuBar" xmlns="" format="e4x">
+		<root>
+			<menuitem label="Chamados">
+                <menuitem label="Cadastrar" name="CadastrarChamado"/>                
+                <menuitem label="Listar">
+                	<menuitem label="Editar"/>
+                	<menuitem label="Atualizar"/>
+                </menuitem>
+            </menuitem>
+                 
+            <menuitem label="Equipamento">
+                <menuitem label="Cadastrar"/>                
+                <menuitem label="Listar">
+                	<menuitem label="Editar"/>
+                	<menuitem label="Atualizar"/>
+                </menuitem>
+            </menuitem>
+			
+			<menuitem label="Grupo de Atendimento">
+				<menuitem label="Cadastrar" name="CadastrarGrupo"/>                
+				<menuitem label="Visualizar" name="BuscarGrupo"/>
+				<menuitem label="Editar" name="EditarGrupo"/>
+			</menuitem>
+			
+			<menuitem label="Relatorios">
+				<menuitem label="Emitir" name="EmitirRelatorio"/>   
+			</menuitem>
+        </root>
+	</mx:XML>
+	
+	<!-- ***********************************************
+    *	Scripts										   *		
+	*************************************************-->
+	<mx:Script source="control/apps/main.as"/>	
+
+	<!-- ***********************************************
+    *	Página										   *		
+	*************************************************-->	
+	<mx:VBox x="0" y="0" width="100%" height="100%">
+		<mx:Canvas width="100%" height="100" backgroundColor="#4E646D">
+			<mx:Label text="SGS-TI LOGO" color="#D5DBDC" fontWeight="bold" fontSize="36" horizontalCenter="0" verticalCenter="0"/>
+		</mx:Canvas>
+		<mx:MenuBar itemClick="handleItemClick(event)" dataProvider="{menuBar.menuitem}" 
+				labelField="@label" left="0" right="0" top="0" height="30" width="100%"/>
+		<mx:Canvas width="100%" height="100%">
+			<mx:ModuleLoader id="moduleLoader" width="800" horizontalAlign="center" horizontalCenter="0" top="0" bottom="0">
+			</mx:ModuleLoader>
+		</mx:Canvas>
+	</mx:VBox>
+	
+</mx:Application>
