@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="100%" height="100%">
+	<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" width="100%">
+		<mx:Panel x="0" y="0" width="100%" height="225" layout="absolute" headerHeight="10">
+			<mx:Label x="37" y="10" text="Cliente"/>
+			<mx:TextInput x="89" y="8" width="532"/>
+			<mx:Button x="629" y="8" label="Buscar"/>
+			<mx:Label x="10" y="38" text="Reclamante"/>
+			<mx:TextInput x="89" y="36" width="532"/>
+			<mx:Label x="32" y="66" text="Contato"/>
+			<mx:TextInput x="89" y="64" width="130"/>
+			<mx:Button x="549" y="152" label="Salvar"/>
+			<mx:Button x="619" y="152" label="Cancelar"/>
+		</mx:Panel>
+	</mx:Canvas>
+</mx:Module>
